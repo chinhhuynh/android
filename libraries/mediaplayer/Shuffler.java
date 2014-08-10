@@ -25,13 +25,23 @@ public class Shuffler {
   }
 
   /**
+   * Move to a specified position.
+   * @param position
+   */
+  public void move(int position) {
+    if (position >= 0 && position < playlist.size()) {
+      currentItem = playlist.get(position);
+    }
+  }
+
+  /**
    * Move to the next item.
    */
   public void moveNext() {
-    if (currentItem == null || playlist.size() == 0) {
+    if (playlist.size() == 0) {
       return;
     }
-    int currentIndex = playlist.indexOf(currentItem);
+    int currentIndex = currentItem == null ? -1 : playlist.indexOf(currentItem);
     int nextIndex = getNextIndex(currentIndex);
     MediaItem nextItem = playlist.get(nextIndex);
     currentItem = nextItem;

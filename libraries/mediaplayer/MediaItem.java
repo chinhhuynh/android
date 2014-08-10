@@ -15,4 +15,20 @@ public class MediaItem {
     this.artist = artist;
     this.album = album;
   }
+
+  public String getDisplayName() {
+    return displayName;
+  }
+
+  public String getDataSource() {
+    return dataSource;
+  }
+
+  public String getArtist() {
+    return artist;
+  }
+
+  public String getAlbum() {
+    return album;
+  }
 }

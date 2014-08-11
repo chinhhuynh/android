@@ -61,6 +61,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/libraries/mediaplayer/mediaplayer.iml" filepath="$PROJECT_DIR$/libraries/mediaplayer/mediaplayer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests/libraries/mediaplayer/app/mediaplayerapp.iml" filepath="$PROJECT_DIR$/tests/libraries/mediaplayer/app/mediaplayerapp.iml" group="tests" />
     </modules>
   </component>
   <component name="ProjectResources">

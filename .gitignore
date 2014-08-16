@@ -1,3 +1,5 @@
 all.iws
 libraries/mediaplayer/gen
 tests/libraries/mediaplayer/app/gen
+.gradle
+.idea

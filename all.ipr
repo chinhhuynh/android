@@ -24,6 +24,9 @@
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
+  </component>
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
@@ -55,8 +58,8 @@
   <component name="libraryTable">
     <library name="appcompat-v7-19.1.0">
       <CLASSES>
-        <root url="file://$PROJECT_DIR$/libraries/mediaplayer/build/exploded-aar/com.android.support/appcompat-v7/19.1.0/res" />
-        <root url="jar://$PROJECT_DIR$/libraries/mediaplayer/build/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar!/" />
+        <root url="jar://$PROJECT_DIR$/tests/libraries/mediaplayer/app/build/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar!/" />
+        <root url="file://$PROJECT_DIR$/tests/libraries/mediaplayer/app/build/exploded-aar/com.android.support/appcompat-v7/19.1.0/res" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />

@@ -1,5 +1,7 @@
 all.iws
-libraries/mediaplayer/gen
-tests/libraries/mediaplayer/app/gen
 .gradle
 .idea
+libraries/mediaplayer/build
+libraries/mediaplayer/gen
+tests/libraries/mediaplayer/app/build
+tests/libraries/mediaplayer/app/gen

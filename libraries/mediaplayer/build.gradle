@@ -1,4 +1,4 @@
-apply plugin: 'android'
+apply plugin: 'android-library'
 
 android {
     compileSdkVersion 19
@@ -14,6 +14,14 @@ android {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            res.srcDirs = ['res']
         }
     }
 }

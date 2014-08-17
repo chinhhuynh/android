@@ -1,0 +1,2 @@
+include 'libraries:mediaplayer'
+include 'tests/libraries/mediaplayer:app'

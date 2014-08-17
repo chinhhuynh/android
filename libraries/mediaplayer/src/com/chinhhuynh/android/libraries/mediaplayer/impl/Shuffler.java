@@ -1,4 +1,6 @@
-package com.chinhhuynh.android.libraries.mediaplayer;
+package com.chinhhuynh.android.libraries.mediaplayer.impl;
+
+import com.chinhhuynh.android.libraries.mediaplayer.MediaItem;
 
 import java.util.List;
 import java.util.Random;
@@ -6,7 +8,7 @@ import java.util.Random;
 /**
  * Contains logic to select the next song in the playlist.
  */
-public class Shuffler {
+class Shuffler {
   private List<MediaItem> playlist;
   private MediaItem currentItem;
   private boolean isShuffleEnabled;

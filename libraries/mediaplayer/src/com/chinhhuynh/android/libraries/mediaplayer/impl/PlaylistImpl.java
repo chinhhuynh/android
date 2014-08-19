@@ -3,6 +3,7 @@ package com.chinhhuynh.android.libraries.mediaplayer.impl;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Represent a playlist.
  */
-public class PlaylistImpl implements Playlist, MediaPlayer.OnCompletionListener, View.OnClickListener {
+public class PlaylistImpl implements Playlist, MediaPlayer.OnCompletionListener, AdapterView.OnItemClickListener {
   private static final String TAG = "PlaylistImpl";
 
   private final Context context;
@@ -49,7 +50,7 @@ public class PlaylistImpl implements Playlist, MediaPlayer.OnCompletionListener,
     if (listView == null) {
       listView = new ListView(context);
       listView.setAdapter(adapter);
-      listView.setOnClickListener(this);
+      listView.setOnItemClickListener(this);
     }
     return listView;
   }
@@ -95,7 +96,7 @@ public class PlaylistImpl implements Playlist, MediaPlayer.OnCompletionListener,
   }
 
   @Override
-  public void onClick(View view) {
-    // TODO
+  public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    //TODO
   }
 }

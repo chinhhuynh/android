@@ -2,6 +2,8 @@ package com.chinhhuynh.android.libraries.mediaplayer.impl;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.chinhhuynh.android.libraries.mediaplayer.MediaItem;
@@ -14,10 +16,12 @@ import java.util.List;
 /**
  * Represent a playlist.
  */
-public class PlaylistImpl implements Playlist, MediaPlayer.OnCompletionListener {
+public class PlaylistImpl implements Playlist, MediaPlayer.OnCompletionListener, View.OnClickListener {
   private static final String TAG = "PlaylistImpl";
 
   private final Context context;
+  private final PlaylistAdapter adapter;
+  private ListView listView;
 
   /**
    * Playlist shuffler.
@@ -26,6 +30,7 @@ public class PlaylistImpl implements Playlist, MediaPlayer.OnCompletionListener 
 
   public PlaylistImpl(Context context, List<MediaItem> playlist) {
     this.context = context;
+    this.adapter = new PlaylistAdapter(context, playlist);
     this.shuffler = new Shuffler(playlist);
   }
 
@@ -37,6 +42,16 @@ public class PlaylistImpl implements Playlist, MediaPlayer.OnCompletionListener 
     shuffler.moveNext();
     MediaItem item = shuffler.getCurrentItem();
     play(item);
+  }
+
+  @Override
+  public View getView(Context context) {
+    if (listView == null) {
+      listView = new ListView(context);
+      listView.setAdapter(adapter);
+      listView.setOnClickListener(this);
+    }
+    return listView;
   }
 
   /**
@@ -77,5 +92,10 @@ public class PlaylistImpl implements Playlist, MediaPlayer.OnCompletionListener 
   @Override
   public void onCompletion(MediaPlayer mediaPlayer) {
     playNext();
+  }
+
+  @Override
+  public void onClick(View view) {
+    // TODO
   }
 }

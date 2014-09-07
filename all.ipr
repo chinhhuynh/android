@@ -37,6 +37,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/libraries" />
             <option value="$PROJECT_DIR$/libraries/mediaplayer" />
+            <option value="$PROJECT_DIR$/libraries/utils" />
             <option value="$PROJECT_DIR$/tests/libraries/mediaplayer" />
             <option value="$PROJECT_DIR$/tests/libraries/mediaplayer/app" />
           </set>
@@ -49,6 +50,7 @@
       <module fileurl="file://$PROJECT_DIR$/android.iml" filepath="$PROJECT_DIR$/android.iml" />
       <module fileurl="file://$PROJECT_DIR$/tests/libraries/mediaplayer/app/app.iml" filepath="$PROJECT_DIR$/tests/libraries/mediaplayer/app/app.iml" group="tests" />
       <module fileurl="file://$PROJECT_DIR$/libraries/mediaplayer/mediaplayer.iml" filepath="$PROJECT_DIR$/libraries/mediaplayer/mediaplayer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/utils/utils.iml" filepath="$PROJECT_DIR$/libraries/utils/utils.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="JDK" project-jdk-type="JavaSDK" />

@@ -1,2 +1,3 @@
 include 'libraries:mediaplayer'
+include 'libraries:utils'
 include 'tests/libraries/mediaplayer:app'

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TextTile">
+        <attr name="text" format="string" />
+        <attr name="textSize" format="integer" />
+        <attr name="padding" format="dimension" />
+        <attr name="backgroundColor" format="color" />
+        <attr name="selectedBackgroundColor" format="color" />
+        <attr name="textColor" format="color" />
+        <attr name="selectedTextColor" format="color" />
+    </declare-styleable>
+</resources>

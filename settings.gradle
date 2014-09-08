@@ -1,3 +1,4 @@
 include 'libraries:mediaplayer'
+include 'libraries:wordgames'
 include 'libraries:utils'
 include 'tests/libraries/mediaplayer:app'

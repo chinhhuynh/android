@@ -35,6 +35,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/apps" />
+            <option value="$PROJECT_DIR$/apps/wordgame" />
             <option value="$PROJECT_DIR$/libraries" />
             <option value="$PROJECT_DIR$/libraries/mediaplayer" />
             <option value="$PROJECT_DIR$/libraries/utils" />
@@ -52,6 +54,7 @@
       <module fileurl="file://$PROJECT_DIR$/tests/libraries/mediaplayer/app/app.iml" filepath="$PROJECT_DIR$/tests/libraries/mediaplayer/app/app.iml" group="tests" />
       <module fileurl="file://$PROJECT_DIR$/libraries/mediaplayer/mediaplayer.iml" filepath="$PROJECT_DIR$/libraries/mediaplayer/mediaplayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/utils/utils.iml" filepath="$PROJECT_DIR$/libraries/utils/utils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apps/wordgame/wordgame.iml" filepath="$PROJECT_DIR$/apps/wordgame/wordgame.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/wordgames/wordgames.iml" filepath="$PROJECT_DIR$/libraries/wordgames/wordgames.iml" />
     </modules>
   </component>

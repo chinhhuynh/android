@@ -10,6 +10,7 @@ public class GameActivity extends ActionBarActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    getSupportActionBar().hide();
     setContentView(R.layout.app_activity);
     if (savedInstanceState == null) {
       getSupportFragmentManager().beginTransaction()

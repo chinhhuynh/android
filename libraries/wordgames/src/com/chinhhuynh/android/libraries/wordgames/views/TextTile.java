@@ -40,22 +40,6 @@ public class TextTile extends View {
     setBackgroundColor(backgroundColor);
   }
 
-  private void readAttributes(Context context, AttributeSet attributeSet) {
-    TypedArray a = context.getTheme().obtainStyledAttributes(
-        attributeSet, R.styleable.TextTile, 0, 0);
-    try {
-      backgroundColor = a.getColor(R.styleable.TextTile_backgroundColor, Color.BLUE);
-      selectedBackgroundColor = a.getColor(R.styleable.TextTile_selectedBackgroundColor, Color.WHITE);
-      textColor = a.getColor(R.styleable.TextTile_textColor, Color.WHITE);
-      selectedTextColor = a.getColor(R.styleable.TextTile_selectedTextColor, Color.BLACK);
-      text = a.getString(R.styleable.TextTile_text);
-      padding = a.getDimensionPixelSize(R.styleable.TextTile_padding, 0);
-      textSize = a.getInt(R.styleable.TextTile_textSize, 0);
-    } finally {
-      a.recycle();
-    }
-  }
-
   @Override
   protected void onDraw(Canvas canvas) {
     canvas.drawText(text, textStartX, textStartY, textPaint);
@@ -80,5 +64,40 @@ public class TextTile extends View {
     setBackgroundColor(backgroundColor);
     textPaint.setColor(textColor);
     invalidate();
+  }
+
+  public String getText() {
+    return text;
+  }
+
+  public void setText(String text) {
+    this.text = text;
+    invalidate();
+    requestLayout();
+  }
+
+  public int getPadding() {
+    return padding;
+  }
+
+  public void setPadding(int padding) {
+    this.padding = padding;
+    invalidate();
+    requestLayout();
+  }
+
+  private void readAttributes(Context context, AttributeSet attributeSet) {
+    TypedArray a = context.getTheme().obtainStyledAttributes(attributeSet, R.styleable.TextTile, 0, 0);
+    try {
+      backgroundColor = a.getColor(R.styleable.TextTile_backgroundColor, getResources().getColor(R.color.Orange));
+      selectedBackgroundColor = a.getColor(R.styleable.TextTile_selectedBackgroundColor, Color.WHITE);
+      textColor = a.getColor(R.styleable.TextTile_textColor, Color.WHITE);
+      selectedTextColor = a.getColor(R.styleable.TextTile_selectedTextColor, Color.BLACK);
+      text = a.getString(R.styleable.TextTile_text);
+      padding = a.getDimensionPixelSize(R.styleable.TextTile_padding, 0);
+      textSize = a.getInt(R.styleable.TextTile_textSize, 0);
+    } finally {
+      a.recycle();
+    }
   }
 }

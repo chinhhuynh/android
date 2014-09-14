@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.chinhhuynh.android.apps.wordgame" >
-    <uses-sdk android:minSdkVersion="7"
+    <uses-sdk android:minSdkVersion="11"
         android:targetSdkVersion="17"/>
     <application
         android:allowBackup="true"

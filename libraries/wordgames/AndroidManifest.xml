@@ -1,6 +1,0 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.chinhhuynh.android.libraries.wordgames.views">
-    <uses-sdk android:minSdkVersion="10"/>
-    <application />
-
-</manifest>

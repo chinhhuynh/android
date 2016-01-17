@@ -1,0 +1,2 @@
+include 'gym_tracker', ':app'
+project(':app').projectDir = new File('gym_tracker/app')

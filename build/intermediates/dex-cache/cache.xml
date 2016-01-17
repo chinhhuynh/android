@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/huynhphungchinh/src/android/apps/wordgame/build/intermediates/exploded-aar/android.libraries/utils/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="1a1e9274f44d66645adebd1faa2ae59d9c98d19b">
+        <dex dex="/Users/huynhphungchinh/src/android/apps/wordgame/build/intermediates/pre-dexed/debug/classes-d66e46567bbec77973a745c68f1a473668ddadf5.jar" />
+    </item>
+    <item
+        jar="/Users/huynhphungchinh/src/android/apps/wordgame/build/intermediates/exploded-aar/android.libraries/resources/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7cd91e02791d66d4f942730582d7e250767bbf63">
+        <dex dex="/Users/huynhphungchinh/src/android/apps/wordgame/build/intermediates/pre-dexed/debug/classes-ce56cad10b46c0b54903c89451bf5d8f56ee8031.jar" />
+    </item>
+    <item
+        jar="/Users/huynhphungchinh/src/android/apps/wordgame/build/intermediates/exploded-aar/android.libraries/wordgames/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="50b4c50eff2742b5f97a8a38cff7d35007b48fbb">
+        <dex dex="/Users/huynhphungchinh/src/android/apps/wordgame/build/intermediates/pre-dexed/debug/classes-1f6b73533b36bb0b86d9614368fb753bbb43cb2d.jar" />
+    </item>
+    <item
+        jar="/Users/huynhphungchinh/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
+        <dex dex="/Users/huynhphungchinh/src/android/apps/wordgame/build/intermediates/pre-dexed/debug/support-v4-19.1.0-905ff47f1f8647e641bae36b95537e42762ea765.jar" />
+    </item>
+    <item
+        jar="/Users/huynhphungchinh/src/android/apps/wordgame/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28">
+        <dex dex="/Users/huynhphungchinh/src/android/apps/wordgame/build/intermediates/pre-dexed/debug/classes-62b70d9eedab4cdad76e18c5bbaa6d27da818ded.jar" />
+    </item>
+
+</items>

@@ -35,6 +35,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/gym_tracker" />
+            <option value="$PROJECT_DIR$/libraries" />
           </set>
         </option>
       </GradleProjectSettings>
@@ -43,6 +44,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/gym_tracker/gym_tracker.iml" filepath="$PROJECT_DIR$/gym_tracker/gym_trackers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/libraries.iml" filepath="$PROJECT_DIR$/libraries/libraries.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="JDK" project-jdk-type="JavaSDK" />

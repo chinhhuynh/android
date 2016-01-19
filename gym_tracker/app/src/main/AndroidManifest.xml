@@ -3,7 +3,7 @@
           package="com.chinhhuynh.gymtracker">
 
     <application
-        android:name="com.chinhhuynh.GymTracker"
+        android:name="com.chinhhuynh.gymtracker.GymTrackerApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

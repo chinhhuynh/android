@@ -1,6 +1,7 @@
 package com.chinhhuynh.gymtracker.database;
 
 import com.chinhhuynh.gymtracker.GymTrackerApplication;
+import com.chinhhuynh.gymtracker.database.table.DbTable;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -26,7 +27,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // TODO
+        for (int i = 0; i < DbTable.TABLES.length; i++) {
+            DbTable table = DbTable.TABLES[i];
+            db.execSQL(table.getCreateTableQuery());
+        }
     }
 
     @Override

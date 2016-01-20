@@ -22,15 +22,30 @@ public final class ExerciseTable extends DbTable<Exercise> {
             { COL_ICON_PATH, DataType.TEXT },
     };
 
+    private static ExerciseTable INSTANCE;
+
+    public static ExerciseTable getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ExerciseTable();
+        }
+        return INSTANCE;
+    }
+
     @Override
     public String getName() {
         return NAME;
     }
 
     @Override
+    public String[][] getColumns() {
+        return COLUMNS;
+    }
+
+    @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
     @Override
     protected ContentValues getContentValues(Exercise objectToSave) {
         return null;

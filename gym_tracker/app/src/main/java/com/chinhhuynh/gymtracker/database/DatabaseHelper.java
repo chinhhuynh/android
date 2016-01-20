@@ -35,6 +35,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // TODO
+        for (int i = 0; i < DbTable.TABLES.length; i++) {
+            DbTable table = DbTable.TABLES[i];
+            table.onUpgrade(db, oldVersion, newVersion);
+        }
     }
 }

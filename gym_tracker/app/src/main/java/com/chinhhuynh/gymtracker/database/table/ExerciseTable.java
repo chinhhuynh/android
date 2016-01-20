@@ -7,7 +7,7 @@ import com.chinhhuynh.gymtracker.model.Exercise;
 
 public final class ExerciseTable extends DbTable<Exercise> {
 
-    private static final String NAME = "Exercise";
+    private static final String TABLE_NAME = "Exercise";
 
     private static final String COL_NAME = "name";
     private static final String COL_ICON_PATH = "icon_path";
@@ -22,6 +22,10 @@ public final class ExerciseTable extends DbTable<Exercise> {
             { COL_ICON_PATH, DataType.TEXT },
     };
 
+    private static final Exercise[] EXERCISES = {
+            new Exercise("Barbell Biceps Curls", "barbell_biceps_curls_icon.png")
+    };
+
     private static ExerciseTable INSTANCE;
 
     public static ExerciseTable getInstance() {
@@ -33,7 +37,7 @@ public final class ExerciseTable extends DbTable<Exercise> {
 
     @Override
     public String getName() {
-        return NAME;
+        return TABLE_NAME;
     }
 
     @Override
@@ -43,11 +47,20 @@ public final class ExerciseTable extends DbTable<Exercise> {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        switch (oldVersion) {
+            case 1:
+                prepopulateData(db);
+        }
     }
 
     @Override
-    protected ContentValues getContentValues(Exercise objectToSave) {
+    protected ContentValues getContentValues(Exercise exercise) {
         return null;
+    }
+
+    private void prepopulateData(SQLiteDatabase db) {
+        for (Exercise exercise : EXERCISES) {
+            db.insert(TABLE_NAME, null, getContentValues(exercise));
+        }
     }
 }

@@ -8,15 +8,15 @@ import com.chinhhuynh.gymtracker.database.table.ExerciseTable;
 
 public final class ExerciseLoader extends CursorLoader {
 
-    private final String mNameQuery;
+    private final String[] mQueryTokens;
 
-    public ExerciseLoader(Context context, String nameQuery) {
+    public ExerciseLoader(Context context, String query) {
         super(context);
-        mNameQuery = nameQuery;
+        mQueryTokens = query.split(" ");
     }
 
     @Override
     public Cursor loadInBackground() {
-        return ExerciseTable.queryByName(mNameQuery);
+        return ExerciseTable.queryByName(mQueryTokens);
     }
 }

@@ -3,11 +3,19 @@ package com.chinhhuynh.gymtracker.model;
 public final class Exercise {
 
     private final String mExerciseName;
-    private final String mIconPath;
+    private final String mIconFileName;
 
     public Exercise(String exerciseName,
                     String iconFileName) {
         mExerciseName = exerciseName;
-        mIconPath = iconFileName;
+        mIconFileName = iconFileName;
+    }
+
+    public String getExerciseName() {
+        return mExerciseName;
+    }
+
+    public String getIconFileName() {
+        return mIconFileName;
     }
 }

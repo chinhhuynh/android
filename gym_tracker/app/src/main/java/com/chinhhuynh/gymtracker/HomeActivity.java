@@ -1,15 +1,20 @@
 package com.chinhhuynh.gymtracker;
 
+import com.chinhhuynh.gymtracker.database.table.ExerciseTable;
+import com.chinhhuynh.gymtracker.loaders.ExerciseLoader;
+
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements Loader.OnLoadCompleteListener<Cursor> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,10 @@ public class HomeActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        ExerciseLoader loader = new ExerciseLoader(this, "Dumbbell Biceps");
+        loader.registerListener(0 /*id*/, this);
+        loader.startLoading();
     }
 
     @Override
@@ -48,5 +57,23 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onLoadComplete(Loader<Cursor> loader, Cursor cursor) {
+        if (cursor == null) {
+            return;
+        }
+        try {
+            if (!cursor.moveToFirst()) {
+                return;
+            }
+            do {
+                String exerciseName = cursor.getString(ExerciseTable.COL_IDX_NAME);
+                String iconFileName = cursor.getString(ExerciseTable.COL_IDX_ICON_FILE_NAME);
+            } while (cursor.moveToNext());
+        } finally {
+            cursor.close();
+        }
     }
 }

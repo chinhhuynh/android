@@ -21,6 +21,11 @@ public abstract class DbTable<T> implements BaseColumns {
     public abstract String[][] getColumns();
 
     /**
+     * Prepopulate data in a new table. This method will be called right after a new table was created.
+     */
+    public abstract void prepopulateData(SQLiteDatabase db);
+
+    /**
      * Upgrade the table from old version to new version.
      */
     public abstract void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion);

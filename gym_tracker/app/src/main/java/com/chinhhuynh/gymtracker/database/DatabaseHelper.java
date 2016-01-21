@@ -30,6 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         for (int i = 0; i < DbTable.TABLES.length; i++) {
             DbTable table = DbTable.TABLES[i];
             db.execSQL(table.getCreateTableQuery());
+            table.prepopulateData(db);
         }
     }
 

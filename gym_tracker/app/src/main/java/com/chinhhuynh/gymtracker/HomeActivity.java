@@ -32,7 +32,7 @@ public class HomeActivity extends AppCompatActivity implements Loader.OnLoadComp
             }
         });
 
-        ExerciseLoader loader = new ExerciseLoader(this, "Dumbbell Biceps");
+        ExerciseLoader loader = new ExerciseLoader(this, "Sit up");
         loader.registerListener(0 /*id*/, this);
         loader.startLoading();
     }

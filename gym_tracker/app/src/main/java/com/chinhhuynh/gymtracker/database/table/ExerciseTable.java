@@ -31,7 +31,7 @@ public final class ExerciseTable extends DbTable<Exercise> {
     };
 
     private static final Exercise[] EXERCISES = {
-            new Exercise("Barbell Biceps Curls", "barbell_biceps_curls_icon.png")
+            new Exercise("Sit-Up", "sit_up.png")
     };
 
     private static ExerciseTable INSTANCE;

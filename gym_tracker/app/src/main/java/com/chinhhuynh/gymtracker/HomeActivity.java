@@ -2,6 +2,7 @@ package com.chinhhuynh.gymtracker;
 
 import com.chinhhuynh.gymtracker.database.table.ExerciseTable;
 import com.chinhhuynh.gymtracker.loaders.ExerciseLoader;
+import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -35,6 +36,9 @@ public class HomeActivity extends AppCompatActivity implements Loader.OnLoadComp
         ExerciseLoader loader = new ExerciseLoader(this, "Sit up");
         loader.registerListener(0 /*id*/, this);
         loader.startLoading();
+
+        ExtractAssetsTask extractAssetsTask = new ExtractAssetsTask(this);
+        extractAssetsTask.execute();
     }
 
     @Override

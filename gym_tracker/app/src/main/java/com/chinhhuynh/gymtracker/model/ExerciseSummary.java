@@ -2,12 +2,12 @@ package com.chinhhuynh.gymtracker.model;
 
 public final class ExerciseSummary {
 
-    private final Exercise mExercise;
+    public final Exercise mExercise;
 
-    private int mDuration;
-    private int mWeight;
-    private int mSet;
-    private int mRep;
+    public int mDuration;
+    public int mWeight;
+    public int mSet;
+    public int mRep;
 
     public ExerciseSummary(Exercise exercise) {
         mExercise = exercise;

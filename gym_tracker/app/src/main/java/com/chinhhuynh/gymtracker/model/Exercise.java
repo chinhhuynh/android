@@ -2,8 +2,8 @@ package com.chinhhuynh.gymtracker.model;
 
 public final class Exercise {
 
-    private final String mExerciseName;
-    private final String mIconFileName;
+    public final String mExerciseName;
+    public final String mIconFileName;
 
     public Exercise(String exerciseName,
                     String iconFileName) {

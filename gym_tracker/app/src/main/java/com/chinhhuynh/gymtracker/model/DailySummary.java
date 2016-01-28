@@ -5,8 +5,8 @@ import java.util.List;
 
 public final class DailySummary {
 
-    private final Date mDate;
-    private final List<ExerciseSummary> mExercises;
+    public final Date mDate;
+    public final List<ExerciseSummary> mExercises;
 
     public DailySummary(Date date, List<ExerciseSummary> exercises) {
         mDate = date;

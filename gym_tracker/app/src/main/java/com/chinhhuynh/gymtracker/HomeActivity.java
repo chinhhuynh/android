@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -93,6 +94,7 @@ public class HomeActivity extends AppCompatActivity implements Loader.OnLoadComp
         mAdapter = new DailySummaryAdapter(this);
         mAdapter.setSummaries(Arrays.asList(dailySummary));
         mDailySummaries.setAdapter(mAdapter);
+        mDailySummaries.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void extractAssets() {

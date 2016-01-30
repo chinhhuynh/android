@@ -84,11 +84,17 @@ public class HomeActivity extends AppCompatActivity implements Loader.OnLoadComp
 
     private void initializeViews() {
         Exercise sitUp = new Exercise("Sit up", "sit_up.png");
-        ExerciseSummary exerciseSummary = new ExerciseSummary(sitUp)
+        ExerciseSummary exerciseSummary1 = new ExerciseSummary(sitUp)
                 .setDuration(30)
+                .setWeight(0)
                 .setSet(4)
                 .setRep(10);
-        DailySummary dailySummary = new DailySummary(new Date(), Arrays.asList(exerciseSummary));
+        ExerciseSummary exerciseSummary2 = new ExerciseSummary(sitUp)
+                .setDuration(25)
+                .setWeight(0)
+                .setSet(4)
+                .setRep(10);
+        DailySummary dailySummary = new DailySummary(new Date(), Arrays.asList(exerciseSummary1, exerciseSummary2));
 
         mDailySummaries = (RecyclerView) findViewById(R.id.daily_summaries);
         mAdapter = new DailySummaryAdapter(this);

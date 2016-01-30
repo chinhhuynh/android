@@ -24,7 +24,7 @@ public final class ExerciseSummaryAdapter extends RecyclerView.Adapter<ExerciseS
 
     @Override
     public ExerciseSummaryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.daily_summary, parent);
+        View view = mInflater.inflate(R.layout.exercise_summary, parent);
         ExerciseSummaryViewHolder viewHolder = new ExerciseSummaryViewHolder(view);
         view.setTag(viewHolder);
         return viewHolder;

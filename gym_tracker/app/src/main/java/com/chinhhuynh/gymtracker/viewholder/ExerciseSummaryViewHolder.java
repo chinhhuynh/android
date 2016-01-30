@@ -24,9 +24,9 @@ public final class ExerciseSummaryViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(ExerciseSummary exercise) {
-        mDuration.setText(exercise.mDuration);
-        mWeight.setText(exercise.mWeight);
-        mSets.setText(exercise.mSet);
-        mReps.setText(exercise.mRep);
+        mDuration.setText(String.valueOf(exercise.mDuration));
+        mWeight.setText(String.valueOf(exercise.mWeight));
+        mSets.setText(String.valueOf(exercise.mSet));
+        mReps.setText(String.valueOf(exercise.mRep));
     }
 }

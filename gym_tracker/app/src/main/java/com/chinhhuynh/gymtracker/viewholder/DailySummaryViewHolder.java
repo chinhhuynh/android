@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.chinhhuynh.gymtracker.ExerciseSummaryAdapter;
@@ -38,28 +39,29 @@ public final class DailySummaryViewHolder extends RecyclerView.ViewHolder {
         String dateString = mDateFormat.format(summary.mDate);
         mDateHeader.setText(dateString);
 
-        bindExercises(summary.mExercises);
+        mExercises = new ArrayList<>(summary.mExercises);
+        bindExercises();
     }
 
-    private void bindExercises(List<ExerciseSummary> exercises) {
+    private void bindExercises() {
         int viewCount = mExercisesView.getChildCount();
         for (int i = 0; i < viewCount; i++) {
             View exerciseView = mExercisesView.getChildAt(i);
             ExerciseSummaryViewHolder viewHolder = (ExerciseSummaryViewHolder) exerciseView.getTag();
-            if (i < exercises.size()) {
+            if (i < mExercises.size()) {
                 exerciseView.setVisibility(View.VISIBLE);
-                viewHolder.bind(exercises.get(i));
+                viewHolder.bind(mExercises.get(i));
             } else {
                 exerciseView.setVisibility(View.GONE);
                 mExercisesView.removeViewAt(i);
                 mRecycledViewPool.putRecycledView(viewHolder);
             }
         }
-        for (int i = viewCount; i < exercises.size(); i++) {
+        for (int i = viewCount; i < mExercises.size(); i++) {
             ExerciseSummaryViewHolder viewHolder = getExerciseSummaryViewHolder();
             View exerciseView = viewHolder.itemView;
             exerciseView.setVisibility(View.VISIBLE);
-            viewHolder.bind(exercises.get(i));
+            viewHolder.bind(mExercises.get(i));
             mExercisesView.addView(exerciseView);
         }
     }

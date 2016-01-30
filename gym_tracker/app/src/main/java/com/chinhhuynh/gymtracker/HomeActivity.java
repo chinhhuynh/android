@@ -10,17 +10,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Arrays;
+import java.util.Date;
+
 import com.chinhhuynh.gymtracker.database.table.ExerciseTable;
 import com.chinhhuynh.gymtracker.loaders.ExerciseLoader;
 import com.chinhhuynh.gymtracker.model.DailySummary;
 import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
 
 public class HomeActivity extends AppCompatActivity implements Loader.OnLoadCompleteListener<Cursor> {
 
@@ -31,8 +29,6 @@ public class HomeActivity extends AppCompatActivity implements Loader.OnLoadComp
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         extractAssets();
         initializeViews();

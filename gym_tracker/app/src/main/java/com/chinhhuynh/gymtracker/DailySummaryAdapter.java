@@ -26,7 +26,7 @@ public final class DailySummaryAdapter extends RecyclerView.Adapter<DailySummary
 
     @Override
     public DailySummaryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.daily_summary, parent);
+        View view = mInflater.inflate(R.layout.daily_summary, null);
         DailySummaryViewHolder viewHolder = new DailySummaryViewHolder(mRecycledViewPool, view);
         view.setTag(viewHolder);
         return viewHolder;

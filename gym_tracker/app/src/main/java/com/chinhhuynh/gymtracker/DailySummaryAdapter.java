@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public final class DailySummaryAdapter extends RecyclerView.Adapter<DailySummary
 
     @Override
     public DailySummaryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.daily_summary, null);
+        View view = newView(parent, viewType);
         DailySummaryViewHolder viewHolder = new DailySummaryViewHolder(mRecycledViewPool, view);
         view.setTag(viewHolder);
         return viewHolder;
@@ -56,5 +57,13 @@ public final class DailySummaryAdapter extends RecyclerView.Adapter<DailySummary
 
     public void setSummaries(List<DailySummary> summaries) {
         mSummaries = summaries;
+    }
+
+    private View newView(ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.daily_summary, null);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        view.setLayoutParams(layoutParams);
+        return view;
     }
 }

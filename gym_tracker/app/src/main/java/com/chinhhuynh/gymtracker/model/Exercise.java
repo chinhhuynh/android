@@ -10,12 +10,4 @@ public final class Exercise {
         mExerciseName = exerciseName;
         mIconFileName = iconFileName;
     }
-
-    public String getExerciseName() {
-        return mExerciseName;
-    }
-
-    public String getIconFileName() {
-        return mIconFileName;
-    }
 }

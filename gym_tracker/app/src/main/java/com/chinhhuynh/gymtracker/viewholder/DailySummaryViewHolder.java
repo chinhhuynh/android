@@ -43,6 +43,15 @@ public final class DailySummaryViewHolder extends RecyclerView.ViewHolder {
         bindExercises();
     }
 
+    public void onViewAttachedToWindow() {
+        int viewCount = mExercisesView.getChildCount();
+        for (int i = 0; i < viewCount; i++) {
+            View exerciseView = mExercisesView.getChildAt(i);
+            ExerciseSummaryViewHolder exerciseViewHolder = (ExerciseSummaryViewHolder) exerciseView.getTag();
+            exerciseViewHolder.onViewAttachedToWindow();
+        }
+    }
+
     private void bindExercises() {
         int viewCount = mExercisesView.getChildCount();
         for (int i = 0; i < viewCount; i++) {

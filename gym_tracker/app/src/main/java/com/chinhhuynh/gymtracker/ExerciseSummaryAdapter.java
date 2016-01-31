@@ -37,6 +37,12 @@ public final class ExerciseSummaryAdapter extends RecyclerView.Adapter<ExerciseS
     }
 
     @Override
+    public void onViewAttachedToWindow(ExerciseSummaryViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        holder.onViewAttachedToWindow();
+    }
+
+    @Override
     public int getItemCount() {
         return mExercises != null ? mExercises.size() : 0;
     }

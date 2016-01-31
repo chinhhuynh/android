@@ -39,6 +39,12 @@ public final class DailySummaryAdapter extends RecyclerView.Adapter<DailySummary
     }
 
     @Override
+    public void onViewAttachedToWindow(DailySummaryViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        holder.onViewAttachedToWindow();
+    }
+
+    @Override
     public int getItemCount() {
         return mSummaries != null ? mSummaries.size() : 0;
     }

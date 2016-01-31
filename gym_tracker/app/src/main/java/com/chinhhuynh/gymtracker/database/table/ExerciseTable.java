@@ -71,8 +71,8 @@ public final class ExerciseTable extends DbTable<Exercise> {
     @Override
     protected ContentValues getContentValues(Exercise exercise) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_NAME, exercise.getExerciseName());
-        contentValues.put(COL_ICON_FILE_NAME, exercise.getIconFileName());
+        contentValues.put(COL_NAME, exercise.mExerciseName);
+        contentValues.put(COL_ICON_FILE_NAME, exercise.mIconFileName);
         return contentValues;
     }
 

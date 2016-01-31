@@ -18,17 +18,15 @@ public final class ExtractAssetsTask extends AsyncTask<Void, Void, Void> {
 
     private static final String TAG = "ExtractAssetsTask";
 
-    private static final String EXERCISE_FOLDER = "exercises";
+    public static final String EXERCISE_FOLDER = "exercises";
 
     private final Context mContext;
     private final AssetManager mAssetManager;
-    private final File mFilesDir;
     private final byte[] mCopyBuffer;
 
     public ExtractAssetsTask(Context context) {
         mContext = context;
         mAssetManager = context.getAssets();
-        mFilesDir = context.getFilesDir();
         mCopyBuffer = new byte[1024];
     }
 

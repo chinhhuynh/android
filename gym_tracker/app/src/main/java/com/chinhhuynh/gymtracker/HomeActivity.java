@@ -102,7 +102,7 @@ public class HomeActivity extends AppCompatActivity implements Loader.OnLoadComp
         for (int i = 0; i < exercisesCount; i++) {
             ExerciseSummary exerciseSummary = new ExerciseSummary(sitUp)
                     .setDuration(30)
-                    .setWeight(0)
+                    .setWeight(150)
                     .setSet(4)
                     .setRep(10);
             exercises.add(exerciseSummary);

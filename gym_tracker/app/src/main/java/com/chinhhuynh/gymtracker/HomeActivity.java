@@ -7,8 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import com.chinhhuynh.gymtracker.database.table.ExerciseTable;
 import com.chinhhuynh.gymtracker.loaders.ExerciseLoader;
@@ -16,11 +23,6 @@ import com.chinhhuynh.gymtracker.model.DailySummary;
 import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
 
 public class HomeActivity extends AppCompatActivity implements Loader.OnLoadCompleteListener<Cursor> {
 
@@ -83,24 +85,29 @@ public class HomeActivity extends AppCompatActivity implements Loader.OnLoadComp
     }
 
     private void initializeViews() {
-        Exercise sitUp = new Exercise("Sit up", "sit_up.png");
-        ExerciseSummary exerciseSummary1 = new ExerciseSummary(sitUp)
-                .setDuration(30)
-                .setWeight(0)
-                .setSet(4)
-                .setRep(10);
-        ExerciseSummary exerciseSummary2 = new ExerciseSummary(sitUp)
-                .setDuration(25)
-                .setWeight(0)
-                .setSet(4)
-                .setRep(10);
-        DailySummary dailySummary = new DailySummary(new Date(), Arrays.asList(exerciseSummary1, exerciseSummary2));
+        long now = System.currentTimeMillis();
+        DailySummary dailySummary1 = generateDailySummary(new Date(now), 3);
+        DailySummary dailySummary2 = generateDailySummary(new Date(now - DateUtils.DAY_IN_MILLIS), 4);
 
         mDailySummaries = (RecyclerView) findViewById(R.id.daily_summaries);
         mAdapter = new DailySummaryAdapter(this);
-        mAdapter.setSummaries(Arrays.asList(dailySummary));
+        mAdapter.setSummaries(Arrays.asList(dailySummary1, dailySummary2));
         mDailySummaries.setAdapter(mAdapter);
         mDailySummaries.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private DailySummary generateDailySummary(Date date, int exercisesCount) {
+        List<ExerciseSummary> exercises = new ArrayList<>();
+        Exercise sitUp = new Exercise("Sit up", "sit_up.png");
+        for (int i = 0; i < exercisesCount; i++) {
+            ExerciseSummary exerciseSummary = new ExerciseSummary(sitUp)
+                    .setDuration(30)
+                    .setWeight(0)
+                    .setSet(4)
+                    .setRep(10);
+            exercises.add(exerciseSummary);
+        }
+        return new DailySummary(date, exercises);
     }
 
     private void extractAssets() {

@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,6 @@ public final class DailySummaryViewHolder extends RecyclerView.ViewHolder {
 
     private final RecyclerView.RecycledViewPool mRecycledViewPool;
     private final ExerciseSummaryAdapter mExercisesAdapter;
-    private final DateFormat mDateFormat;
     private final TextView mDateHeader;
     private final LinearLayout mExercisesView;
 
@@ -28,7 +26,6 @@ public final class DailySummaryViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         mRecycledViewPool = recycledViewPool;
-        mDateFormat = DateFormat.getDateInstance();
         mExercisesAdapter = new ExerciseSummaryAdapter(itemView.getContext());
 
         mDateHeader = (TextView) itemView.findViewById(R.id.date_header);
@@ -36,8 +33,7 @@ public final class DailySummaryViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(DailySummary summary) {
-        String dateString = mDateFormat.format(summary.mDate);
-        mDateHeader.setText(dateString);
+        mDateHeader.setText(summary.getDateText());
 
         mExercises = new ArrayList<>(summary.mExercises);
         bindExercises();

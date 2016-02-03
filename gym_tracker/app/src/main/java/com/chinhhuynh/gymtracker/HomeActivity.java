@@ -4,8 +4,8 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +13,6 @@ import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.chinhhuynh.gymtracker.database.table.ExerciseTable;
+import com.chinhhuynh.gymtracker.fragments.CreateWorkoutFragment;
 import com.chinhhuynh.gymtracker.loaders.ExerciseLoader;
 import com.chinhhuynh.gymtracker.model.DailySummary;
 import com.chinhhuynh.gymtracker.model.Exercise;
@@ -28,8 +28,9 @@ import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
 import com.cocosw.bottomsheet.BottomSheet;
 
-public class HomeActivity extends AppCompatActivity implements Loader.OnLoadCompleteListener<Cursor> {
+public class HomeActivity extends FragmentActivity implements Loader.OnLoadCompleteListener<Cursor> {
 
+    private FragmentActivity mActivity;
     private RecyclerView mDailySummaries;
     private DailySummaryAdapter mAdapter;
 
@@ -38,20 +39,16 @@ public class HomeActivity extends AppCompatActivity implements Loader.OnLoadComp
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        mActivity = this;
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new BottomSheet.Builder(HomeActivity.this)
+                new BottomSheet.Builder(mActivity)
                         .sheet(R.menu.home_add_menu)
-                        .listener(new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int menuId) {
-                                // handles action selection.
-                            }
-                        })
+                        .listener(new ActionSheetListener())
                         .show();
             }
         });
@@ -133,5 +130,23 @@ public class HomeActivity extends AppCompatActivity implements Loader.OnLoadComp
     private void extractAssets() {
         ExtractAssetsTask extractAssetsTask = new ExtractAssetsTask(this);
         extractAssetsTask.execute();
+    }
+
+    private final class ActionSheetListener implements DialogInterface.OnClickListener {
+
+        @Override
+        public void onClick(DialogInterface dialog, int menuId) {
+            switch (menuId) {
+                case R.id.create_workout_set:
+                    CreateWorkoutFragment fragment = new CreateWorkoutFragment();
+                    mActivity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .add(fragment, CreateWorkoutFragment.TAG)
+                            .commit();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

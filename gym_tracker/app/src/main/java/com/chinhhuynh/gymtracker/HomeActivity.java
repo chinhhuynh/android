@@ -118,7 +118,7 @@ public class HomeActivity extends AppCompatActivity implements Loader.OnLoadComp
 
     private DailySummary generateDailySummary(Date date, int exercisesCount) {
         List<ExerciseSummary> exercises = new ArrayList<>();
-        Exercise sitUp = new Exercise("Sit up", "sit_up.png");
+        Exercise sitUp = new Exercise(Exercise.EXERCISE_SIT_UP, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON);
         for (int i = 0; i < exercisesCount; i++) {
             ExerciseSummary exerciseSummary = new ExerciseSummary(sitUp)
                     .setDuration(30)

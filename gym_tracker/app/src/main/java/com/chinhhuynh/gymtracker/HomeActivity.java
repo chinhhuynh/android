@@ -26,6 +26,7 @@ import com.chinhhuynh.gymtracker.model.DailySummary;
 import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
+import com.cocosw.bottomsheet.BottomSheet;
 
 public class HomeActivity extends AppCompatActivity implements Loader.OnLoadCompleteListener<Cursor> {
 
@@ -43,7 +44,7 @@ public class HomeActivity extends AppCompatActivity implements Loader.OnLoadComp
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new BottomSheet.Builder(this)
+                new BottomSheet.Builder(HomeActivity.this)
                         .title("title")
                         .sheet(R.menu.home_add_menu)
                         .listener(new DialogInterface.OnClickListener() {

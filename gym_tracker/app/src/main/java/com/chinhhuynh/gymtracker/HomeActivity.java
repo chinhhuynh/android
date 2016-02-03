@@ -45,16 +45,11 @@ public class HomeActivity extends AppCompatActivity implements Loader.OnLoadComp
             @Override
             public void onClick(View view) {
                 new BottomSheet.Builder(HomeActivity.this)
-                        .title("title")
                         .sheet(R.menu.home_add_menu)
                         .listener(new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case R.id.start_workout_session:
-                                        Toast.makeText(HomeActivity.this, "Help me!", Toast.LENGTH_SHORT);
-                                        break;
-                                }
+                            public void onClick(DialogInterface dialog, int menuId) {
+                                // handles action selection.
                             }
                         })
                         .show();

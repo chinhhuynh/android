@@ -2,5 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/start_workout_session"
           android:title="@string/start_workout_session"
-          android:icon="@drawable/plus"/>
+          android:icon="@drawable/play"/>
+
+    <item android:id="@+id/create_workout_set"
+          android:title="@string/create_workout_set"
+          android:icon="@drawable/note_plus"/>
 </menu>

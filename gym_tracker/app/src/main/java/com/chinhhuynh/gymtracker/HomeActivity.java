@@ -1,9 +1,9 @@
 package com.chinhhuynh.gymtracker;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,10 +13,10 @@ import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -43,8 +43,20 @@ public class HomeActivity extends AppCompatActivity implements Loader.OnLoadComp
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                new BottomSheet.Builder(this)
+                        .title("title")
+                        .sheet(R.menu.home_add_menu)
+                        .listener(new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case R.id.start_workout_session:
+                                        Toast.makeText(HomeActivity.this, "Help me!", Toast.LENGTH_SHORT);
+                                        break;
+                                }
+                            }
+                        })
+                        .show();
             }
         });
 

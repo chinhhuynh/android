@@ -6,33 +6,20 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
 import com.chinhhuynh.gymtracker.database.table.ExerciseTable;
 import com.chinhhuynh.gymtracker.fragments.CreateWorkoutFragment;
 import com.chinhhuynh.gymtracker.loaders.ExerciseLoader;
-import com.chinhhuynh.gymtracker.model.DailySummary;
-import com.chinhhuynh.gymtracker.model.Exercise;
-import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
 import com.cocosw.bottomsheet.BottomSheet;
 
 public class HomeActivity extends FragmentActivity implements Loader.OnLoadCompleteListener<Cursor> {
 
     private FragmentActivity mActivity;
-    private RecyclerView mDailySummaries;
-    private DailySummaryAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +41,6 @@ public class HomeActivity extends FragmentActivity implements Loader.OnLoadCompl
         });
 
         extractAssets();
-        initializeViews();
 
         ExerciseLoader loader = new ExerciseLoader(this, "Sit up");
         loader.registerListener(0 /*id*/, this);
@@ -99,32 +85,6 @@ public class HomeActivity extends FragmentActivity implements Loader.OnLoadCompl
         } finally {
             cursor.close();
         }
-    }
-
-    private void initializeViews() {
-        long now = System.currentTimeMillis();
-        DailySummary dailySummary1 = generateDailySummary(new Date(now), 3);
-        DailySummary dailySummary2 = generateDailySummary(new Date(now - DateUtils.DAY_IN_MILLIS), 4);
-
-        mDailySummaries = (RecyclerView) findViewById(R.id.daily_summaries);
-        mAdapter = new DailySummaryAdapter(this);
-        mAdapter.setSummaries(Arrays.asList(dailySummary1, dailySummary2));
-        mDailySummaries.setAdapter(mAdapter);
-        mDailySummaries.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-    private DailySummary generateDailySummary(Date date, int exercisesCount) {
-        List<ExerciseSummary> exercises = new ArrayList<>();
-        Exercise sitUp = new Exercise(Exercise.EXERCISE_SIT_UP, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON);
-        for (int i = 0; i < exercisesCount; i++) {
-            ExerciseSummary exerciseSummary = new ExerciseSummary(sitUp)
-                    .setDuration(30)
-                    .setWeight(150)
-                    .setSet(4)
-                    .setRep(10);
-            exercises.add(exerciseSummary);
-        }
-        return new DailySummary(date, exercises);
     }
 
     private void extractAssets() {

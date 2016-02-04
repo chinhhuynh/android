@@ -1,9 +1,12 @@
 package com.chinhhuynh.gymtracker.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
@@ -21,6 +24,7 @@ import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.model.DailySummary;
 import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
+import com.cocosw.bottomsheet.BottomSheet;
 
 /**
  * Fragment for creating new workout set.
@@ -29,6 +33,7 @@ public final class DailySummaryFragment extends Fragment {
 
     public static final String TAG = "DailySummaryFragment";
 
+    private FragmentActivity mActivity;
     private Context mContext;
     private View mFragmentLayout;
     private RecyclerView mSummariesView;
@@ -43,6 +48,7 @@ public final class DailySummaryFragment extends Fragment {
 
         mFragmentLayout = fragmentLayout;
         mContext = fragmentLayout.getContext();
+        mActivity = getActivity();
 
         generateSummaries();
 
@@ -51,6 +57,17 @@ public final class DailySummaryFragment extends Fragment {
         mAdapter.setSummaries(mSummaries);
         mSummariesView.setAdapter(mAdapter);
         mSummariesView.setLayoutManager(new LinearLayoutManager(mContext));
+
+        FloatingActionButton fab = (FloatingActionButton) fragmentLayout.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new BottomSheet.Builder(mActivity)
+                        .sheet(R.menu.home_add_menu)
+                        .listener(new ActionSheetListener())
+                        .show();
+            }
+        });
 
         return fragmentLayout;
     }
@@ -75,5 +92,23 @@ public final class DailySummaryFragment extends Fragment {
             exercises.add(exerciseSummary);
         }
         return new DailySummary(date, exercises);
+    }
+
+    private final class ActionSheetListener implements DialogInterface.OnClickListener {
+
+        @Override
+        public void onClick(DialogInterface dialog, int menuId) {
+            switch (menuId) {
+                case R.id.create_workout_set:
+                    CreateWorkoutFragment fragment = new CreateWorkoutFragment();
+                    mActivity.getSupportFragmentManager()
+                            .beginTransaction()
+                            .add(fragment, CreateWorkoutFragment.TAG)
+                            .commit();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

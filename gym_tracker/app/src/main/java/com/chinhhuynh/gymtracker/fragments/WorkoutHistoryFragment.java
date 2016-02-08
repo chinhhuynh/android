@@ -79,7 +79,7 @@ public final class WorkoutHistoryFragment extends Fragment {
     }
 
     private void setupActionBar() {
-        mActivity.getSupportActionBar().setTitle(R.string.summaries_title);
+        mActivity.getSupportActionBar().setTitle(R.string.history_title);
     }
 
     private void generateSummaries() {

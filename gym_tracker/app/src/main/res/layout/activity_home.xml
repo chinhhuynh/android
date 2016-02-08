@@ -16,8 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <fragment android:name="com.chinhhuynh.gymtracker.fragments.WorkoutHistoryFragment"
-                  android:id="@+id/daily_summaries_fragment"
+        <fragment android:name="com.chinhhuynh.gymtracker.fragments.WorkoutFragment"
+                  android:id="@+id/content"
                   app:layout_behavior="@string/appbar_scrolling_view_behavior"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"/>

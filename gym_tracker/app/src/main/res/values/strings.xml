@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <!-- DailySummaryFragment -->
+    <!-- WorkoutHistoryFragment -->
     <string name="summaries_title">History</string>
     <string name="start_workout_session">Start a workout session</string>
     <string name="create_workout_set">Create a workout set</string>

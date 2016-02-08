@@ -29,9 +29,9 @@ import com.cocosw.bottomsheet.BottomSheet;
 /**
  * Fragment for creating new workout set.
  */
-public final class DailySummaryFragment extends Fragment {
+public final class WorkoutHistoryFragment extends Fragment {
 
-    public static final String TAG = "DailySummaryFragment";
+    public static final String TAG = "WorkoutHistoryFragment";
 
     private AppCompatActivity mActivity;
     private Context mContext;
@@ -44,7 +44,7 @@ public final class DailySummaryFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View fragmentLayout = inflater.inflate(R.layout.daily_summary_fragment, container, false);
+        View fragmentLayout = inflater.inflate(R.layout.workout_history_fragment, container, false);
 
         mFragmentLayout = fragmentLayout;
         mContext = fragmentLayout.getContext();

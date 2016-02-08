@@ -1,9 +1,11 @@
 package com.chinhhuynh.gymtracker;
 
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -16,7 +18,7 @@ import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
 public class HomeActivity extends AppCompatActivity implements
         Loader.OnLoadCompleteListener<Cursor> {
 
-    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,12 @@ public class HomeActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open,  R.string.navigation_drawer_close);
+
+        // Tie DrawerLayout events to the ActionBarToggle
+        drawerLayout.setDrawerListener(mDrawerToggle);
 
         extractAssets();
 
@@ -60,6 +67,13 @@ public class HomeActivity extends AppCompatActivity implements
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.syncState();
     }
 
     @Override

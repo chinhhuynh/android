@@ -3,6 +3,7 @@ package com.chinhhuynh.gymtracker;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -12,7 +13,10 @@ import com.chinhhuynh.gymtracker.database.table.ExerciseTable;
 import com.chinhhuynh.gymtracker.loaders.ExerciseLoader;
 import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
 
-public class HomeActivity extends AppCompatActivity implements Loader.OnLoadCompleteListener<Cursor> {
+public class HomeActivity extends AppCompatActivity implements
+        Loader.OnLoadCompleteListener<Cursor> {
+
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +25,8 @@ public class HomeActivity extends AppCompatActivity implements Loader.OnLoadComp
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         extractAssets();
 
@@ -49,6 +55,11 @@ public class HomeActivity extends AppCompatActivity implements Loader.OnLoadComp
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
     }
 
     @Override

@@ -3,6 +3,9 @@ package com.chinhhuynh.gymtracker;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,12 +15,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.chinhhuynh.gymtracker.database.table.ExerciseTable;
+import com.chinhhuynh.gymtracker.fragments.WorkoutFragment;
+import com.chinhhuynh.gymtracker.fragments.WorkoutHistoryFragment;
 import com.chinhhuynh.gymtracker.loaders.ExerciseLoader;
 import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
 
 public class HomeActivity extends AppCompatActivity implements
         Loader.OnLoadCompleteListener<Cursor> {
 
+    private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
@@ -90,12 +96,56 @@ public class HomeActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,
                 R.string.navigation_drawer_open,  R.string.navigation_drawer_close);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        // Tie DrawerLayout events to the ActionBarToggle
-        drawerLayout.setDrawerListener(mDrawerToggle);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                selectDrawerItem(item);
+                return true;
+            }
+        });
+    }
+
+    private void selectDrawerItem(MenuItem menuItem) {
+        Fragment fragment = getFragment(menuItem.getItemId());
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
+
+        // Highlight the selected item, update the title, and close the drawer
+        menuItem.setChecked(true);
+        setTitle(menuItem.getTitle());
+        mDrawerLayout.closeDrawers();
+    }
+
+    private Fragment getFragment(int menuItemId) {
+        Fragment fragment = null;
+
+        Class fragmentClass;
+        switch(menuItemId) {
+            case R.id.workout:
+                fragmentClass = WorkoutFragment.class;
+                break;
+            case R.id.history:
+                fragmentClass = WorkoutHistoryFragment.class;
+                break;
+            default:
+                fragmentClass = WorkoutFragment.class;
+        }
+
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return fragment;
     }
 
     private void extractAssets() {

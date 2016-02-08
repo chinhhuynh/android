@@ -25,15 +25,7 @@ public class HomeActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
-                R.string.navigation_drawer_open,  R.string.navigation_drawer_close);
-
-        // Tie DrawerLayout events to the ActionBarToggle
-        drawerLayout.setDrawerListener(mDrawerToggle);
+        initializeToolbar();
 
         extractAssets();
 
@@ -92,6 +84,18 @@ public class HomeActivity extends AppCompatActivity implements
         } finally {
             cursor.close();
         }
+    }
+
+    private void initializeToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open,  R.string.navigation_drawer_close);
+
+        // Tie DrawerLayout events to the ActionBarToggle
+        drawerLayout.setDrawerListener(mDrawerToggle);
     }
 
     private void extractAssets() {

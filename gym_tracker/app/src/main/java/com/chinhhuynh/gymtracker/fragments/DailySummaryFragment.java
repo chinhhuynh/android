@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
@@ -33,7 +33,7 @@ public final class DailySummaryFragment extends Fragment {
 
     public static final String TAG = "DailySummaryFragment";
 
-    private FragmentActivity mActivity;
+    private AppCompatActivity mActivity;
     private Context mContext;
     private View mFragmentLayout;
     private RecyclerView mSummariesView;
@@ -48,7 +48,7 @@ public final class DailySummaryFragment extends Fragment {
 
         mFragmentLayout = fragmentLayout;
         mContext = fragmentLayout.getContext();
-        mActivity = getActivity();
+        mActivity = (AppCompatActivity) getActivity();
 
         generateSummaries();
 
@@ -70,6 +70,16 @@ public final class DailySummaryFragment extends Fragment {
         });
 
         return fragmentLayout;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setupActionBar();
+    }
+
+    private void setupActionBar() {
+        mActivity.getSupportActionBar().setTitle(R.string.summaries_title);
     }
 
     private void generateSummaries() {

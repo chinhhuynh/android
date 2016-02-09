@@ -16,11 +16,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <fragment android:name="com.chinhhuynh.gymtracker.fragments.WorkoutFragment"
-                  android:id="@+id/content"
-                  app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"/>
+        <FrameLayout
+            android:id="@+id/content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
     <android.support.design.widget.NavigationView

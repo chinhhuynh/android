@@ -33,6 +33,13 @@ public class HomeActivity extends AppCompatActivity implements
 
         initializeToolbar();
 
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content, new WorkoutFragment())
+                    .commit();
+        }
+
         extractAssets();
 
         ExerciseLoader loader = new ExerciseLoader(this, "Sit up");

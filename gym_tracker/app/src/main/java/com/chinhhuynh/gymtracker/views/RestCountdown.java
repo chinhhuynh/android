@@ -10,9 +10,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
-import android.view.GestureDetector.SimpleOnGestureListener;
-import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.concurrent.TimeUnit;
@@ -48,17 +45,6 @@ public final class RestCountdown extends View {
             }
         }
     };
-    private GestureDetector mGestureDetector =
-            new GestureDetector(getContext(), new SimpleOnGestureListener() {
-        @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            mRemaining = mDuration;
-            mStartTime = System.currentTimeMillis();
-            mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
-            return true;
-        }
-    });
-
 
     public RestCountdown(Context context) {
         super(context);
@@ -83,15 +69,20 @@ public final class RestCountdown extends View {
         drawNumber(canvas, mRemaining);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        mGestureDetector.onTouchEvent(event);
-        return true;
-    }
-
     public void setRestDuration(int duration) {
         mDuration = duration;
         mRemaining = duration;
+        invalidate();
+    }
+
+    public void countdown() {
+        mRemaining = mDuration;
+        mStartTime = System.currentTimeMillis();
+        mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
+    }
+
+    public void stop() {
+        mHandler.removeCallbacks(mClockTimer);
     }
 
     private void initialize() {

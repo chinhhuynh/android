@@ -35,7 +35,7 @@ public final class WorkoutFragment extends Fragment {
     private Handler mHandler;
 
     private View mFragmentLayout;
-    private TextView mClock;
+    private TextView mClockView;
     private View mStartButton;
     private RestCountdown mRestCountdownView;
 
@@ -45,7 +45,7 @@ public final class WorkoutFragment extends Fragment {
         public void run() {
             long now = System.currentTimeMillis();
             long seconds = TimeUnit.MILLISECONDS.toSeconds(now - mStartTime);
-            mClock.setText(String.format("%02d:%02d", seconds / 60, seconds % 60));
+            mClockView.setText(String.format("%02d:%02d", seconds / 60, seconds % 60));
             mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
         }
     };
@@ -59,19 +59,20 @@ public final class WorkoutFragment extends Fragment {
         mActivity = (AppCompatActivity) getActivity();
         mHandler = new Handler(Looper.getMainLooper());
 
-        mClock = (TextView) fragmentLayout.findViewById(R.id.clock);
+        mClockView = (TextView) fragmentLayout.findViewById(R.id.clock);
         mStartButton = fragmentLayout.findViewById(R.id.start_button);
         mRestCountdownView = (RestCountdown) fragmentLayout.findViewById(R.id.rest_countdown);
 
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRestCountdownView.setRestDuration(REST_DURATION_SECONDS);
-                mRestCountdownView.setVisibility(View.VISIBLE);
-
-                mStartTime = System.currentTimeMillis();
-                mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
-                minimizeStartButton();
+                startWorkout();
+            }
+        });
+        mRestCountdownView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rest();
             }
         });
 
@@ -82,6 +83,21 @@ public final class WorkoutFragment extends Fragment {
     public void onStart() {
         super.onStart();
         setupActionBar();
+    }
+
+    private void startWorkout() {
+        mRestCountdownView.stop();
+        mRestCountdownView.setRestDuration(REST_DURATION_SECONDS);
+        mRestCountdownView.setVisibility(View.VISIBLE);
+
+        mStartTime = System.currentTimeMillis();
+        mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
+        minimizeStartButton();
+    }
+
+    private void rest() {
+        mHandler.removeCallbacks(mClockTimer);
+        mRestCountdownView.countdown();
     }
 
     private void minimizeStartButton() {

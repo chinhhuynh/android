@@ -13,11 +13,10 @@
         android:fontFamily="sans-serif-light"
         android:textSize="90sp"/>
 
-    <ImageView
-        android:id="@+id/start"
+    <com.chinhhuynh.gymtracker.views.StartButton
+        android:id="@+id/start_button"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/play_circle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="80dp"
+        android:layout_height="80dp"/>
 
 </LinearLayout>

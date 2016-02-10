@@ -7,16 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
-import android.util.TimeUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chinhhuynh.gymtracker.R;
-
 import java.util.concurrent.TimeUnit;
+
+import com.chinhhuynh.gymtracker.R;
 
 /**
  * Fragment for starting a workout.
@@ -30,7 +28,7 @@ public final class WorkoutFragment extends Fragment {
 
     private View mFragmentLayout;
     private TextView mClock;
-    private ImageView mStart;
+    private View mStart;
 
     private long mStartTime;
     private Runnable mClockTimer = new Runnable() {
@@ -53,7 +51,7 @@ public final class WorkoutFragment extends Fragment {
         mHandler = new Handler(Looper.getMainLooper());
 
         mClock = (TextView) fragmentLayout.findViewById(R.id.clock);
-        mStart = (ImageView) fragmentLayout.findViewById(R.id.start);
+        mStart = fragmentLayout.findViewById(R.id.start_button);
 
         mStart.setOnClickListener(new View.OnClickListener() {
             @Override

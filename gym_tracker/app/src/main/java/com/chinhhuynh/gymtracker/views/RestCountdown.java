@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Looper;
@@ -25,14 +24,13 @@ import com.chinhhuynh.gymtracker.R;
 public final class RestCountdown extends View {
 
     private static final float SQRT_2 = (float) Math.sqrt(2);
+    private static final long ONE_TENTH_SECOND = DateUtils.SECOND_IN_MILLIS / 10;
 
-    private Rect mMeasureBound;
     private Paint mGreyPaint;
     private Paint mWhitePaint;
 
     private int mDuration;
     private int mRemaining;
-    private int mTextSize;
     private int mTextPadding;
 
     private long mStartTime;
@@ -45,7 +43,7 @@ public final class RestCountdown extends View {
             mRemaining = mDuration - seconds;
             invalidate();
             if (mRemaining > 0) {
-                mHandler.postDelayed(mClockTimer, DateUtils.SECOND_IN_MILLIS);
+                mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
             }
         }
     };
@@ -55,7 +53,7 @@ public final class RestCountdown extends View {
         public boolean onSingleTapUp(MotionEvent e) {
             mRemaining = mDuration;
             mStartTime = System.currentTimeMillis();
-            mHandler.postDelayed(mClockTimer, DateUtils.SECOND_IN_MILLIS);
+            mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
             return true;
         }
     });
@@ -96,9 +94,8 @@ public final class RestCountdown extends View {
     }
 
     private void initialize() {
-        mTextSize = getContext().getResources().getDimensionPixelSize(R.dimen.countdown_text_size);
+        int textSize = getContext().getResources().getDimensionPixelSize(R.dimen.countdown_text_size);
         mTextPadding = getContext().getResources().getDimensionPixelSize(R.dimen.countdown_text_padding);
-        mMeasureBound = new Rect();
         mHandler = new Handler(Looper.getMainLooper());
 
         mGreyPaint = new Paint();
@@ -110,7 +107,7 @@ public final class RestCountdown extends View {
         mWhitePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         mWhitePaint.setStyle(Paint.Style.FILL);
         mWhitePaint.setColor(Color.WHITE);
-        mWhitePaint.setTextSize(mTextSize);
+        mWhitePaint.setTextSize(textSize);
     }
 
     private void drawCircle(Canvas canvas) {

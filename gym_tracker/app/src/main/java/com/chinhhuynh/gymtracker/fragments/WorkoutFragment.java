@@ -25,6 +25,7 @@ public final class WorkoutFragment extends Fragment {
     public static final String TAG = "WorkoutFragment";
 
     private static final int REST_DURATION_SECONDS = 45;
+    private static final long ONE_TENTH_SECOND = DateUtils.SECOND_IN_MILLIS / 10;
 
     private AppCompatActivity mActivity;
     private Handler mHandler;
@@ -41,7 +42,7 @@ public final class WorkoutFragment extends Fragment {
             long now = System.currentTimeMillis();
             long seconds = TimeUnit.MILLISECONDS.toSeconds(now - mStartTime);
             mClock.setText(String.format("%02d:%02d", seconds / 60, seconds % 60));
-            mHandler.postDelayed(mClockTimer, DateUtils.SECOND_IN_MILLIS);
+            mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
         }
     };
 
@@ -63,7 +64,7 @@ public final class WorkoutFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mStartTime = System.currentTimeMillis();
-                mHandler.postDelayed(mClockTimer, DateUtils.SECOND_IN_MILLIS);
+                mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
             }
         });
 

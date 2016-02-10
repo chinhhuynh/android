@@ -1,5 +1,7 @@
 package com.chinhhuynh.gymtracker.fragments;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,6 +26,8 @@ public final class WorkoutFragment extends Fragment {
 
     public static final String TAG = "WorkoutFragment";
 
+    private static final float SQRT_2 = (float) Math.sqrt(2);
+    private static final long MINIMIZE_START_BUTTON_DURATION = DateUtils.SECOND_IN_MILLIS / 4;
     private static final int REST_DURATION_SECONDS = 45;
     private static final long ONE_TENTH_SECOND = DateUtils.SECOND_IN_MILLIS / 10;
 
@@ -32,7 +36,7 @@ public final class WorkoutFragment extends Fragment {
 
     private View mFragmentLayout;
     private TextView mClock;
-    private View mStart;
+    private View mStartButton;
     private RestCountdown mRestCountdownView;
 
     private long mStartTime;
@@ -56,15 +60,18 @@ public final class WorkoutFragment extends Fragment {
         mHandler = new Handler(Looper.getMainLooper());
 
         mClock = (TextView) fragmentLayout.findViewById(R.id.clock);
-        mStart = fragmentLayout.findViewById(R.id.start_button);
+        mStartButton = fragmentLayout.findViewById(R.id.start_button);
         mRestCountdownView = (RestCountdown) fragmentLayout.findViewById(R.id.rest_countdown);
 
-        mRestCountdownView.setRestDuration(REST_DURATION_SECONDS);
-        mStart.setOnClickListener(new View.OnClickListener() {
+        mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mRestCountdownView.setRestDuration(REST_DURATION_SECONDS);
+                mRestCountdownView.setVisibility(View.VISIBLE);
+
                 mStartTime = System.currentTimeMillis();
                 mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
+                minimizeStartButton();
             }
         });
 
@@ -75,6 +82,22 @@ public final class WorkoutFragment extends Fragment {
     public void onStart() {
         super.onStart();
         setupActionBar();
+    }
+
+    private void minimizeStartButton() {
+        float radius = mStartButton.getWidth() / 2;
+        float shiftDistance = radius / SQRT_2;
+
+        PropertyValuesHolder shiftRight = PropertyValuesHolder.ofFloat("translationX", 0, shiftDistance);
+        PropertyValuesHolder shiftDown = PropertyValuesHolder.ofFloat("translationY", 0, shiftDistance);
+
+        PropertyValuesHolder scaleWidth = PropertyValuesHolder.ofFloat("scaleX", 1f, 0.5f);
+        PropertyValuesHolder scaleHeight = PropertyValuesHolder.ofFloat("scaleY", 1f, 0.5f);
+
+        ObjectAnimator
+                .ofPropertyValuesHolder(mStartButton, shiftRight, shiftDown, scaleWidth, scaleHeight)
+                .setDuration(MINIMIZE_START_BUTTON_DURATION)
+                .start();
     }
 
     private void setupActionBar() {

@@ -1,6 +1,7 @@
 package com.chinhhuynh.gymtracker.views;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -26,8 +27,8 @@ public final class RestCountdown extends View {
     private static final float SQRT_2 = (float) Math.sqrt(2);
     private static final long ONE_TENTH_SECOND = DateUtils.SECOND_IN_MILLIS / 10;
 
-    private Paint mGreyPaint;
-    private Paint mWhitePaint;
+    private Paint mBackgroundPaint;
+    private Paint mTextPaint;
 
     private int mDuration;
     private int mRemaining;
@@ -97,24 +98,25 @@ public final class RestCountdown extends View {
         int textSize = getContext().getResources().getDimensionPixelSize(R.dimen.countdown_text_size);
         mTextPadding = getContext().getResources().getDimensionPixelSize(R.dimen.countdown_text_padding);
         mHandler = new Handler(Looper.getMainLooper());
+        Resources resources = getResources();
 
-        mGreyPaint = new Paint();
-        mGreyPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        mGreyPaint.setStyle(Paint.Style.FILL);
-        mGreyPaint.setColor(Color.GRAY);
+        mBackgroundPaint = new Paint();
+        mBackgroundPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        mBackgroundPaint.setStyle(Paint.Style.FILL);
+        mBackgroundPaint.setColor(resources.getColor(R.color.md_green_500));
 
-        mWhitePaint = new Paint();
-        mWhitePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        mWhitePaint.setStyle(Paint.Style.FILL);
-        mWhitePaint.setColor(Color.WHITE);
-        mWhitePaint.setTextSize(textSize);
+        mTextPaint = new Paint();
+        mTextPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        mTextPaint.setStyle(Paint.Style.FILL);
+        mTextPaint.setColor(Color.WHITE);
+        mTextPaint.setTextSize(textSize);
     }
 
     private void drawCircle(Canvas canvas) {
         float x = getWidth() / 2;
         float y = getHeight() / 2;
         float radius = Math.min(x, y);
-        canvas.drawCircle(x, y, radius, mGreyPaint);
+        canvas.drawCircle(x, y, radius, mBackgroundPaint);
     }
 
     private void drawNumber(Canvas canvas, int number) {
@@ -126,11 +128,11 @@ public final class RestCountdown extends View {
         String text = Integer.toString(number);
 
         RectF textBound = new RectF(x - halfTextWidth, y - halfTextWidth, x + halfTextWidth, y - halfTextWidth);
-        textBound.right = mWhitePaint.measureText(text, 0, text.length());
-        textBound.bottom = mWhitePaint.descent() - mWhitePaint.ascent();
+        textBound.right = mTextPaint.measureText(text, 0, text.length());
+        textBound.bottom = mTextPaint.descent() - mTextPaint.ascent();
         textBound.left += (textWidth - textBound.right) / 2;
         textBound.top += (textWidth - textBound.bottom) / 2;
 
-        canvas.drawText(text, textBound.left, textBound.top - mWhitePaint.ascent(), mWhitePaint);
+        canvas.drawText(text, textBound.left, textBound.top - mTextPaint.ascent(), mTextPaint);
     }
 }

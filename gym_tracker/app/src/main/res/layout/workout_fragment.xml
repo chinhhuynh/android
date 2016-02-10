@@ -11,18 +11,24 @@
         android:layout_height="wrap_content"
         android:text="00:00"
         android:fontFamily="sans-serif-light"
-        android:textSize="90sp"/>
+        android:textSize="@dimen/clock_text_size"/>
 
-    <com.chinhhuynh.gymtracker.views.StartButton
-        android:id="@+id/start_button"
+    <RelativeLayout
         android:layout_gravity="center_horizontal"
-        android:layout_width="80dp"
-        android:layout_height="80dp"/>
-
-    <com.chinhhuynh.gymtracker.views.RestCountdown
-        android:id="@+id/rest_countdown"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="80dp"
-        android:layout_height="80dp"/>
+        android:layout_width="@dimen/button_container_size"
+        android:layout_height="@dimen/button_container_size">
+        <com.chinhhuynh.gymtracker.views.RestCountdown
+            android:id="@+id/rest_countdown"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"/>
+        <com.chinhhuynh.gymtracker.views.StartButton
+            android:id="@+id/start_button"
+            android:visibility="visible"
+            android:layout_centerHorizontal="true"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"/>
+    </RelativeLayout>
 
 </LinearLayout>

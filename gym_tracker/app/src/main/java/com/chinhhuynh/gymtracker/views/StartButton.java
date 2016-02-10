@@ -1,5 +1,7 @@
 package com.chinhhuynh.gymtracker.views;
 
+import com.chinhhuynh.gymtracker.R;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -15,6 +17,8 @@ public final class StartButton extends View {
 
     private Paint mGreyPaint;
     private Paint mWhitePaint;
+
+    private int mIconHeight;
 
     public StartButton(Context context) {
         super(context);
@@ -40,6 +44,8 @@ public final class StartButton extends View {
     }
 
     private void initialize() {
+        mIconHeight = getResources().getDimensionPixelOffset(R.dimen.start_icon_height);
+
         mGreyPaint = new Paint();
         mGreyPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         mGreyPaint.setStyle(Paint.Style.FILL);
@@ -61,9 +67,8 @@ public final class StartButton extends View {
     private void drawPlayButton(Canvas canvas) {
         float centerX = getWidth() / 2;
         float centerY = getHeight() / 2;
-        float height = getWidth() / 5;
-        float halfHeight = height / 2;
-        float shiftRight = height / 4;
+        float halfHeight = mIconHeight / 2;
+        float shiftRight = mIconHeight / 4;
 
         float topX = centerX - halfHeight;
         float topY = centerY - halfHeight;

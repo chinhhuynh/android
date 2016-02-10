@@ -6,15 +6,23 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.MotionEvent;
 import android.view.View;
+
+import java.util.concurrent.TimeUnit;
 
 import com.chinhhuynh.gymtracker.R;
 
 /**
  * Rest countdown view.
  */
-public class RestCountdown extends View {
+public final class RestCountdown extends View {
 
     private static final float SQRT_2 = (float) Math.sqrt(2);
 
@@ -23,8 +31,35 @@ public class RestCountdown extends View {
     private Paint mWhitePaint;
 
     private int mDuration;
+    private int mRemaining;
     private int mTextSize;
     private int mTextPadding;
+
+    private long mStartTime;
+    private Handler mHandler;
+    private Runnable mClockTimer = new Runnable() {
+        @Override
+        public void run() {
+            long now = System.currentTimeMillis();
+            int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(now - mStartTime);
+            mRemaining = mDuration - seconds;
+            invalidate();
+            if (mRemaining > 0) {
+                mHandler.postDelayed(mClockTimer, DateUtils.SECOND_IN_MILLIS);
+            }
+        }
+    };
+    private GestureDetector mGestureDetector =
+            new GestureDetector(getContext(), new SimpleOnGestureListener() {
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            mRemaining = mDuration;
+            mStartTime = System.currentTimeMillis();
+            mHandler.postDelayed(mClockTimer, DateUtils.SECOND_IN_MILLIS);
+            return true;
+        }
+    });
+
 
     public RestCountdown(Context context) {
         super(context);
@@ -46,17 +81,25 @@ public class RestCountdown extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         drawCircle(canvas);
-        drawNumber(canvas, mDuration);
+        drawNumber(canvas, mRemaining);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mGestureDetector.onTouchEvent(event);
+        return true;
     }
 
     public void setRestDuration(int duration) {
         mDuration = duration;
+        mRemaining = duration;
     }
 
     private void initialize() {
         mTextSize = getContext().getResources().getDimensionPixelSize(R.dimen.countdown_text_size);
         mTextPadding = getContext().getResources().getDimensionPixelSize(R.dimen.countdown_text_padding);
         mMeasureBound = new Rect();
+        mHandler = new Handler(Looper.getMainLooper());
 
         mGreyPaint = new Paint();
         mGreyPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
@@ -67,6 +110,7 @@ public class RestCountdown extends View {
         mWhitePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         mWhitePaint.setStyle(Paint.Style.FILL);
         mWhitePaint.setColor(Color.WHITE);
+        mWhitePaint.setTextSize(mTextSize);
     }
 
     private void drawCircle(Canvas canvas) {
@@ -83,7 +127,6 @@ public class RestCountdown extends View {
         float textWidth = SQRT_2 * radius - 2 * mTextPadding;
         float halfTextWidth = textWidth / 2;
         String text = Integer.toString(number);
-        setTextSizeForWidth(mWhitePaint, text, textWidth);
 
         RectF textBound = new RectF(x - halfTextWidth, y - halfTextWidth, x + halfTextWidth, y - halfTextWidth);
         textBound.right = mWhitePaint.measureText(text, 0, text.length());
@@ -92,13 +135,5 @@ public class RestCountdown extends View {
         textBound.top += (textWidth - textBound.bottom) / 2;
 
         canvas.drawText(text, textBound.left, textBound.top - mWhitePaint.ascent(), mWhitePaint);
-    }
-
-    private void setTextSizeForWidth(Paint paint, String text, float desiredWidth) {
-        paint.setTextSize(mTextSize);
-        paint.getTextBounds(text, 0, text.length(), mMeasureBound);
-
-        float desiredTextSize = mTextSize * desiredWidth / mMeasureBound.width();
-        paint.setTextSize(desiredTextSize);
     }
 }

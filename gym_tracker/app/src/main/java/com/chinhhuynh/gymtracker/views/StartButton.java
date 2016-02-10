@@ -11,7 +11,7 @@ import android.view.View;
 /**
  * Play button view.
  */
-public class StartButton extends View {
+public final class StartButton extends View {
 
     private Paint mGreyPaint;
     private Paint mWhitePaint;

@@ -29,11 +29,11 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     public static final String TAG = "WorkoutFragment";
 
     private static final float SQRT_2 = (float) Math.sqrt(2);
-    private static final long MINIMIZE_START_BUTTON_DURATION = DateUtils.SECOND_IN_MILLIS / 4;
+    private static final long ANIMATE_START_BUTTON_DURATION = DateUtils.SECOND_IN_MILLIS / 4;
     private static final int REST_DURATION_SECONDS = 10;
     private static final long ONE_TENTH_SECOND = DateUtils.SECOND_IN_MILLIS / 10;
 
-    private final int mButtonSize;
+    private final float mMinimizeShiftDistance;
 
     private AppCompatActivity mActivity;
     private Handler mHandler;
@@ -54,7 +54,8 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
 
     public WorkoutFragment() {
         Resources resources = GymTrackerApplication.getAppContext().getResources();
-        mButtonSize = resources.getDimensionPixelSize(R.dimen.button_size);
+        int buttonSize = resources.getDimensionPixelSize(R.dimen.button_size);
+        mMinimizeShiftDistance = buttonSize / (2 * SQRT_2);
     }
 
     @Nullable
@@ -95,6 +96,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     @Override
     public void onCountdownFinished() {
         mClockView.setText("00:00");
+        restoreStartButton();
     }
 
     private void startWorkout() {
@@ -113,18 +115,28 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     }
 
     private void minimizeStartButton() {
-        float radius = mButtonSize / 2;
-        float shiftDistance = radius / SQRT_2;
-
-        PropertyValuesHolder shiftRight = PropertyValuesHolder.ofFloat("translationX", 0, shiftDistance);
-        PropertyValuesHolder shiftDown = PropertyValuesHolder.ofFloat("translationY", 0, shiftDistance);
+        PropertyValuesHolder shiftRight = PropertyValuesHolder.ofFloat("translationX", 0, mMinimizeShiftDistance);
+        PropertyValuesHolder shiftDown = PropertyValuesHolder.ofFloat("translationY", 0, mMinimizeShiftDistance);
 
         PropertyValuesHolder scaleWidth = PropertyValuesHolder.ofFloat("scaleX", 1f, 0.5f);
         PropertyValuesHolder scaleHeight = PropertyValuesHolder.ofFloat("scaleY", 1f, 0.5f);
 
         ObjectAnimator
                 .ofPropertyValuesHolder(mStartButton, shiftRight, shiftDown, scaleWidth, scaleHeight)
-                .setDuration(MINIMIZE_START_BUTTON_DURATION)
+                .setDuration(ANIMATE_START_BUTTON_DURATION)
+                .start();
+    }
+
+    private void restoreStartButton() {
+        PropertyValuesHolder shiftLeft = PropertyValuesHolder.ofFloat("translationX", mMinimizeShiftDistance, 0);
+        PropertyValuesHolder shiftUp = PropertyValuesHolder.ofFloat("translationY", mMinimizeShiftDistance, 0);
+
+        PropertyValuesHolder scaleWidth = PropertyValuesHolder.ofFloat("scaleX", 0.5f, 1f);
+        PropertyValuesHolder scaleHeight = PropertyValuesHolder.ofFloat("scaleY", 0.5f, 1f);
+
+        ObjectAnimator
+                .ofPropertyValuesHolder(mStartButton, shiftLeft, shiftUp, scaleWidth, scaleHeight)
+                .setDuration(ANIMATE_START_BUTTON_DURATION)
                 .start();
     }
 

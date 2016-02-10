@@ -2,6 +2,7 @@ package com.chinhhuynh.gymtracker.fragments;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -16,25 +17,26 @@ import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
 
+import com.chinhhuynh.gymtracker.GymTrackerApplication;
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.views.RestCountdown;
 
 /**
  * Fragment for starting a workout.
  */
-public final class WorkoutFragment extends Fragment {
+public final class WorkoutFragment extends Fragment implements RestCountdown.CountdownListener {
 
     public static final String TAG = "WorkoutFragment";
 
     private static final float SQRT_2 = (float) Math.sqrt(2);
     private static final long MINIMIZE_START_BUTTON_DURATION = DateUtils.SECOND_IN_MILLIS / 4;
-    private static final int REST_DURATION_SECONDS = 45;
+    private static final int REST_DURATION_SECONDS = 10;
     private static final long ONE_TENTH_SECOND = DateUtils.SECOND_IN_MILLIS / 10;
+
+    private final int mButtonSize;
 
     private AppCompatActivity mActivity;
     private Handler mHandler;
-
-    private View mFragmentLayout;
     private TextView mClockView;
     private View mStartButton;
     private RestCountdown mRestCountdownView;
@@ -50,12 +52,16 @@ public final class WorkoutFragment extends Fragment {
         }
     };
 
+    public WorkoutFragment() {
+        Resources resources = GymTrackerApplication.getAppContext().getResources();
+        mButtonSize = resources.getDimensionPixelSize(R.dimen.button_size);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentLayout = inflater.inflate(R.layout.workout_fragment, container, false);
 
-        mFragmentLayout = fragmentLayout;
         mActivity = (AppCompatActivity) getActivity();
         mHandler = new Handler(Looper.getMainLooper());
 
@@ -69,6 +75,7 @@ public final class WorkoutFragment extends Fragment {
                 startWorkout();
             }
         });
+        mRestCountdownView.setListener(this);
         mRestCountdownView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +90,11 @@ public final class WorkoutFragment extends Fragment {
     public void onStart() {
         super.onStart();
         setupActionBar();
+    }
+
+    @Override
+    public void onCountdownFinished() {
+        mClockView.setText("00:00");
     }
 
     private void startWorkout() {
@@ -101,7 +113,7 @@ public final class WorkoutFragment extends Fragment {
     }
 
     private void minimizeStartButton() {
-        float radius = mStartButton.getWidth() / 2;
+        float radius = mButtonSize / 2;
         float shiftDistance = radius / SQRT_2;
 
         PropertyValuesHolder shiftRight = PropertyValuesHolder.ofFloat("translationX", 0, shiftDistance);

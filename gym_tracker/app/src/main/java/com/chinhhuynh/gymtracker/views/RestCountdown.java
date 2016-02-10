@@ -21,6 +21,10 @@ import com.chinhhuynh.gymtracker.R;
  */
 public final class RestCountdown extends View {
 
+    public interface CountdownListener {
+        void onCountdownFinished();
+    }
+
     private static final float SQRT_2 = (float) Math.sqrt(2);
     private static final long ONE_TENTH_SECOND = DateUtils.SECOND_IN_MILLIS / 10;
 
@@ -33,6 +37,7 @@ public final class RestCountdown extends View {
 
     private long mStartTime;
     private Handler mHandler;
+    private CountdownListener mListener;
     private Runnable mClockTimer = new Runnable() {
         @Override
         public void run() {
@@ -42,6 +47,8 @@ public final class RestCountdown extends View {
             invalidate();
             if (mRemaining > 0) {
                 mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
+            } else {
+                notifyCountdownFinished();
             }
         }
     };
@@ -73,6 +80,10 @@ public final class RestCountdown extends View {
         mDuration = duration;
         mRemaining = duration;
         invalidate();
+    }
+
+    public void setListener(CountdownListener listener) {
+        mListener = listener;
     }
 
     public void countdown() {
@@ -126,4 +137,11 @@ public final class RestCountdown extends View {
 
         canvas.drawText(text, textBound.left, textBound.top - mTextPaint.ascent(), mTextPaint);
     }
+
+    private void notifyCountdownFinished() {
+        if (mListener != null) {
+            mListener.onCountdownFinished();
+        }
+    }
 }
+

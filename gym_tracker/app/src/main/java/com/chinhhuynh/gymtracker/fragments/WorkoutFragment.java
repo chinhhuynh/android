@@ -15,6 +15,7 @@ import android.widget.TextView;
 import java.util.concurrent.TimeUnit;
 
 import com.chinhhuynh.gymtracker.R;
+import com.chinhhuynh.gymtracker.views.RestCountdown;
 
 /**
  * Fragment for starting a workout.
@@ -23,12 +24,15 @@ public final class WorkoutFragment extends Fragment {
 
     public static final String TAG = "WorkoutFragment";
 
+    private static final int REST_DURATION_SECONDS = 45;
+
     private AppCompatActivity mActivity;
     private Handler mHandler;
 
     private View mFragmentLayout;
     private TextView mClock;
     private View mStart;
+    private RestCountdown mRestCountdownView;
 
     private long mStartTime;
     private Runnable mClockTimer = new Runnable() {
@@ -52,7 +56,9 @@ public final class WorkoutFragment extends Fragment {
 
         mClock = (TextView) fragmentLayout.findViewById(R.id.clock);
         mStart = fragmentLayout.findViewById(R.id.start_button);
+        mRestCountdownView = (RestCountdown) fragmentLayout.findViewById(R.id.rest_countdown);
 
+        mRestCountdownView.setRestDuration(REST_DURATION_SECONDS);
         mStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -4,10 +4,15 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <!-- Exercise details -->
     <dimen name="exercise_details_gap">5dp</dimen>
     <dimen name="exercise_details_text_size">16dp</dimen>
     <dimen name="exercise_details_stat_padding">5dp</dimen>
     <dimen name="exercise_details_stat_min_width">30dp</dimen>
     <dimen name="exercise_details_label_margin_top">-2dp</dimen>
     <dimen name="exercises_gap">10dp</dimen>
+
+    <!-- Workout -->
+    <dimen name="countdown_text_size">50sp</dimen>
+    <dimen name="countdown_text_padding">5dp</dimen>
 </resources>

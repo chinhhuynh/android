@@ -15,10 +15,14 @@ import android.view.View;
  */
 public final class StartButton extends View {
 
-    private Paint mGreyPaint;
-    private Paint mWhitePaint;
+    private Paint mBackgroundPaint;
+    private Paint mIconPaint;
 
     private int mIconHeight;
+    private int mState;
+
+    public static final int STATE_START = 1;
+    public static final int STATE_STOP = 2;
 
     public StartButton(Context context) {
         super(context);
@@ -40,31 +44,61 @@ public final class StartButton extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         drawCircle(canvas);
-        drawPlayButton(canvas);
+        switch (mState) {
+            case STATE_START:
+                drawStartButton(canvas);
+                break;
+            case STATE_STOP:
+                drawStopButton(canvas);
+                break;
+        }
+    }
+
+    public void setState(int state) {
+        mState = state;
+        invalidate();
     }
 
     private void initialize() {
         mIconHeight = getResources().getDimensionPixelOffset(R.dimen.start_icon_height);
+        mState = STATE_START;
 
-        mGreyPaint = new Paint();
-        mGreyPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        mGreyPaint.setStyle(Paint.Style.FILL);
-        mGreyPaint.setColor(Color.GRAY);
+        mBackgroundPaint = new Paint();
+        mBackgroundPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        mBackgroundPaint.setStyle(Paint.Style.FILL);
+        mBackgroundPaint.setColor(Color.GRAY);
 
-        mWhitePaint = new Paint();
-        mWhitePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        mWhitePaint.setStyle(Paint.Style.FILL);
-        mWhitePaint.setColor(Color.WHITE);
+        mIconPaint = new Paint();
+        mIconPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        mIconPaint.setStyle(Paint.Style.FILL);
+        mIconPaint.setColor(Color.WHITE);
     }
 
     private void drawCircle(Canvas canvas) {
         float x = getWidth() / 2;
         float y = getHeight() / 2;
         float radius = Math.min(x, y);
-        canvas.drawCircle(x, y, radius, mGreyPaint);
+        canvas.drawCircle(x, y, radius, mBackgroundPaint);
     }
 
-    private void drawPlayButton(Canvas canvas) {
+    private void drawStopButton(Canvas canvas) {
+        float centerX = getWidth() / 2;
+        float centerY = getHeight() / 2;
+        float halfHeight = mIconHeight / 2;
+
+        Path path = new Path();
+        path.setFillType(Path.FillType.EVEN_ODD);
+        path.lineTo(centerX - halfHeight, centerY - halfHeight);
+        path.lineTo(centerX + halfHeight, centerY - halfHeight);
+        path.lineTo(centerX + halfHeight, centerY + halfHeight);
+        path.lineTo(centerX - halfHeight, centerY + halfHeight);
+        path.lineTo(centerX - halfHeight, centerY - halfHeight);
+        path.close();
+
+        canvas.drawPath(path, mIconPaint);
+    }
+
+    private void drawStartButton(Canvas canvas) {
         float centerX = getWidth() / 2;
         float centerY = getHeight() / 2;
         float halfHeight = mIconHeight / 2;
@@ -87,6 +121,6 @@ public final class StartButton extends View {
         path.lineTo(topX + shiftRight, topY);
         path.close();
 
-        canvas.drawPath(path, mWhitePaint);
+        canvas.drawPath(path, mIconPaint);
     }
 }

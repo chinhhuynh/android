@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 import com.chinhhuynh.gymtracker.GymTrackerApplication;
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.views.RestCountdown;
+import com.chinhhuynh.gymtracker.views.StartButton;
 
 /**
  * Fragment for starting a workout.
@@ -38,7 +39,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     private AppCompatActivity mActivity;
     private Handler mHandler;
     private TextView mClockView;
-    private View mStartButton;
+    private StartButton mStartButton;
     private RestCountdown mRestCountdownView;
 
     private long mStartTime;
@@ -67,7 +68,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
         mHandler = new Handler(Looper.getMainLooper());
 
         mClockView = (TextView) fragmentLayout.findViewById(R.id.clock);
-        mStartButton = fragmentLayout.findViewById(R.id.start_button);
+        mStartButton = (StartButton) fragmentLayout.findViewById(R.id.start_button);
         mRestCountdownView = (RestCountdown) fragmentLayout.findViewById(R.id.rest_countdown);
 
         mStartButton.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +97,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     @Override
     public void onCountdownFinished() {
         mClockView.setText("00:00");
-        restoreStartButton();
+        changeToStartButton();
     }
 
     private void startWorkout() {
@@ -106,7 +107,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
 
         mStartTime = System.currentTimeMillis();
         mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
-        minimizeStartButton();
+        changeToStopButton();
     }
 
     private void rest() {
@@ -114,7 +115,8 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
         mRestCountdownView.countdown();
     }
 
-    private void minimizeStartButton() {
+    private void changeToStopButton() {
+        mStartButton.setState(StartButton.STATE_STOP);
         PropertyValuesHolder shiftRight = PropertyValuesHolder.ofFloat("translationX", 0, mMinimizeShiftDistance);
         PropertyValuesHolder shiftDown = PropertyValuesHolder.ofFloat("translationY", 0, mMinimizeShiftDistance);
 
@@ -127,7 +129,8 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
                 .start();
     }
 
-    private void restoreStartButton() {
+    private void changeToStartButton() {
+        mStartButton.setState(StartButton.STATE_START);
         PropertyValuesHolder shiftLeft = PropertyValuesHolder.ofFloat("translationX", mMinimizeShiftDistance, 0);
         PropertyValuesHolder shiftUp = PropertyValuesHolder.ofFloat("translationY", mMinimizeShiftDistance, 0);
 

@@ -59,6 +59,10 @@ public final class StartButton extends View {
         invalidate();
     }
 
+    public int getState() {
+        return mState;
+    }
+
     private void initialize() {
         mIconHeight = getResources().getDimensionPixelOffset(R.dimen.start_icon_height);
         mState = STATE_START;

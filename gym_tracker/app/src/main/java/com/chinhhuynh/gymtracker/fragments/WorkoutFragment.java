@@ -74,7 +74,16 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startWorkout();
+                switch (mStartButton.getState()) {
+                    case StartButton.STATE_START:
+                        startWorkout();
+                        break;
+                    case StartButton.STATE_STOP:
+                        mClockView.setText("00:00");
+                        mHandler.removeCallbacks(mClockTimer);
+                        changeToStartButton();
+                        break;
+                }
             }
         });
         mRestCountdownView.setListener(this);

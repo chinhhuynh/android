@@ -2,10 +2,12 @@ package com.chinhhuynh.gymtracker.fragments;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -31,13 +33,15 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
 
     private static final float SQRT_2 = (float) Math.sqrt(2);
     private static final long ANIMATE_START_BUTTON_DURATION = DateUtils.SECOND_IN_MILLIS / 4;
-    private static final int REST_DURATION_SECONDS = 10;
+    private static final int REST_DURATION_SECONDS = 45;
     private static final long ONE_TENTH_SECOND = DateUtils.SECOND_IN_MILLIS / 10;
+    private static final long HALF_SECOND = DateUtils.SECOND_IN_MILLIS / 2;
 
     private final float mMinimizeShiftDistance;
 
     private AppCompatActivity mActivity;
     private Handler mHandler;
+    private Vibrator mVibrator;
     private TextView mClockView;
     private StartButton mStartButton;
     private RestCountdown mRestCountdownView;
@@ -66,6 +70,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
 
         mActivity = (AppCompatActivity) getActivity();
         mHandler = new Handler(Looper.getMainLooper());
+        mVibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
 
         mClockView = (TextView) fragmentLayout.findViewById(R.id.clock);
         mStartButton = (StartButton) fragmentLayout.findViewById(R.id.start_button);
@@ -105,6 +110,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
 
     @Override
     public void onCountdownFinished() {
+        mVibrator.vibrate(HALF_SECOND);
         mClockView.setText("00:00");
         changeToStartButton();
     }

@@ -19,4 +19,8 @@
     <dimen name="start_icon_height">20dp</dimen>
     <dimen name="button_size">100dp</dimen>
     <dimen name="button_container_size">130dp</dimen>
+    <dimen name="workout_stat_row_bottom_padding">10dp</dimen>
+    <dimen name="workout_stat_text_size">32dp</dimen>
+    <dimen name="workout_stat_right_padding">10dp</dimen>
+    <dimen name="workout_stat_label_text_size">20dp</dimen>
 </resources>

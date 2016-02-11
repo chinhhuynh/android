@@ -11,4 +11,8 @@
     <string name="history_title">History</string>
     <string name="start_workout_session">Start a workout session</string>
     <string name="create_workout_set">Create a workout set</string>
+
+    <!-- Exercise stats -->
+    <string name="stat_weight_label">lbs</string>
+    <string name="stat_sets_label">sets</string>
 </resources>

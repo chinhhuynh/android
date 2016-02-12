@@ -2,7 +2,9 @@ package com.chinhhuynh.gymtracker.fragments;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +17,8 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
@@ -40,11 +44,14 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     private final float mMinimizeShiftDistance;
 
     private AppCompatActivity mActivity;
+    private Context mContext;
     private Handler mHandler;
     private Vibrator mVibrator;
     private TextView mClockView;
     private StartButton mStartButton;
     private RestCountdown mRestCountdownView;
+
+    private TextView mWeightView;
 
     private long mStartTime;
     private Runnable mClockTimer = new Runnable() {
@@ -65,16 +72,19 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentLayout = inflater.inflate(R.layout.workout_fragment, container, false);
 
         mActivity = (AppCompatActivity) getActivity();
+        mContext = mActivity;
         mHandler = new Handler(Looper.getMainLooper());
         mVibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
 
         mClockView = (TextView) fragmentLayout.findViewById(R.id.clock);
         mStartButton = (StartButton) fragmentLayout.findViewById(R.id.start_button);
         mRestCountdownView = (RestCountdown) fragmentLayout.findViewById(R.id.rest_countdown);
+
+        mWeightView = (TextView) fragmentLayout.findViewById(R.id.weight);
 
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +106,48 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
             @Override
             public void onClick(View v) {
                 rest();
+            }
+        });
+
+        mWeightView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FrameLayout pickerLayout = (FrameLayout) inflater.inflate(R.layout.number_picker, null);
+                NumberPicker numberPicker = (NumberPicker) pickerLayout.findViewById(R.id.number_picker);
+                int currentWeight = Integer.parseInt(mWeightView.getText().toString());
+                int minWeight = 0;
+                int maxWeight = 100;
+                int interval = 5;
+                int count = (maxWeight - minWeight) / interval + 1;
+                String[] displayValues = new String[count];
+                for (int i = 0; i < count; i++) {
+                    int value = interval * i;
+                    displayValues[i] = Integer.toString(value);
+                }
+                numberPicker.setMinValue(0);
+                numberPicker.setMaxValue(count - 1);
+                numberPicker.setDisplayedValues(displayValues);
+                numberPicker.setValue(currentWeight / interval);
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
+                alertDialogBuilder.setTitle("Select weight");
+                alertDialogBuilder.setView(pickerLayout);
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("Ok",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // fill in.
+                                    }
+                                })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         });
 

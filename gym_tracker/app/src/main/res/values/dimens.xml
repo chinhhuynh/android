@@ -14,12 +14,13 @@
 
     <!-- Workout -->
     <dimen name="clock_text_size">90sp</dimen>
+    <dimen name="clock_padding">10dp</dimen>
     <dimen name="countdown_text_size">40sp</dimen>
     <dimen name="countdown_text_padding">5dp</dimen>
     <dimen name="start_icon_height">20dp</dimen>
     <dimen name="button_size">100dp</dimen>
     <dimen name="button_container_size">130dp</dimen>
-    <dimen name="workout_stat_row_bottom_padding">10dp</dimen>
+    <dimen name="workout_stat_row_bottom_padding">5dp</dimen>
     <dimen name="workout_stat_text_size">32dp</dimen>
     <dimen name="workout_stat_label_left_padding">10dp</dimen>
     <dimen name="workout_stat_label_text_size">20dp</dimen>

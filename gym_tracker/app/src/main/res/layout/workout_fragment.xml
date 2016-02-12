@@ -9,6 +9,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="@dimen/clock_padding"
         android:text="00:00"
         android:fontFamily="sans-serif-light"
         android:textSize="@dimen/clock_text_size"/>
@@ -39,6 +40,31 @@
         android:paddingLeft="@dimen/workout_stat_left_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:paddingBottom="@dimen/workout_stat_row_bottom_padding"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="0"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:textSize="@dimen/workout_stat_text_size"
+                android:textColor="@color/gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="@string/stat_sets_label"
+                android:fontFamily="sans-serif"
+                android:textSize="@dimen/workout_stat_label_text_size"
+                android:textColor="@color/gray"
+                android:paddingLeft="@dimen/workout_stat_label_left_padding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
         <LinearLayout
             android:paddingBottom="@dimen/workout_stat_row_bottom_padding"
             android:orientation="horizontal"
@@ -71,8 +97,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:text="1"
+                android:id="@+id/rest_duration"
+                android:text="45"
                 android:fontFamily="sans-serif"
+                style="@android:style/Widget.Holo.Light.Spinner"
                 android:textStyle="bold"
                 android:textSize="@dimen/workout_stat_text_size"
                 android:textColor="@color/gray"
@@ -80,7 +108,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="@string/stat_sets_label"
+                android:text="@string/stat_rest_duration_label"
                 android:fontFamily="sans-serif"
                 android:textSize="@dimen/workout_stat_label_text_size"
                 android:textColor="@color/gray"

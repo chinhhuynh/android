@@ -13,6 +13,7 @@
     <string name="create_workout_set">Create a workout set</string>
 
     <!-- Exercise stats -->
+    <string name="stat_rest_duration_label">seconds</string>
     <string name="stat_weight_label">lbs</string>
     <string name="stat_sets_label">sets</string>
 </resources>

@@ -45,6 +45,10 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     private static final int MAX_WEIGHT = 200;
     private static final int WEIGHT_INTERVAL = 5;
 
+    private static final int MIN_REST_DURATION = 5;
+    private static final int MAX_REST_DURATION = 120;
+    private static final int REST_DURATION_INTERVAL = 5;
+
     private final float mMinimizeShiftDistance;
 
     private AppCompatActivity mActivity;
@@ -56,6 +60,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     private RestCountdown mRestCountdownView;
 
     private TextView mWeightView;
+    private TextView mRestDurationView;
 
     private long mStartTime;
     private Runnable mClockTimer = new Runnable() {
@@ -89,6 +94,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
         mRestCountdownView = (RestCountdown) fragmentLayout.findViewById(R.id.rest_countdown);
 
         mWeightView = (TextView) fragmentLayout.findViewById(R.id.weight);
+        mRestDurationView = (TextView) fragmentLayout.findViewById(R.id.rest_duration);
 
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +124,13 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
             public void onClick(View v) {
                 FrameLayout pickerLayout = (FrameLayout) inflater.inflate(R.layout.number_picker, null);
                 showWeightPicker(pickerLayout);
+            }
+        });
+        mRestDurationView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FrameLayout pickerLayout = (FrameLayout) inflater.inflate(R.layout.number_picker, null);
+                showRestDurationPicker(pickerLayout);
             }
         });
 
@@ -181,19 +194,20 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     }
 
     private void showWeightPicker(View pickerLayout) {
-        NumberPicker numberPicker = (NumberPicker) pickerLayout.findViewById(R.id.number_picker);
+        final NumberPicker numberPicker = (NumberPicker) pickerLayout.findViewById(R.id.number_picker);
         int currentWeight = Integer.parseInt(mWeightView.getText().toString());
         int count = (MAX_WEIGHT - MIN_WEIGHT) / WEIGHT_INTERVAL + 1;
-        String[] displayValues = new String[count];
-        for (int i = 0; i < count; i++) {
+        final int startIndex = MIN_REST_DURATION / REST_DURATION_INTERVAL;
+        String[] displayValues = new String[count + 1 - startIndex];
+        for (int i = startIndex; i <= count; i++) {
             int value = WEIGHT_INTERVAL * i;
-            displayValues[i] = Integer.toString(value);
+            displayValues[i - startIndex] = Integer.toString(value);
         }
 
-        numberPicker.setMinValue(MIN_WEIGHT);
+        numberPicker.setMinValue(0);
         numberPicker.setMaxValue(count - 1);
         numberPicker.setDisplayedValues(displayValues);
-        numberPicker.setValue(currentWeight / WEIGHT_INTERVAL);
+        numberPicker.setValue(currentWeight / REST_DURATION_INTERVAL - startIndex);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
         alertDialogBuilder.setTitle("Select weight");
@@ -203,7 +217,47 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
                 .setPositiveButton("Ok",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                // fill in.
+                                int weight = (numberPicker.getValue() + startIndex) * REST_DURATION_INTERVAL;
+                                mWeightView.setText(Integer.toString(weight));
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void showRestDurationPicker(View pickerLayout) {
+        final NumberPicker numberPicker = (NumberPicker) pickerLayout.findViewById(R.id.number_picker);
+        int currentDuration = Integer.parseInt(mRestDurationView.getText().toString());
+        int count = (MAX_REST_DURATION - MIN_REST_DURATION) / REST_DURATION_INTERVAL + 1;
+        final int startIndex = MIN_REST_DURATION / REST_DURATION_INTERVAL;
+        String[] displayValues = new String[count + 1 - startIndex];
+        for (int i = startIndex; i <= count; i++) {
+            int value = REST_DURATION_INTERVAL * i;
+            displayValues[i - startIndex] = Integer.toString(value);
+        }
+
+        numberPicker.setMinValue(0);
+        numberPicker.setMaxValue(count - 1);
+        numberPicker.setDisplayedValues(displayValues);
+        numberPicker.setValue(currentDuration / REST_DURATION_INTERVAL - startIndex);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
+        alertDialogBuilder.setTitle("Select rest duration");
+        alertDialogBuilder.setView(pickerLayout);
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                int duration = (numberPicker.getValue() + startIndex) * REST_DURATION_INTERVAL;
+                                mRestDurationView.setText(Integer.toString(duration));
+                                mRestCountdownView.setRestDuration(duration);
                             }
                         })
                 .setNegativeButton("Cancel",

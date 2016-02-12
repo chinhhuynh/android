@@ -23,4 +23,5 @@
     <dimen name="workout_stat_text_size">32dp</dimen>
     <dimen name="workout_stat_right_padding">10dp</dimen>
     <dimen name="workout_stat_label_text_size">20dp</dimen>
+    <dimen name="workout_stat_left_padding">40dp</dimen>
 </resources>

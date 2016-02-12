@@ -48,10 +48,10 @@
                 android:id="@+id/weight"
                 android:text="50"
                 android:fontFamily="sans-serif"
+                style="@android:style/Widget.Holo.Light.Spinner"
                 android:textStyle="bold"
                 android:textSize="@dimen/workout_stat_text_size"
                 android:textColor="@color/gray"
-                android:paddingRight="@dimen/workout_stat_right_padding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -60,6 +60,7 @@
                 android:fontFamily="sans-serif"
                 android:textSize="@dimen/workout_stat_label_text_size"
                 android:textColor="@color/gray"
+                android:paddingLeft="@dimen/workout_stat_label_left_padding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -75,7 +76,6 @@
                 android:textStyle="bold"
                 android:textSize="@dimen/workout_stat_text_size"
                 android:textColor="@color/gray"
-                android:paddingRight="@dimen/workout_stat_right_padding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -84,6 +84,7 @@
                 android:fontFamily="sans-serif"
                 android:textSize="@dimen/workout_stat_label_text_size"
                 android:textColor="@color/gray"
+                android:paddingLeft="@dimen/workout_stat_label_left_padding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

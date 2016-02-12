@@ -22,6 +22,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
+import java.util.zip.Inflater;
 
 import com.chinhhuynh.gymtracker.GymTrackerApplication;
 import com.chinhhuynh.gymtracker.R;
@@ -40,6 +41,9 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     private static final int REST_DURATION_SECONDS = 45;
     private static final long ONE_TENTH_SECOND = DateUtils.SECOND_IN_MILLIS / 10;
     private static final long HALF_SECOND = DateUtils.SECOND_IN_MILLIS / 2;
+    private static final int MIN_WEIGHT = 0;
+    private static final int MAX_WEIGHT = 200;
+    private static final int WEIGHT_INTERVAL = 5;
 
     private final float mMinimizeShiftDistance;
 
@@ -113,41 +117,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
             @Override
             public void onClick(View v) {
                 FrameLayout pickerLayout = (FrameLayout) inflater.inflate(R.layout.number_picker, null);
-                NumberPicker numberPicker = (NumberPicker) pickerLayout.findViewById(R.id.number_picker);
-                int currentWeight = Integer.parseInt(mWeightView.getText().toString());
-                int minWeight = 0;
-                int maxWeight = 100;
-                int interval = 5;
-                int count = (maxWeight - minWeight) / interval + 1;
-                String[] displayValues = new String[count];
-                for (int i = 0; i < count; i++) {
-                    int value = interval * i;
-                    displayValues[i] = Integer.toString(value);
-                }
-                numberPicker.setMinValue(0);
-                numberPicker.setMaxValue(count - 1);
-                numberPicker.setDisplayedValues(displayValues);
-                numberPicker.setValue(currentWeight / interval);
-
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
-                alertDialogBuilder.setTitle("Select weight");
-                alertDialogBuilder.setView(pickerLayout);
-                alertDialogBuilder
-                        .setCancelable(false)
-                        .setPositiveButton("Ok",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // fill in.
-                                    }
-                                })
-                        .setNegativeButton("Cancel",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                showWeightPicker(pickerLayout);
             }
         });
 
@@ -208,6 +178,42 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
                 .ofPropertyValuesHolder(mStartButton, shiftLeft, shiftUp, scaleWidth, scaleHeight)
                 .setDuration(ANIMATE_START_BUTTON_DURATION)
                 .start();
+    }
+
+    private void showWeightPicker(View pickerLayout) {
+        NumberPicker numberPicker = (NumberPicker) pickerLayout.findViewById(R.id.number_picker);
+        int currentWeight = Integer.parseInt(mWeightView.getText().toString());
+        int count = (MAX_WEIGHT - MIN_WEIGHT) / WEIGHT_INTERVAL + 1;
+        String[] displayValues = new String[count];
+        for (int i = 0; i < count; i++) {
+            int value = WEIGHT_INTERVAL * i;
+            displayValues[i] = Integer.toString(value);
+        }
+
+        numberPicker.setMinValue(MIN_WEIGHT);
+        numberPicker.setMaxValue(count - 1);
+        numberPicker.setDisplayedValues(displayValues);
+        numberPicker.setValue(currentWeight / WEIGHT_INTERVAL);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
+        alertDialogBuilder.setTitle("Select weight");
+        alertDialogBuilder.setView(pickerLayout);
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // fill in.
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     private void setupActionBar() {

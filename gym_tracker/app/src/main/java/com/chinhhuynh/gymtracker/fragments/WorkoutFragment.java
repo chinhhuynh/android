@@ -44,10 +44,12 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     private static final int MIN_WEIGHT = 0;
     private static final int MAX_WEIGHT = 200;
     private static final int WEIGHT_INTERVAL = 5;
-
     private static final int MIN_REST_DURATION = 5;
     private static final int MAX_REST_DURATION = 120;
     private static final int REST_DURATION_INTERVAL = 5;
+
+    private static final String CLOCK_RESET = "00:00";
+    private static final String CLOCK_DISPLAY = "%02d:%02d";
 
     private final float mMinimizeShiftDistance;
 
@@ -68,7 +70,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
         public void run() {
             long now = System.currentTimeMillis();
             long seconds = TimeUnit.MILLISECONDS.toSeconds(now - mStartTime);
-            mClockView.setText(String.format("%02d:%02d", seconds / 60, seconds % 60));
+            mClockView.setText(String.format(CLOCK_DISPLAY, seconds / 60, seconds % 60));
             mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
         }
     };
@@ -104,7 +106,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
                         startWorkout();
                         break;
                     case StartButton.STATE_STOP:
-                        mClockView.setText("00:00");
+                        mClockView.setText(CLOCK_RESET);
                         mHandler.removeCallbacks(mClockTimer);
                         changeToStartButton();
                         break;
@@ -146,7 +148,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     @Override
     public void onCountdownFinished() {
         mVibrator.vibrate(HALF_SECOND);
-        mClockView.setText("00:00");
+        mClockView.setText(CLOCK_RESET);
         changeToStartButton();
     }
 
@@ -210,18 +212,18 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
         numberPicker.setValue(currentWeight / REST_DURATION_INTERVAL - startIndex);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
-        alertDialogBuilder.setTitle("Select weight");
+        alertDialogBuilder.setTitle(R.string.select_weight_title);
         alertDialogBuilder.setView(pickerLayout);
         alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton("Ok",
+                .setPositiveButton(R.string.alert_dialog_ok,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 int weight = (numberPicker.getValue() + startIndex) * REST_DURATION_INTERVAL;
                                 mWeightView.setText(Integer.toString(weight));
                             }
                         })
-                .setNegativeButton("Cancel",
+                .setNegativeButton(R.string.alert_dialog_cancel,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
@@ -248,11 +250,11 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
         numberPicker.setValue(currentDuration / REST_DURATION_INTERVAL - startIndex);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
-        alertDialogBuilder.setTitle("Select rest duration");
+        alertDialogBuilder.setTitle(R.string.select_rest_duration_title);
         alertDialogBuilder.setView(pickerLayout);
         alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton("Ok",
+                .setPositiveButton(R.string.alert_dialog_ok,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 int duration = (numberPicker.getValue() + startIndex) * REST_DURATION_INTERVAL;
@@ -260,7 +262,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
                                 mRestCountdownView.setRestDuration(duration);
                             }
                         })
-                .setNegativeButton("Cancel",
+                .setNegativeButton(R.string.alert_dialog_cancel,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();

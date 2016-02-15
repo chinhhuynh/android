@@ -22,7 +22,6 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
-import java.util.zip.Inflater;
 
 import com.chinhhuynh.gymtracker.GymTrackerApplication;
 import com.chinhhuynh.gymtracker.R;
@@ -215,7 +214,6 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
         alertDialogBuilder.setTitle(R.string.select_weight_title);
         alertDialogBuilder.setView(pickerLayout);
         alertDialogBuilder
-                .setCancelable(false)
                 .setPositiveButton(R.string.alert_dialog_ok,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -253,7 +251,6 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
         alertDialogBuilder.setTitle(R.string.select_rest_duration_title);
         alertDialogBuilder.setView(pickerLayout);
         alertDialogBuilder
-                .setCancelable(false)
                 .setPositiveButton(R.string.alert_dialog_ok,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {

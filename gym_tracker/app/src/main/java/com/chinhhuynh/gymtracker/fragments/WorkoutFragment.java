@@ -2,9 +2,7 @@ package com.chinhhuynh.gymtracker.fragments;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,14 +15,13 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
 
 import com.chinhhuynh.gymtracker.GymTrackerApplication;
 import com.chinhhuynh.gymtracker.R;
+import com.chinhhuynh.gymtracker.views.NumberPickerDialog;
 import com.chinhhuynh.gymtracker.views.RestCountdown;
 import com.chinhhuynh.gymtracker.views.StartButton;
 
@@ -59,6 +56,8 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     private TextView mClockView;
     private StartButton mStartButton;
     private RestCountdown mRestCountdownView;
+    private NumberPickerDialog mWeightPicker;
+    private NumberPickerDialog mRestDurationPicker;
 
     private TextView mWeightView;
     private TextView mRestDurationView;
@@ -123,17 +122,50 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
         mWeightView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FrameLayout pickerLayout = (FrameLayout) inflater.inflate(R.layout.number_picker, null);
-                showWeightPicker(pickerLayout);
+                mWeightPicker.selectedValue(Integer.parseInt(mWeightView.getText().toString())).show();
             }
         });
         mRestDurationView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FrameLayout pickerLayout = (FrameLayout) inflater.inflate(R.layout.number_picker, null);
-                showRestDurationPicker(pickerLayout);
+                mRestDurationPicker.selectedValue(Integer.parseInt(mRestDurationView.getText().toString())).show();
             }
         });
+
+        mWeightPicker = new NumberPickerDialog(mContext, R.layout.number_picker)
+                .minValue(MIN_WEIGHT)
+                .maxValue(MAX_WEIGHT)
+                .interval(WEIGHT_INTERVAL)
+                .listener(new NumberPickerDialog.EventsListener() {
+
+                    @Override
+                    public void onNumberSelect(int value) {
+                        mWeightView.setText(Integer.toString(value));
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // no-op.
+                    }
+                });
+
+        mRestDurationPicker = new NumberPickerDialog(mContext, R.layout.number_picker)
+                .minValue(MIN_REST_DURATION)
+                .maxValue(MAX_REST_DURATION)
+                .interval(REST_DURATION_INTERVAL)
+                .listener(new NumberPickerDialog.EventsListener() {
+
+                    @Override
+                    public void onNumberSelect(int value) {
+                        mRestDurationView.setText(Integer.toString(value));
+                        mRestCountdownView.setRestDuration(value);
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // no-op.
+                    }
+                });
 
         return fragmentLayout;
     }
@@ -193,82 +225,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
                 .setDuration(ANIMATE_START_BUTTON_DURATION)
                 .start();
     }
-
-    private void showWeightPicker(View pickerLayout) {
-        final NumberPicker numberPicker = (NumberPicker) pickerLayout.findViewById(R.id.number_picker);
-        int currentWeight = Integer.parseInt(mWeightView.getText().toString());
-        int count = (MAX_WEIGHT - MIN_WEIGHT) / WEIGHT_INTERVAL + 1;
-        final int startIndex = MIN_REST_DURATION / REST_DURATION_INTERVAL;
-        String[] displayValues = new String[count + 1 - startIndex];
-        for (int i = startIndex; i <= count; i++) {
-            int value = WEIGHT_INTERVAL * i;
-            displayValues[i - startIndex] = Integer.toString(value);
-        }
-
-        numberPicker.setMinValue(0);
-        numberPicker.setMaxValue(count - 1);
-        numberPicker.setDisplayedValues(displayValues);
-        numberPicker.setValue(currentWeight / REST_DURATION_INTERVAL - startIndex);
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
-        alertDialogBuilder.setTitle(R.string.select_weight_title);
-        alertDialogBuilder.setView(pickerLayout);
-        alertDialogBuilder
-                .setPositiveButton(R.string.alert_dialog_ok,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                int weight = (numberPicker.getValue() + startIndex) * REST_DURATION_INTERVAL;
-                                mWeightView.setText(Integer.toString(weight));
-                            }
-                        })
-                .setNegativeButton(R.string.alert_dialog_cancel,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
-
-    private void showRestDurationPicker(View pickerLayout) {
-        final NumberPicker numberPicker = (NumberPicker) pickerLayout.findViewById(R.id.number_picker);
-        int currentDuration = Integer.parseInt(mRestDurationView.getText().toString());
-        int count = (MAX_REST_DURATION - MIN_REST_DURATION) / REST_DURATION_INTERVAL + 1;
-        final int startIndex = MIN_REST_DURATION / REST_DURATION_INTERVAL;
-        String[] displayValues = new String[count + 1 - startIndex];
-        for (int i = startIndex; i <= count; i++) {
-            int value = REST_DURATION_INTERVAL * i;
-            displayValues[i - startIndex] = Integer.toString(value);
-        }
-
-        numberPicker.setMinValue(0);
-        numberPicker.setMaxValue(count - 1);
-        numberPicker.setDisplayedValues(displayValues);
-        numberPicker.setValue(currentDuration / REST_DURATION_INTERVAL - startIndex);
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
-        alertDialogBuilder.setTitle(R.string.select_rest_duration_title);
-        alertDialogBuilder.setView(pickerLayout);
-        alertDialogBuilder
-                .setPositiveButton(R.string.alert_dialog_ok,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                int duration = (numberPicker.getValue() + startIndex) * REST_DURATION_INTERVAL;
-                                mRestDurationView.setText(Integer.toString(duration));
-                                mRestCountdownView.setRestDuration(duration);
-                            }
-                        })
-                .setNegativeButton(R.string.alert_dialog_cancel,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
-
+    
     private void setupActionBar() {
         mActivity.getSupportActionBar().setTitle(R.string.workout_title);
     }

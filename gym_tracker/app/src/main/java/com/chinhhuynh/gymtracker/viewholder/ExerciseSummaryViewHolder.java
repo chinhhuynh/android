@@ -36,7 +36,7 @@ public final class ExerciseSummaryViewHolder extends RecyclerView.ViewHolder {
 
         mIconView = (ImageView) itemView.findViewById(R.id.exercise_icon);
         mDuration = (TextView) itemView.findViewById(R.id.duration);
-        mWeight = (TextView) itemView.findViewById(R.id.weight);
+        mWeight = (TextView) itemView.findViewById(R.id.workout_weight);
         mSets = (TextView) itemView.findViewById(R.id.sets);
         mReps = (TextView) itemView.findViewById(R.id.reps);
 

@@ -34,6 +34,7 @@ public final class RestCountdown extends View {
     private int mDuration;
     private int mRemaining;
     private int mTextPadding;
+    private boolean mIsActive;
 
     private long mStartTime;
     private Handler mHandler;
@@ -48,6 +49,7 @@ public final class RestCountdown extends View {
             if (mRemaining > 0) {
                 mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
             } else {
+                mIsActive = false;
                 notifyCountdownFinished();
             }
         }
@@ -77,23 +79,31 @@ public final class RestCountdown extends View {
     }
 
     public void setRestDuration(int duration) {
-        mDuration = duration;
-        mRemaining = duration;
-        invalidate();
+        if (!mIsActive) {
+            mDuration = duration;
+            mRemaining = duration;
+            invalidate();
+        }
     }
 
     public void setListener(CountdownListener listener) {
         mListener = listener;
     }
 
+    public boolean isActive() {
+        return mIsActive;
+    }
+
     public void countdown() {
         mRemaining = mDuration;
         mStartTime = System.currentTimeMillis();
         mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
+        mIsActive = true;
     }
 
     public void stop() {
         mHandler.removeCallbacks(mClockTimer);
+        mIsActive = false;
     }
 
     private void initialize() {

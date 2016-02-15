@@ -47,6 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/workout_set"
                 android:text="0"
                 android:fontFamily="sans-serif"
                 android:textStyle="bold"
@@ -71,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/weight"
+                android:id="@+id/workout_weight"
                 android:text="50"
                 android:fontFamily="sans-serif"
                 style="@android:style/Widget.Holo.Light.Spinner"
@@ -97,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/rest_duration"
+                android:id="@+id/workout_rest_duration"
                 android:text="45"
                 android:fontFamily="sans-serif"
                 style="@android:style/Widget.Holo.Light.Spinner"

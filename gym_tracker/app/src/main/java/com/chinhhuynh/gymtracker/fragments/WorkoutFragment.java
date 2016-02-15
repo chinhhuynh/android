@@ -34,7 +34,6 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
 
     private static final float SQRT_2 = (float) Math.sqrt(2);
     private static final long ANIMATE_START_BUTTON_DURATION = DateUtils.SECOND_IN_MILLIS / 4;
-    private static final int REST_DURATION_SECONDS = 45;
     private static final long ONE_TENTH_SECOND = DateUtils.SECOND_IN_MILLIS / 10;
     private static final long HALF_SECOND = DateUtils.SECOND_IN_MILLIS / 2;
     private static final int MIN_WEIGHT = 0;
@@ -59,6 +58,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     private NumberPickerDialog mWeightPicker;
     private NumberPickerDialog mRestDurationPicker;
 
+    private TextView mSetView;
     private TextView mWeightView;
     private TextView mRestDurationView;
 
@@ -93,8 +93,9 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
         mStartButton = (StartButton) fragmentLayout.findViewById(R.id.start_button);
         mRestCountdownView = (RestCountdown) fragmentLayout.findViewById(R.id.rest_countdown);
 
-        mWeightView = (TextView) fragmentLayout.findViewById(R.id.weight);
-        mRestDurationView = (TextView) fragmentLayout.findViewById(R.id.rest_duration);
+        mSetView = (TextView) fragmentLayout.findViewById(R.id.workout_set);
+        mWeightView = (TextView) fragmentLayout.findViewById(R.id.workout_weight);
+        mRestDurationView = (TextView) fragmentLayout.findViewById(R.id.workout_rest_duration);
 
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,20 +116,25 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
         mRestCountdownView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rest();
+                if (mRestCountdownView.isActive()) {
+                    stopRestCountdown();
+                } else {
+                    increaseSet();
+                    rest();
+                }
             }
         });
 
         mWeightView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mWeightPicker.selectedValue(Integer.parseInt(mWeightView.getText().toString())).show();
+                mWeightPicker.selectedValue(getCurrentWeight()).show();
             }
         });
         mRestDurationView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRestDurationPicker.selectedValue(Integer.parseInt(mRestDurationView.getText().toString())).show();
+                mRestDurationPicker.selectedValue(getCurrentRestDuration()).show();
             }
         });
 
@@ -185,12 +191,22 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
 
     private void startWorkout() {
         mRestCountdownView.stop();
-        mRestCountdownView.setRestDuration(REST_DURATION_SECONDS);
+        mRestCountdownView.setRestDuration(getCurrentRestDuration());
         mRestCountdownView.setVisibility(View.VISIBLE);
 
         mStartTime = System.currentTimeMillis();
         mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
         changeToStopButton();
+    }
+
+    private void increaseSet() {
+        int set = getCurrentSet() + 1;
+        mSetView.setText(Integer.toString(set));
+    }
+
+    private void stopRestCountdown() {
+        mRestCountdownView.stop();
+        changeToStartButton();
     }
 
     private void rest() {
@@ -225,7 +241,19 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
                 .setDuration(ANIMATE_START_BUTTON_DURATION)
                 .start();
     }
-    
+
+    private int getCurrentSet() {
+        return Integer.parseInt(mSetView.getText().toString());
+    }
+
+    private int getCurrentWeight() {
+        return Integer.parseInt(mWeightView.getText().toString());
+    }
+
+    private int getCurrentRestDuration() {
+        return Integer.parseInt(mRestDurationView.getText().toString());
+    }
+
     private void setupActionBar() {
         mActivity.getSupportActionBar().setTitle(R.string.workout_title);
     }

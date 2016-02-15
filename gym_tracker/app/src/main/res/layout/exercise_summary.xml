@@ -39,7 +39,7 @@
                       android:layout_height="wrap_content"
                       android:padding="@dimen/exercise_details_gap"
                       android:orientation="vertical">
-            <TextView android:id="@+id/weight"
+            <TextView android:id="@+id/workout_weight"
                       android:background="@drawable/round_corner"
                       android:paddingLeft="@dimen/exercise_details_stat_padding"
                       android:paddingRight="@dimen/exercise_details_stat_padding"

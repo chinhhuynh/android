@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chinhhuynh.gymtracker.R;
+import com.chinhhuynh.gymtracker.views.ExercisePickerDialog;
 
 /**
  * Fragment for creating a workout session.
@@ -25,6 +26,8 @@ public final class WorkoutSession extends Fragment {
     private Context mContext;
     private RecyclerView mExercises;
 
+    private ExercisePickerDialog mExercisePicker;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +36,8 @@ public final class WorkoutSession extends Fragment {
         mContext = fragmentLayout.getContext();
         mActivity = (AppCompatActivity) getActivity();
 
+        mExercisePicker = new ExercisePickerDialog(mContext, R.layout.exercise_picker);
+
         mExercises = (RecyclerView) fragmentLayout.findViewById(R.id.exercises);
         mExercises.setLayoutManager(new LinearLayoutManager(mContext));
 
@@ -40,7 +45,7 @@ public final class WorkoutSession extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO
+                mExercisePicker.show();
             }
         });
 

@@ -19,6 +19,9 @@
     <!-- WorkoutSession -->
     <string name="session_title">Session</string>
 
+    <!-- ExercisePickerDialog -->
+    <string name="select_exercise_title">Select exercise</string>
+
     <!-- Exercise stats -->
     <string name="stat_rest_duration_label">seconds</string>
     <string name="stat_weight_label">lbs</string>

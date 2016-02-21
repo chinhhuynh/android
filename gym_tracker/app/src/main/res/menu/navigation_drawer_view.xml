@@ -5,6 +5,9 @@
             android:id="@+id/workout"
             android:title="Workout"/>
         <item
+            android:id="@+id/session"
+            android:title="Session"/>
+        <item
             android:id="@+id/history"
             android:title="History" />
         <item

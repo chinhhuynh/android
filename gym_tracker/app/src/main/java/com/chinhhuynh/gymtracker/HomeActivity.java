@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import com.chinhhuynh.gymtracker.database.table.ExerciseTable;
 import com.chinhhuynh.gymtracker.fragments.WorkoutFragment;
 import com.chinhhuynh.gymtracker.fragments.WorkoutHistoryFragment;
+import com.chinhhuynh.gymtracker.fragments.WorkoutSession;
 import com.chinhhuynh.gymtracker.loaders.ExerciseLoader;
 import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
 
@@ -36,7 +37,7 @@ public class HomeActivity extends AppCompatActivity implements
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.content, new WorkoutFragment())
+                    .replace(R.id.content, new WorkoutSession())
                     .commit();
         }
 
@@ -138,6 +139,9 @@ public class HomeActivity extends AppCompatActivity implements
         switch(menuItemId) {
             case R.id.workout:
                 fragmentClass = WorkoutFragment.class;
+                break;
+            case R.id.session:
+                fragmentClass = WorkoutSession.class;
                 break;
             case R.id.history:
                 fragmentClass = WorkoutHistoryFragment.class;

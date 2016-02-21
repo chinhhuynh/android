@@ -16,6 +16,9 @@
     <string name="start_workout_session">Start a workout session</string>
     <string name="create_workout_set">Create a workout set</string>
 
+    <!-- WorkoutSession -->
+    <string name="session_title">Session</string>
+
     <!-- Exercise stats -->
     <string name="stat_rest_duration_label">seconds</string>
     <string name="stat_weight_label">lbs</string>

@@ -21,6 +21,10 @@ import com.chinhhuynh.gymtracker.model.Exercise;
 
 public final class ExercisePickerDialog {
 
+    public interface EventsListener {
+        void onExerciseSelect(String exercise);
+    }
+
     private static final int MUSCLE_GROUP_POSITION = 0;
     private static final int EXERCISE_POSITION = 1;
 
@@ -74,16 +78,25 @@ public final class ExercisePickerDialog {
     private final LayoutInflater mLayoutInflater;
     private final int mLayoutResId;
 
+    private AlertDialog mAlertDialog;
     private ViewPager mLayoutView;
     private View mMuscleGroupView;
     private View mExercisesLayoutView;
     private ListView mExercisesView;
+    private ArrayAdapter<String> mExercisesAdapter;
     private TextView mMuscleGroupTitleView;
+
+    private EventsListener mListener;
 
     public ExercisePickerDialog(Context context, int layoutResId) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
         mLayoutResId = layoutResId;
+    }
+
+    public ExercisePickerDialog listener(EventsListener listener) {
+        mListener = listener;
+        return this;
     }
 
     public void show() {
@@ -98,8 +111,8 @@ public final class ExercisePickerDialog {
         alertDialogBuilder.setTitle(R.string.select_exercise_title);
         alertDialogBuilder.setView(mLayoutView);
 
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
+        mAlertDialog = alertDialogBuilder.create();
+        mAlertDialog.show();
     }
 
     private View newMuscleGroupPickerView() {
@@ -113,10 +126,10 @@ public final class ExercisePickerDialog {
                 String muscleGroup = MUSCLE_GROUPS[position];
                 String[] exercises = EXERCISES.get(muscleGroup);
                 mMuscleGroupTitleView.setText(muscleGroup);
-                ArrayAdapter<String> exercisesAdapter = exercises != null
+                mExercisesAdapter = exercises != null
                         ? new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, exercises)
                         : null;
-                mExercisesView.setAdapter(exercisesAdapter);
+                mExercisesView.setAdapter(mExercisesAdapter);
                 mLayoutView.setCurrentItem(EXERCISE_POSITION, true /*smoothScroll*/);
             }
         });
@@ -127,12 +140,20 @@ public final class ExercisePickerDialog {
         View view = mLayoutInflater.inflate(R.layout.exercise_picker_exercises, null);
 
         mExercisesView = (ListView) view.findViewById(R.id.exercises);
+        mExercisesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String exercise = mExercisesAdapter.getItem(position);
+                notifyExerciseSelect(exercise);
+                mAlertDialog.dismiss();
+            }
+        });
 
         mMuscleGroupTitleView = (TextView) view.findViewById(R.id.muscle_group_title);
         mMuscleGroupTitleView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getX() <= mMuscleGroupTitleView.getTotalPaddingLeft()) {
                         mLayoutView.setCurrentItem(MUSCLE_GROUP_POSITION, true /*smoothScroll*/);
                     }
@@ -141,6 +162,12 @@ public final class ExercisePickerDialog {
             }
         });
         return view;
+    }
+
+    private void notifyExerciseSelect(String exercise) {
+        if (mListener != null) {
+            mListener.onExerciseSelect(exercise);
+        }
     }
 
     private class PickerPagerAdapter extends PagerAdapter {

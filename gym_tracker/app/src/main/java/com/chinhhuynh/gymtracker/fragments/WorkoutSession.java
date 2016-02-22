@@ -6,25 +6,28 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.chinhhuynh.gymtracker.R;
+import com.chinhhuynh.gymtracker.WorkoutSessionAdapter;
 import com.chinhhuynh.gymtracker.views.ExercisePickerDialog;
 
 /**
  * Fragment for creating a workout session.
  */
-public final class WorkoutSession extends Fragment {
+public final class WorkoutSession extends Fragment implements ExercisePickerDialog.EventsListener {
 
     public static final String TAG = WorkoutSession.class.getSimpleName();
 
     private AppCompatActivity mActivity;
     private Context mContext;
-    private RecyclerView mExercises;
+    private ListView mExercises;
+    private ListAdapter mExercisesAdapter;
 
     private ExercisePickerDialog mExercisePicker;
 
@@ -36,10 +39,12 @@ public final class WorkoutSession extends Fragment {
         mContext = fragmentLayout.getContext();
         mActivity = (AppCompatActivity) getActivity();
 
-        mExercisePicker = new ExercisePickerDialog(mContext, R.layout.exercise_picker);
+        mExercisePicker = new ExercisePickerDialog(mContext, R.layout.exercise_picker)
+                .listener(this);
 
-        mExercises = (RecyclerView) fragmentLayout.findViewById(R.id.exercises);
-        mExercises.setLayoutManager(new LinearLayoutManager(mContext));
+        mExercises = (ListView) fragmentLayout.findViewById(R.id.exercises);
+        mExercisesAdapter = new WorkoutSessionAdapter(mContext);
+        mExercises.setAdapter(mExercisesAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) fragmentLayout.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +61,11 @@ public final class WorkoutSession extends Fragment {
     public void onStart() {
         super.onStart();
         setupActionBar();
+    }
+
+    @Override
+    public void onExerciseSelect(String exercise) {
+        // fill-in.
     }
 
     private void setupActionBar() {

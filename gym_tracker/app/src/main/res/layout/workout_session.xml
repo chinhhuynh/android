@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_home"
     tools:context="com.chinhhuynh.gymtracker.HomeActivity">
 
-    <android.support.v7.widget.RecyclerView
+    <ListView
         android:id="@+id/exercises"
         android:visibility="visible"
         android:paddingLeft="@dimen/activity_horizontal_margin"

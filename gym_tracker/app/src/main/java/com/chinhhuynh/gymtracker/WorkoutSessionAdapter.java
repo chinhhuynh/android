@@ -16,13 +16,13 @@ import com.chinhhuynh.gymtracker.model.Exercise;
 /**
  * Adapter for workout session.
  */
-public class SessionAdapter extends BaseAdapter {
+public class WorkoutSessionAdapter extends BaseAdapter {
 
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
     private final List<Exercise> mExercises;
 
-    public SessionAdapter(Context context) {
+    public WorkoutSessionAdapter(Context context) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
         mExercises = new ArrayList<>();
@@ -53,6 +53,7 @@ public class SessionAdapter extends BaseAdapter {
 
     public void addExercise(Exercise exercise) {
         mExercises.add(exercise);
+        notifyDataSetChanged();
     }
 
     private View newExerciseView() {

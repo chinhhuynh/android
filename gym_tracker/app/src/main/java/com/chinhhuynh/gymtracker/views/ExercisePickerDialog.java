@@ -13,11 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.chinhhuynh.gymtracker.R;
-import com.chinhhuynh.gymtracker.model.Exercise;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import com.chinhhuynh.gymtracker.R;
+import com.chinhhuynh.gymtracker.model.Exercise;
 
 public final class ExercisePickerDialog {
 
@@ -27,20 +27,20 @@ public final class ExercisePickerDialog {
     private static String[] MUSCLE_GROUPS = {
             Exercise.MUSCLE_GROUP_ABS,
             Exercise.MUSCLE_GROUP_CHEST,
-            Exercise.MUSCLE_GROUP_LOWER_BACK,
+            Exercise.MUSCLE_GROUP_BICEPS,
+            Exercise.MUSCLE_GROUP_TRICEPS,
+            Exercise.MUSCLE_GROUP_SHOULDERS,
             Exercise.MUSCLE_GROUP_TRAPS,
+            Exercise.MUSCLE_GROUP_QUADRICEPS,
+            Exercise.MUSCLE_GROUP_GLUTES,
             Exercise.MUSCLE_GROUP_ABDUCTORS,
             Exercise.MUSCLE_GROUP_FOREARMS,
             Exercise.MUSCLE_GROUP_MIDDLE_BACK,
-            Exercise.MUSCLE_GROUP_TRICEPS,
             Exercise.MUSCLE_GROUP_ADDUCTORS,
-            Exercise.MUSCLE_GROUP_GLUTES,
             Exercise.MUSCLE_GROUP_NECK,
-            Exercise.MUSCLE_GROUP_BICEPS,
             Exercise.MUSCLE_GROUP_HAMSTRINGS,
-            Exercise.MUSCLE_GROUP_QUADRICEPS,
             Exercise.MUSCLE_GROUP_CALVES,
-            Exercise.MUSCLE_GROUP_SHOULDERS,
+            Exercise.MUSCLE_GROUP_LOWER_BACK,
     };
 
     private static String[] ABS_EXERCISES = {
@@ -50,12 +50,24 @@ public final class ExercisePickerDialog {
             Exercise.EXERCISE_SPIDER_CRAWL,
             Exercise.EXERCISE_SPELL_CASTER,
             Exercise.EXERCISE_SIT_UP,
+            Exercise.EXERCISE_HANGING_LEG_RAISE,
+            Exercise.EXERCISE_ROPE_CRUNCH,
+    };
+
+    private static String[] CHEST_EXERCISES = {
+            Exercise.EXERCISE_PUSH_UP,
+            Exercise.EXERCISE_DUMBBELL_BENCH_PRESS,
+            Exercise.EXERCISE_BARBELL_BENCH_PRESS,
+            Exercise.EXERCISE_INCLINE_BARBELL_PRESS,
+            Exercise.EXERCISE_LOW_CABLE_CROSSOVER,
+            Exercise.EXERCISE_BUTTERFLY,
     };
 
     private static Map<String, String[]> EXERCISES;
     static {
         EXERCISES = new HashMap<>();
         EXERCISES.put(Exercise.MUSCLE_GROUP_ABS, ABS_EXERCISES);
+        EXERCISES.put(Exercise.MUSCLE_GROUP_CHEST, CHEST_EXERCISES);
     }
 
     private final Context mContext;

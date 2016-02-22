@@ -39,4 +39,14 @@ public final class Exercise {
     public static final String EXERCISE_SPELL_CASTER = "Spell Caster";
     public static final String EXERCISE_SIT_UP = "Sit Up";
     public static final String EXERCISE_SIT_UP_ICON = "sit_up.png";
+    public static final String EXERCISE_HANGING_LEG_RAISE = "Hanging Leg Raise";
+    public static final String EXERCISE_ROPE_CRUNCH = "Rope Crunch";
+
+    // Chests
+    public static final String EXERCISE_PUSH_UP = "Push up";
+    public static final String EXERCISE_DUMBBELL_BENCH_PRESS = "Dumbbell Bench Press";
+    public static final String EXERCISE_BARBELL_BENCH_PRESS = "Barbell Bench Press";
+    public static final String EXERCISE_INCLINE_BARBELL_PRESS = "Incline Barbell Press";
+    public static final String EXERCISE_LOW_CABLE_CROSSOVER = "Low Cable Crossover";
+    public static final String EXERCISE_BUTTERFLY = "Butterfly";
 }

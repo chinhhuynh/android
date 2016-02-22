@@ -31,6 +31,12 @@ public final class Exercise {
     public static final String MUSCLE_GROUP_CALVES = "Calves";
     public static final String MUSCLE_GROUP_SHOULDERS = "Shoulders";
 
+    // Abdominals
+    public static final String EXERCISE_RUSSIAN_TWIST = "Russian Twist";
+    public static final String EXERCISE_WEIGHTED_SUITCASE_CRUNCH = "Weighted Suitcase Crunch";
+    public static final String EXERCISE_BOTTOMS_UP = "Bottoms Up";
+    public static final String EXERCISE_SPIDER_CRAWL = "Spider Crawl";
+    public static final String EXERCISE_SPELL_CASTER = "Spell Caster";
     public static final String EXERCISE_SIT_UP = "Sit Up";
     public static final String EXERCISE_SIT_UP_ICON = "sit_up.png";
 }

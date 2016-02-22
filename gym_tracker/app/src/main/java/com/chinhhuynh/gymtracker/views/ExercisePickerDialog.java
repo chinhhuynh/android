@@ -16,6 +16,9 @@ import android.widget.TextView;
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.model.Exercise;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class ExercisePickerDialog {
 
     private static final int MUSCLE_GROUP_POSITION = 0;
@@ -40,13 +43,29 @@ public final class ExercisePickerDialog {
             Exercise.MUSCLE_GROUP_SHOULDERS,
     };
 
+    private static String[] ABS_EXERCISES = {
+            Exercise.EXERCISE_RUSSIAN_TWIST,
+            Exercise.EXERCISE_WEIGHTED_SUITCASE_CRUNCH,
+            Exercise.EXERCISE_BOTTOMS_UP,
+            Exercise.EXERCISE_SPIDER_CRAWL,
+            Exercise.EXERCISE_SPELL_CASTER,
+            Exercise.EXERCISE_SIT_UP,
+    };
+
+    private static Map<String, String[]> EXERCISES;
+    static {
+        EXERCISES = new HashMap<>();
+        EXERCISES.put(Exercise.MUSCLE_GROUP_ABS, ABS_EXERCISES);
+    }
+
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
     private final int mLayoutResId;
 
     private ViewPager mLayoutView;
     private View mMuscleGroupView;
-    private View mExercisesView;
+    private View mExercisesLayoutView;
+    private ListView mExercisesView;
     private TextView mMuscleGroupTitleView;
 
     public ExercisePickerDialog(Context context, int layoutResId) {
@@ -61,7 +80,7 @@ public final class ExercisePickerDialog {
         mLayoutView.setAdapter(adapter);
 
         mMuscleGroupView = newMuscleGroupPickerView();
-        mExercisesView = newExercisesView();
+        mExercisesLayoutView = newExercisesLayoutView();
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
         alertDialogBuilder.setTitle(R.string.select_exercise_title);
@@ -79,15 +98,24 @@ public final class ExercisePickerDialog {
         view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mMuscleGroupTitleView.setText(MUSCLE_GROUPS[position]);
+                String muscleGroup = MUSCLE_GROUPS[position];
+                String[] exercises = EXERCISES.get(muscleGroup);
+                mMuscleGroupTitleView.setText(muscleGroup);
+                ArrayAdapter<String> exercisesAdapter = exercises != null
+                        ? new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, exercises)
+                        : null;
+                mExercisesView.setAdapter(exercisesAdapter);
                 mLayoutView.setCurrentItem(EXERCISE_POSITION, true /*smoothScroll*/);
             }
         });
         return view;
     }
 
-    private View newExercisesView() {
+    private View newExercisesLayoutView() {
         View view = mLayoutInflater.inflate(R.layout.exercise_picker_exercises, null);
+
+        mExercisesView = (ListView) view.findViewById(R.id.exercises);
+
         mMuscleGroupTitleView = (TextView) view.findViewById(R.id.muscle_group_title);
         mMuscleGroupTitleView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -118,8 +146,8 @@ public final class ExercisePickerDialog {
                     return mMuscleGroupView;
 
                 case EXERCISE_POSITION:
-                    container.addView(mExercisesView);
-                    return mExercisesView;
+                    container.addView(mExercisesLayoutView);
+                    return mExercisesLayoutView;
             }
             return null;
         }

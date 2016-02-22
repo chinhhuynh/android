@@ -22,7 +22,7 @@ import com.chinhhuynh.gymtracker.model.Exercise;
 public final class ExercisePickerDialog {
 
     public interface EventsListener {
-        void onExerciseSelect(String exercise);
+        void onExerciseSelect(Exercise exercise);
     }
 
     private static final int MUSCLE_GROUP_POSITION = 0;
@@ -47,27 +47,27 @@ public final class ExercisePickerDialog {
             Exercise.MUSCLE_GROUP_LOWER_BACK,
     };
 
-    private static String[] ABS_EXERCISES = {
-            Exercise.EXERCISE_RUSSIAN_TWIST,
-            Exercise.EXERCISE_WEIGHTED_SUITCASE_CRUNCH,
-            Exercise.EXERCISE_BOTTOMS_UP,
-            Exercise.EXERCISE_SPIDER_CRAWL,
-            Exercise.EXERCISE_SPELL_CASTER,
-            Exercise.EXERCISE_SIT_UP,
-            Exercise.EXERCISE_HANGING_LEG_RAISE,
-            Exercise.EXERCISE_ROPE_CRUNCH,
+    private static Exercise[] ABS_EXERCISES = {
+            new Exercise(Exercise.EXERCISE_RUSSIAN_TWIST, Exercise.MUSCLE_GROUP_ABS, null),
+            new Exercise(Exercise.EXERCISE_WEIGHTED_SUITCASE_CRUNCH, Exercise.MUSCLE_GROUP_ABS, null),
+            new Exercise(Exercise.EXERCISE_BOTTOMS_UP, Exercise.MUSCLE_GROUP_ABS, null),
+            new Exercise(Exercise.EXERCISE_SPIDER_CRAWL, Exercise.MUSCLE_GROUP_ABS, null),
+            new Exercise(Exercise.EXERCISE_SPELL_CASTER, Exercise.MUSCLE_GROUP_ABS, null),
+            new Exercise(Exercise.EXERCISE_SIT_UP, Exercise.MUSCLE_GROUP_ABS, null),
+            new Exercise(Exercise.EXERCISE_HANGING_LEG_RAISE, Exercise.MUSCLE_GROUP_ABS, null),
+            new Exercise(Exercise.EXERCISE_ROPE_CRUNCH, Exercise.MUSCLE_GROUP_ABS, null),
     };
 
-    private static String[] CHEST_EXERCISES = {
-            Exercise.EXERCISE_PUSH_UP,
-            Exercise.EXERCISE_DUMBBELL_BENCH_PRESS,
-            Exercise.EXERCISE_BARBELL_BENCH_PRESS,
-            Exercise.EXERCISE_INCLINE_BARBELL_PRESS,
-            Exercise.EXERCISE_LOW_CABLE_CROSSOVER,
-            Exercise.EXERCISE_BUTTERFLY,
+    private static Exercise[] CHEST_EXERCISES = {
+            new Exercise(Exercise.EXERCISE_PUSH_UP, Exercise.MUSCLE_GROUP_CHEST, null),
+            new Exercise(Exercise.EXERCISE_DUMBBELL_BENCH_PRESS, Exercise.MUSCLE_GROUP_CHEST, null),
+            new Exercise(Exercise.EXERCISE_BARBELL_BENCH_PRESS, Exercise.MUSCLE_GROUP_CHEST, null),
+            new Exercise(Exercise.EXERCISE_INCLINE_BARBELL_PRESS, Exercise.MUSCLE_GROUP_CHEST, null),
+            new Exercise(Exercise.EXERCISE_LOW_CABLE_CROSSOVER, Exercise.MUSCLE_GROUP_CHEST, null),
+            new Exercise(Exercise.EXERCISE_BUTTERFLY, Exercise.MUSCLE_GROUP_CHEST, null),
     };
 
-    private static Map<String, String[]> EXERCISES;
+    private static Map<String, Exercise[]> EXERCISES;
     static {
         EXERCISES = new HashMap<>();
         EXERCISES.put(Exercise.MUSCLE_GROUP_ABS, ABS_EXERCISES);
@@ -83,7 +83,7 @@ public final class ExercisePickerDialog {
     private View mMuscleGroupView;
     private View mExercisesLayoutView;
     private ListView mExercisesView;
-    private ArrayAdapter<String> mExercisesAdapter;
+    private ArrayAdapter<Exercise> mExercisesAdapter;
     private TextView mMuscleGroupTitleView;
 
     private EventsListener mListener;
@@ -124,7 +124,7 @@ public final class ExercisePickerDialog {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String muscleGroup = MUSCLE_GROUPS[position];
-                String[] exercises = EXERCISES.get(muscleGroup);
+                Exercise[] exercises = EXERCISES.get(muscleGroup);
                 mMuscleGroupTitleView.setText(muscleGroup);
                 mExercisesAdapter = exercises != null
                         ? new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, exercises)
@@ -143,7 +143,7 @@ public final class ExercisePickerDialog {
         mExercisesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String exercise = mExercisesAdapter.getItem(position);
+                Exercise exercise = mExercisesAdapter.getItem(position);
                 notifyExerciseSelect(exercise);
                 mAlertDialog.dismiss();
             }
@@ -164,7 +164,7 @@ public final class ExercisePickerDialog {
         return view;
     }
 
-    private void notifyExerciseSelect(String exercise) {
+    private void notifyExerciseSelect(Exercise exercise) {
         if (mListener != null) {
             mListener.onExerciseSelect(exercise);
         }

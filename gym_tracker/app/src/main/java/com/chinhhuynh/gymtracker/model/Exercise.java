@@ -14,6 +14,19 @@ public final class Exercise {
         mIconFileName = iconFileName;
     }
 
+    @Override
+    public String toString() {
+        return mExerciseName;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + mExerciseName.hashCode();
+        result = 31 * result + mMuscleGroup.hashCode();
+        return result;
+    }
+
     public static final String MUSCLE_GROUP_ABS = "Abdominals";
     public static final String MUSCLE_GROUP_CHEST = "Chest";
     public static final String MUSCLE_GROUP_LOWER_BACK = "Lower Back";

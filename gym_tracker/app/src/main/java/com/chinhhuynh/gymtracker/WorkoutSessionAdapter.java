@@ -48,6 +48,11 @@ public class WorkoutSessionAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = newExerciseView();
         }
+
+        Exercise exercise = mExercises.get(position);
+        ExerciseViewHolder viewHolder = (ExerciseViewHolder) convertView.getTag();
+        viewHolder.title.setText(exercise.mExerciseName);
+
         return convertView;
     }
 
@@ -67,7 +72,7 @@ public class WorkoutSessionAdapter extends BaseAdapter {
         return view;
     }
 
-    public class ExerciseViewHolder {
+    public static class ExerciseViewHolder {
         public final TextView title;
         public final ImageView action;
 

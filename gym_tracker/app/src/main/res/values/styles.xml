@@ -15,4 +15,10 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+    <!-- Material design text style -->
+    <style name="TextAppearance.SingleLineItem" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">@dimen/list_single_line_item_with_icon_font_size</item>
+    </style>
+
 </resources>

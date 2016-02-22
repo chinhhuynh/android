@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.WorkoutSessionAdapter;
+import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.views.ExercisePickerDialog;
 
 /**
@@ -27,7 +28,7 @@ public final class WorkoutSession extends Fragment implements ExercisePickerDial
     private AppCompatActivity mActivity;
     private Context mContext;
     private ListView mExercises;
-    private ListAdapter mExercisesAdapter;
+    private WorkoutSessionAdapter mExercisesAdapter;
 
     private ExercisePickerDialog mExercisePicker;
 
@@ -64,8 +65,8 @@ public final class WorkoutSession extends Fragment implements ExercisePickerDial
     }
 
     @Override
-    public void onExerciseSelect(String exercise) {
-        // fill-in.
+    public void onExerciseSelect(Exercise exercise) {
+        mExercisesAdapter.addExercise(exercise);
     }
 
     private void setupActionBar() {

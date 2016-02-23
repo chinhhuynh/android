@@ -9,14 +9,19 @@
         android:id="@+id/exercise"
         style="@style/TextAppearance.SingleLineItem"
         android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:layout_weight="1"
         android:layout_gravity="left|center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <ImageView
         android:id="@+id/action"
+        android:src="@drawable/play"
+        android:background="@drawable/circle"
+        android:layout_weight="0"
         android:layout_gravity="right|center_vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:padding="@dimen/exercise_action_icon_padding"
+        android:layout_width="@dimen/exercise_action_icon_height"
+        android:layout_height="@dimen/exercise_action_icon_height"/>
 
 </LinearLayout>

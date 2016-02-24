@@ -21,12 +21,17 @@ import com.chinhhuynh.gymtracker.model.Exercise;
  */
 public class WorkoutSessionAdapter extends BaseAdapter {
 
+    public interface EventListener {
+        void onItemRemoved(Exercise exercise);
+    }
+
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
     private final List<Exercise> mExercises;
     private final Set<Exercise> mCompleted;
 
     private boolean mIsEditMode;
+    private EventListener mListener;
 
     public WorkoutSessionAdapter(Context context) {
         mContext = context;
@@ -59,10 +64,21 @@ public class WorkoutSessionAdapter extends BaseAdapter {
         Exercise exercise = mExercises.get(position);
         ExerciseViewHolder viewHolder = (ExerciseViewHolder) convertView.getTag();
         viewHolder.title.setText(exercise.mExerciseName);
-        viewHolder.action.setImageDrawable(getActionIcon(exercise));
-        viewHolder.action.setOnClickListener(new ActionClickListener(exercise));
+
+        Drawable actionIcon = getActionIcon(exercise);
+        if (actionIcon != null) {
+            viewHolder.action.setImageDrawable(getActionIcon(exercise));
+            viewHolder.action.setOnClickListener(new ActionClickListener(exercise));
+            viewHolder.action.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.action.setVisibility(View.GONE);
+        }
 
         return convertView;
+    }
+
+    public void setEventListener(EventListener listener) {
+        mListener = listener;
     }
 
     public void addExercise(Exercise exercise) {
@@ -95,6 +111,12 @@ public class WorkoutSessionAdapter extends BaseAdapter {
         return null;
     }
 
+    private void notifyItemRemoved(Exercise exercise) {
+        if (mListener != null) {
+            mListener.onItemRemoved(exercise);
+        }
+    }
+
     public static class ExerciseViewHolder {
         public final TextView title;
         public final ImageView action;
@@ -117,6 +139,7 @@ public class WorkoutSessionAdapter extends BaseAdapter {
         public void onClick(View v) {
             if (mIsEditMode) {
                 mExercises.remove(mExercise);
+                notifyItemRemoved(mExercise);
                 notifyDataSetChanged();
             }
         }

@@ -22,7 +22,8 @@ import com.chinhhuynh.gymtracker.views.ExercisePickerDialog;
 /**
  * Fragment for creating a workout session.
  */
-public final class WorkoutSessionFragment extends Fragment implements ExercisePickerDialog.EventsListener {
+public final class WorkoutSessionFragment extends Fragment implements ExercisePickerDialog.EventsListener,
+        WorkoutSessionAdapter.EventListener {
 
     public static final String TAG = WorkoutSessionFragment.class.getSimpleName();
 
@@ -33,6 +34,7 @@ public final class WorkoutSessionFragment extends Fragment implements ExercisePi
     private WorkoutSessionAdapter mExercisesAdapter;
 
     private ExercisePickerDialog mExercisePicker;
+    private boolean mIsEditing;
 
     @Nullable
     @Override
@@ -48,6 +50,7 @@ public final class WorkoutSessionFragment extends Fragment implements ExercisePi
 
         mExercises = (ListView) fragmentLayout.findViewById(R.id.exercises);
         mExercisesAdapter = new WorkoutSessionAdapter(mContext);
+        mExercisesAdapter.setEventListener(this);
         mExercises.setAdapter(mExercisesAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) fragmentLayout.findViewById(R.id.fab);
@@ -79,10 +82,10 @@ public final class WorkoutSessionFragment extends Fragment implements ExercisePi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_edit:
-                onEdit();
+                onEditing();
                 return true;
             case R.id.action_done:
-                onEditFinish();
+                onFinishEditing();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -95,21 +98,39 @@ public final class WorkoutSessionFragment extends Fragment implements ExercisePi
         updateMenu();
     }
 
-    private void onEditFinish() {
+    @Override
+    public void onItemRemoved(Exercise exercise) {
+        updateMenu();
+        if (!hasExercise()) {
+            onFinishEditing();
+        }
+    }
+
+    private void onFinishEditing() {
+        mIsEditing = false;
         mExercisesAdapter.setEditMode(false /*isEditMode*/);
         updateMenu();
     }
 
-    private void onEdit() {
+    private void onEditing() {
+        mIsEditing = true;
         mExercisesAdapter.setEditMode(true /*isEditMode*/);
-        mEditMenu.setVisible(false);
-        mDoneMenu.setVisible(true);
+        updateMenu();
     }
 
     private void updateMenu() {
-        boolean hasExercise = mExercisesAdapter.getCount() > 0;
-        mEditMenu.setVisible(hasExercise);
-        mDoneMenu.setVisible(false);
+        boolean hasExercise = hasExercise();
+        if (mIsEditing) {
+            mEditMenu.setVisible(false);
+            mDoneMenu.setVisible(hasExercise);
+        } else {
+            mEditMenu.setVisible(hasExercise);
+            mDoneMenu.setVisible(false);
+        }
+    }
+
+    private boolean hasExercise() {
+        return mExercisesAdapter.getCount() > 0;
     }
 
     private void setupActionBar() {

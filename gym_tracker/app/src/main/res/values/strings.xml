@@ -16,8 +16,10 @@
     <string name="start_workout_session">Start a workout session</string>
     <string name="create_workout_set">Create a workout set</string>
 
-    <!-- WorkoutSession -->
-    <string name="session_title">Session</string>
+    <!-- WorkoutSessionFragment -->
+    <string name="workout_session_title">Session</string>
+    <string name="workout_session_edit_action">Edit</string>
+    <string name="workout_session_done_action">Done</string>
 
     <!-- ExercisePickerDialog -->
     <string name="select_exercise_title">Select exercise</string>

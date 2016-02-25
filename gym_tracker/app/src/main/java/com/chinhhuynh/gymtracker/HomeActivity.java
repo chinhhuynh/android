@@ -1,7 +1,9 @@
 package com.chinhhuynh.gymtracker;
 
+import android.annotation.TargetApi;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -26,6 +28,8 @@ public class HomeActivity extends AppCompatActivity implements
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
 
+    private Fragment mWorkoutSessionFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,10 +37,12 @@ public class HomeActivity extends AppCompatActivity implements
 
         initializeToolbar();
 
+        mWorkoutSessionFragment = new WorkoutSessionFragment();
+
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.content, new WorkoutSessionFragment())
+                    .replace(R.id.content, mWorkoutSessionFragment)
                     .commit();
         }
 
@@ -109,31 +115,22 @@ public class HomeActivity extends AppCompatActivity implements
         mDrawerLayout.closeDrawers();
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     private Fragment getFragment(int menuItemId) {
-        Fragment fragment = null;
-
-        Class fragmentClass;
-        switch(menuItemId) {
-            case R.id.workout:
-                fragmentClass = WorkoutFragment.class;
-                break;
-            case R.id.session:
-                fragmentClass = WorkoutSessionFragment.class;
-                break;
-            case R.id.history:
-                fragmentClass = WorkoutHistoryFragment.class;
-                break;
-            default:
-                fragmentClass = WorkoutFragment.class;
-        }
-
         try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            switch (menuItemId) {
+                case R.id.workout:
+                    return WorkoutFragment.class.newInstance();
 
-        return fragment;
+                case R.id.workout_session:
+                    return mWorkoutSessionFragment;
+
+                case R.id.history:
+                    return WorkoutHistoryFragment.class.newInstance();
+            }
+        } catch (InstantiationException|IllegalAccessException ignored) {}
+
+        return null;
     }
 
     private void extractAssets() {

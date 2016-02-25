@@ -3,13 +3,13 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/workout"
-            android:title="Workout"/>
+            android:title="@string/workout_title"/>
         <item
-            android:id="@+id/session"
-            android:title="Session"/>
+            android:id="@+id/workout_session"
+            android:title="@string/workout_session_title"/>
         <item
             android:id="@+id/history"
-            android:title="History" />
+            android:title="@string/history_title" />
         <item
             android:id="@+id/routines"
             android:title="Routines" />

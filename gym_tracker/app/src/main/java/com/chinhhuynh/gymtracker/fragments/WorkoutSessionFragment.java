@@ -42,15 +42,18 @@ public final class WorkoutSessionFragment extends Fragment implements ExercisePi
         View fragmentLayout = inflater.inflate(R.layout.workout_session, container, false);
         setHasOptionsMenu(true);
 
-        mContext = fragmentLayout.getContext();
+        mContext = getContext();
         mActivity = (AppCompatActivity) getActivity();
 
         mExercisePicker = new ExercisePickerDialog(mContext, R.layout.exercise_picker)
                 .listener(this);
 
+        if (mExercisesAdapter == null) {
+            mExercisesAdapter = new WorkoutSessionAdapter(mContext);
+            mExercisesAdapter.setEventListener(this);
+        }
+
         mExercises = (ListView) fragmentLayout.findViewById(R.id.exercises);
-        mExercisesAdapter = new WorkoutSessionAdapter(mContext);
-        mExercisesAdapter.setEventListener(this);
         mExercises.setAdapter(mExercisesAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) fragmentLayout.findViewById(R.id.fab);

@@ -2,9 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/workout"
-            android:title="@string/workout_title"/>
-        <item
             android:id="@+id/workout_session"
             android:title="@string/workout_session_title"/>
         <item

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -104,6 +105,16 @@ public final class WorkoutSessionFragment extends Fragment implements ExercisePi
     public void onExerciseSelect(Exercise exercise) {
         mExercisesAdapter.addExercise(exercise);
         updateMenu();
+    }
+
+    @Override
+    public void onItemClicked(Exercise exercise) {
+        WorkoutFragment workout = new WorkoutFragment();
+        workout.setExercise(exercise);
+        mActivity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content, workout, WorkoutFragment.TAG)
+                .commit();
     }
 
     @Override

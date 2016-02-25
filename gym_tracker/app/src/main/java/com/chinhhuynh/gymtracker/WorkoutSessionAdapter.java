@@ -22,6 +22,7 @@ import com.chinhhuynh.gymtracker.model.Exercise;
 public class WorkoutSessionAdapter extends BaseAdapter {
 
     public interface EventListener {
+        void onItemClicked(Exercise exercise);
         void onItemRemoved(Exercise exercise);
     }
 
@@ -61,7 +62,7 @@ public class WorkoutSessionAdapter extends BaseAdapter {
             convertView = newExerciseView();
         }
 
-        Exercise exercise = mExercises.get(position);
+        final Exercise exercise = mExercises.get(position);
         ExerciseViewHolder viewHolder = (ExerciseViewHolder) convertView.getTag();
         viewHolder.title.setText(exercise.mExerciseName);
 
@@ -73,6 +74,13 @@ public class WorkoutSessionAdapter extends BaseAdapter {
         } else {
             viewHolder.action.setVisibility(View.GONE);
         }
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notifyItemClicked(exercise);
+            }
+        });
 
         return convertView;
     }
@@ -109,6 +117,12 @@ public class WorkoutSessionAdapter extends BaseAdapter {
             return  mContext.getResources().getDrawable(R.drawable.ic_check_black_24dp);
         }
         return null;
+    }
+
+    private void notifyItemClicked(Exercise exercise) {
+        if (mListener != null) {
+            mListener.onItemClicked(exercise);
+        }
     }
 
     private void notifyItemRemoved(Exercise exercise) {

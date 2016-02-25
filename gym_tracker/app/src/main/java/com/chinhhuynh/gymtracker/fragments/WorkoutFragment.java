@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.chinhhuynh.gymtracker.GymTrackerApplication;
 import com.chinhhuynh.gymtracker.R;
+import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.views.NumberPickerDialog;
 import com.chinhhuynh.gymtracker.views.RestCountdown;
 import com.chinhhuynh.gymtracker.views.StartButton;
@@ -61,6 +62,8 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     private TextView mSetView;
     private TextView mWeightView;
     private TextView mRestDurationView;
+
+    private Exercise mExercise;
 
     private long mStartTime;
     private Runnable mClockTimer = new Runnable() {
@@ -189,6 +192,10 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
         changeToStartButton();
     }
 
+    public void setExercise(Exercise exercise) {
+        mExercise = exercise;
+    }
+
     private void startWorkout() {
         mRestCountdownView.stop();
         mRestCountdownView.setRestDuration(getCurrentRestDuration());
@@ -255,6 +262,9 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     }
 
     private void setupActionBar() {
-        mActivity.getSupportActionBar().setTitle(R.string.workout_title);
+        if (mExercise == null) {
+            return;
+        }
+        mActivity.getSupportActionBar().setTitle(mExercise.mExerciseName);
     }
 }

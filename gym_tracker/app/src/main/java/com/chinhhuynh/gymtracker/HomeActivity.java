@@ -16,7 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.chinhhuynh.gymtracker.database.table.ExerciseTable;
-import com.chinhhuynh.gymtracker.fragments.WorkoutFragment;
 import com.chinhhuynh.gymtracker.fragments.WorkoutHistoryFragment;
 import com.chinhhuynh.gymtracker.fragments.WorkoutSessionFragment;
 import com.chinhhuynh.gymtracker.loaders.ExerciseLoader;
@@ -119,9 +118,6 @@ public class HomeActivity extends AppCompatActivity implements
     private Fragment getFragment(int menuItemId) {
         try {
             switch (menuItemId) {
-                case R.id.workout:
-                    return WorkoutFragment.class.newInstance();
-
                 case R.id.workout_session:
                     return mWorkoutSessionFragment;
 

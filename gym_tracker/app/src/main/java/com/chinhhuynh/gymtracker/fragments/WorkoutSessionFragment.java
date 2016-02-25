@@ -1,5 +1,6 @@
 package com.chinhhuynh.gymtracker.fragments;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.chinhhuynh.gymtracker.AnimatorEndListener;
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.WorkoutSessionAdapter;
 import com.chinhhuynh.gymtracker.model.Exercise;
@@ -26,14 +28,17 @@ public final class WorkoutSessionFragment extends Fragment implements ExercisePi
         WorkoutSessionAdapter.EventListener {
 
     public static final String TAG = WorkoutSessionFragment.class.getSimpleName();
+    private static final int ANIMATION_DURATION_MS = 100;
 
     private AppCompatActivity mActivity;
     private Context mContext;
+
+    private FloatingActionButton mFab;
+    private ExercisePickerDialog mExercisePicker;
     private MenuItem mEditMenu, mDoneMenu;
     private ListView mExercises;
     private WorkoutSessionAdapter mExercisesAdapter;
 
-    private ExercisePickerDialog mExercisePicker;
     private boolean mIsEditing;
 
     @Nullable
@@ -56,8 +61,8 @@ public final class WorkoutSessionFragment extends Fragment implements ExercisePi
         mExercises = (ListView) fragmentLayout.findViewById(R.id.exercises);
         mExercises.setAdapter(mExercisesAdapter);
 
-        FloatingActionButton fab = (FloatingActionButton) fragmentLayout.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mFab = (FloatingActionButton) fragmentLayout.findViewById(R.id.fab);
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mExercisePicker.show();
@@ -113,12 +118,31 @@ public final class WorkoutSessionFragment extends Fragment implements ExercisePi
         mIsEditing = false;
         mExercisesAdapter.setEditMode(false /*isEditMode*/);
         updateMenu();
+        mFab.setVisibility(View.VISIBLE);
+        mFab
+                .animate()
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(ANIMATION_DURATION_MS)
+                .setListener(null)
+                .start();
     }
 
     private void onEditing() {
         mIsEditing = true;
         mExercisesAdapter.setEditMode(true /*isEditMode*/);
         updateMenu();
+        mFab
+                .animate()
+                .scaleX(0f)
+                .scaleY(0f)
+                .setDuration(ANIMATION_DURATION_MS)
+                .setListener(new AnimatorEndListener() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mFab.setVisibility(View.GONE);
+                    }
+                }).start();
     }
 
     private void updateMenu() {

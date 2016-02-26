@@ -196,8 +196,8 @@ public final class WorkoutFragment extends Fragment implements
 
     @Override
     public void onBackPressed() {
-        stopWorkout();
-        stopRestCountdown();
+        setStopWorkoutState();
+        setStopRestCountdownState();
 
         ExerciseSummary summary = new ExerciseSummary(mExercise);
         summary.setWeight(Integer.parseInt(mWeightView.getText().toString()));
@@ -242,12 +242,16 @@ public final class WorkoutFragment extends Fragment implements
         changeToStopButton();
     }
 
-    private void stopWorkout() {
+    private void setStopWorkoutState() {
         mClockView.setText(CLOCK_RESET);
         mHandler.removeCallbacks(mClockTimer);
         if (mStartTime != 0) {
             mDurationSec += TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - mStartTime);
         }
+    }
+
+    private void stopWorkout() {
+        setStopWorkoutState();
         changeToStartButton();
     }
 
@@ -256,9 +260,13 @@ public final class WorkoutFragment extends Fragment implements
         mSetView.setText(Integer.toString(set));
     }
 
-    private void stopRestCountdown() {
+    private void setStopRestCountdownState() {
         mRestCountdownView.stop();
         mDurationSec += mRestCountdownView.getElapsedSec();
+    }
+
+    private void stopRestCountdown() {
+        setStopRestCountdownState();
         changeToStartButton();
     }
 

@@ -11,6 +11,7 @@ import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,6 +69,7 @@ public final class WorkoutFragment extends Fragment implements
     private NumberPickerDialog mWeightPicker;
     private NumberPickerDialog mRestDurationPicker;
 
+    private Toolbar mToolbar;
     private TextView mSetView;
     private TextView mWeightView;
     private TextView mRestDurationView;
@@ -106,7 +108,7 @@ public final class WorkoutFragment extends Fragment implements
         mClockView = (TextView) fragmentLayout.findViewById(R.id.clock);
         mStartButton = (StartButton) fragmentLayout.findViewById(R.id.start_button);
         mRestCountdownView = (RestCountdown) fragmentLayout.findViewById(R.id.rest_countdown);
-
+        mToolbar = (Toolbar) fragmentLayout.findViewById(R.id.toolbar);
         mSetView = (TextView) fragmentLayout.findViewById(R.id.workout_set);
         mWeightView = (TextView) fragmentLayout.findViewById(R.id.workout_weight);
         mRestDurationView = (TextView) fragmentLayout.findViewById(R.id.workout_rest_duration);
@@ -191,7 +193,7 @@ public final class WorkoutFragment extends Fragment implements
     @Override
     public void onStart() {
         super.onStart();
-        setupActionBar();
+        setupToolbar();
     }
 
     @Override
@@ -315,10 +317,10 @@ public final class WorkoutFragment extends Fragment implements
         return Integer.parseInt(mRestDurationView.getText().toString());
     }
 
-    private void setupActionBar() {
+    private void setupToolbar() {
         if (mExercise == null) {
             return;
         }
-        mActivity.getSupportActionBar().setTitle(mExercise.mExerciseName);
+        mToolbar.setTitle(mExercise.mExerciseName);
     }
 }

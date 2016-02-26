@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentManager.BackStackEntry;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -67,7 +68,12 @@ public class HomeActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content);
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.getBackStackEntryCount() == 0) {
+            return;
+        }
+        BackStackEntry top = fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1);
+        Fragment fragment = fm.findFragmentByTag(top.getName());
         if (fragment instanceof OnBackPressed) {
             ((OnBackPressed) fragment).onBackPressed();
         }

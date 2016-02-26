@@ -111,9 +111,11 @@ public final class WorkoutSessionFragment extends Fragment implements ExercisePi
 
     @Override
     public void onWorkoutCompleted(@NotNull ExerciseSummary summary) {
+        Fragment workout = mActivity.getSupportFragmentManager().findFragmentByTag(WorkoutFragment.TAG);
         mActivity.getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.content, this, TAG)
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                .remove(workout)
                 .commit();
     }
 
@@ -124,7 +126,9 @@ public final class WorkoutSessionFragment extends Fragment implements ExercisePi
                 .setListener(this);
         mActivity.getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.content, workout, WorkoutFragment.TAG)
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                .add(R.id.drawer_layout, workout, WorkoutFragment.TAG)
+                .addToBackStack(WorkoutFragment.TAG)
                 .commit();
     }
 

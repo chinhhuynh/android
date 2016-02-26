@@ -22,16 +22,25 @@ import java.util.concurrent.TimeUnit;
 import com.chinhhuynh.gymtracker.GymTrackerApplication;
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.model.Exercise;
+import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import com.chinhhuynh.gymtracker.views.NumberPickerDialog;
 import com.chinhhuynh.gymtracker.views.RestCountdown;
 import com.chinhhuynh.gymtracker.views.StartButton;
+import com.chinhhuynh.lifecycle.activity.OnBackPressed;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Fragment for starting a workout.
  */
-public final class WorkoutFragment extends Fragment implements RestCountdown.CountdownListener {
+public final class WorkoutFragment extends Fragment implements
+        OnBackPressed,
+        RestCountdown.CountdownListener {
 
     public static final String TAG = "WorkoutFragment";
+
+    public interface WorkoutEventListener {
+        void onWorkoutCompleted(@NotNull ExerciseSummary summary);
+    }
 
     private static final float SQRT_2 = (float) Math.sqrt(2);
     private static final long ANIMATE_START_BUTTON_DURATION = DateUtils.SECOND_IN_MILLIS / 4;
@@ -64,6 +73,8 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     private TextView mRestDurationView;
 
     private Exercise mExercise;
+    private WorkoutEventListener mListener;
+    private int mDurationSec;
 
     private long mStartTime;
     private Runnable mClockTimer = new Runnable() {
@@ -108,9 +119,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
                         startWorkout();
                         break;
                     case StartButton.STATE_STOP:
-                        mClockView.setText(CLOCK_RESET);
-                        mHandler.removeCallbacks(mClockTimer);
-                        changeToStartButton();
+                        stopWorkout();
                         break;
                 }
             }
@@ -186,14 +195,34 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
     }
 
     @Override
+    public void onBackPressed() {
+        stopWorkout();
+        stopRestCountdown();
+
+        ExerciseSummary summary = new ExerciseSummary(mExercise);
+        summary.setWeight(Integer.parseInt(mWeightView.getText().toString()));
+        summary.setSet(Integer.parseInt(mSetView.getText().toString()));
+        summary.setDuration(mDurationSec);
+        if (mListener != null) {
+            mListener.onWorkoutCompleted(summary);
+        }
+    }
+
+    @Override
     public void onCountdownFinished() {
         mVibrator.vibrate(HALF_SECOND);
         mClockView.setText(CLOCK_RESET);
         changeToStartButton();
     }
 
-    public void setExercise(Exercise exercise) {
+    public WorkoutFragment setExercise(Exercise exercise) {
         mExercise = exercise;
+        return this;
+    }
+
+    public WorkoutFragment setListener(WorkoutEventListener listener) {
+        mListener = listener;
+        return this;
     }
 
     private void startWorkout() {
@@ -206,6 +235,15 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
         changeToStopButton();
     }
 
+    private void stopWorkout() {
+        mClockView.setText(CLOCK_RESET);
+        mHandler.removeCallbacks(mClockTimer);
+        if (mStartTime != 0) {
+            mDurationSec += TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - mStartTime);
+        }
+        changeToStartButton();
+    }
+
     private void increaseSet() {
         int set = getCurrentSet() + 1;
         mSetView.setText(Integer.toString(set));
@@ -213,6 +251,7 @@ public final class WorkoutFragment extends Fragment implements RestCountdown.Cou
 
     private void stopRestCountdown() {
         mRestCountdownView.stop();
+        mDurationSec += mRestCountdownView.getElapsedSec();
         changeToStartButton();
     }
 

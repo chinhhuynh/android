@@ -20,6 +20,7 @@ import com.chinhhuynh.gymtracker.fragments.WorkoutHistoryFragment;
 import com.chinhhuynh.gymtracker.fragments.WorkoutSessionFragment;
 import com.chinhhuynh.gymtracker.loaders.ExerciseLoader;
 import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
+import com.chinhhuynh.lifecycle.activity.OnBackPressed;
 
 public class HomeActivity extends AppCompatActivity implements
         Loader.OnLoadCompleteListener<Cursor> {
@@ -62,6 +63,14 @@ public class HomeActivity extends AppCompatActivity implements
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content);
+        if (fragment instanceof OnBackPressed) {
+            ((OnBackPressed) fragment).onBackPressed();
+        }
     }
 
     @Override

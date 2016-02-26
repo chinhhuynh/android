@@ -20,13 +20,15 @@ import com.chinhhuynh.gymtracker.AnimatorEndListener;
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.WorkoutSessionAdapter;
 import com.chinhhuynh.gymtracker.model.Exercise;
+import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import com.chinhhuynh.gymtracker.views.ExercisePickerDialog;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Fragment for creating a workout session.
  */
 public final class WorkoutSessionFragment extends Fragment implements ExercisePickerDialog.EventsListener,
-        WorkoutSessionAdapter.EventListener {
+        WorkoutSessionAdapter.EventListener, WorkoutFragment.WorkoutEventListener {
 
     public static final String TAG = WorkoutSessionFragment.class.getSimpleName();
     private static final int ANIMATION_DURATION_MS = 100;
@@ -108,9 +110,18 @@ public final class WorkoutSessionFragment extends Fragment implements ExercisePi
     }
 
     @Override
+    public void onWorkoutCompleted(@NotNull ExerciseSummary summary) {
+        mActivity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content, this, TAG)
+                .commit();
+    }
+
+    @Override
     public void onItemClicked(Exercise exercise) {
         WorkoutFragment workout = new WorkoutFragment();
-        workout.setExercise(exercise);
+        workout.setExercise(exercise)
+                .setListener(this);
         mActivity.getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.content, workout, WorkoutFragment.TAG)

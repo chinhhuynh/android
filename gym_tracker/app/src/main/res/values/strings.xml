@@ -17,7 +17,7 @@
     <string name="create_workout_set">Create a workout set</string>
 
     <!-- WorkoutSessionFragment -->
-    <string name="workout_session_title">Session</string>
+    <string name="workout_session_title">Workout Session</string>
     <string name="workout_session_edit_action">Edit</string>
     <string name="workout_session_done_action">Done</string>
 

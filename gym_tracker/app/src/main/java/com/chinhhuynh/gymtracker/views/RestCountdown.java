@@ -94,6 +94,10 @@ public final class RestCountdown extends View {
         return mIsActive;
     }
 
+    public int getElapsedSec() {
+        return mDuration - mRemaining;
+    }
+
     public void countdown() {
         mRemaining = mDuration;
         mStartTime = System.currentTimeMillis();

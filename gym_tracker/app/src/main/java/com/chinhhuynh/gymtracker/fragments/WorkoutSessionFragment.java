@@ -117,6 +117,7 @@ public final class WorkoutSessionFragment extends Fragment implements ExercisePi
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                 .remove(workout)
                 .commit();
+        updateExercise(summary);
     }
 
     @Override
@@ -179,6 +180,12 @@ public final class WorkoutSessionFragment extends Fragment implements ExercisePi
         } else {
             mEditMenu.setVisible(hasExercise);
             mDoneMenu.setVisible(false);
+        }
+    }
+
+    private void updateExercise(ExerciseSummary summary) {
+        if (summary.mSet > 0) {
+            mExercisesAdapter.setExerciseCompleted(summary.mExercise);
         }
     }
 

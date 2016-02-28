@@ -2,6 +2,7 @@ package com.chinhhuynh.gymtracker;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.ArraySet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -78,6 +80,9 @@ public class WorkoutSessionAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mIsEditMode) {
+                    return;
+                }
                 notifyItemClicked(exercise);
             }
         });
@@ -90,7 +95,15 @@ public class WorkoutSessionAdapter extends BaseAdapter {
     }
 
     public void addExercise(Exercise exercise) {
+        if (mExercises.contains(exercise)) {
+            return;
+        }
         mExercises.add(exercise);
+        notifyDataSetChanged();
+    }
+
+    public void setExerciseCompleted(Exercise exercise) {
+        mCompleted.add(exercise);
         notifyDataSetChanged();
     }
 

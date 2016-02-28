@@ -43,7 +43,7 @@ public final class ExtractAssetsTask extends AsyncTask<Void, Void, Void> {
         } catch (IOException e) {
             Timber.e(TAG, "Failed to get asset files list. Error: %s", e.toString());
         }
-        for(String filename : files) {
+        for (String filename : files) {
             extractFile(folderName, filename);
         }
     }

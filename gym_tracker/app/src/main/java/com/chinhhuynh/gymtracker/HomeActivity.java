@@ -90,6 +90,7 @@ public class HomeActivity extends AppCompatActivity implements
             }
             do {
                 String exerciseName = cursor.getString(ExerciseTable.COL_IDX_NAME);
+                String muscleGroup = cursor.getString(ExerciseTable.COL_IDX_MUSCLE_GROUP);
                 String iconFileName = cursor.getString(ExerciseTable.COL_IDX_ICON_FILE_NAME);
             } while (cursor.moveToNext());
         } finally {

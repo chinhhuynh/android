@@ -122,6 +122,7 @@ public final class WorkoutFragment extends Fragment implements
                         startWorkout();
                         break;
                     case StartButton.STATE_STOP:
+                        increaseSet();
                         stopWorkout();
                         break;
                 }

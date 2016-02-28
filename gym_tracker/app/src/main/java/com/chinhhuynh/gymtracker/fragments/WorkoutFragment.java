@@ -10,6 +10,7 @@ import android.os.Looper;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
@@ -322,5 +323,6 @@ public final class WorkoutFragment extends Fragment implements
             return;
         }
         mToolbar.setTitle(mExercise.mExerciseName);
+        mToolbar.setNavigationIcon(ContextCompat.getDrawable(mContext, R.drawable.ic_arrow_back_white_24dp));
     }
 }

@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/muscle_group_title"
-        android:drawableLeft="@drawable/ic_chevron_left_black_18dp"
+        android:drawableLeft="@drawable/ic_arrow_back_black_18dp"
         android:drawablePadding="@dimen/activity_horizontal_margin"
         android:gravity="center_vertical"
         android:fontFamily="sans-serif"

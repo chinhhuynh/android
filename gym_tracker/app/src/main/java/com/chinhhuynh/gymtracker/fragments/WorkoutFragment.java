@@ -199,16 +199,7 @@ public final class WorkoutFragment extends Fragment implements
 
     @Override
     public void onBackPressed() {
-        setStopWorkoutState();
-        setStopRestCountdownState();
-
-        ExerciseSummary summary = new ExerciseSummary(mExercise);
-        summary.setWeight(Integer.parseInt(mWeightView.getText().toString()));
-        summary.setSet(Integer.parseInt(mSetView.getText().toString()));
-        summary.setDuration(mDurationSec);
-        if (mListener != null) {
-            mListener.onWorkoutCompleted(summary);
-        }
+        onWorkoutCompleted();
     }
 
     @Override
@@ -318,11 +309,30 @@ public final class WorkoutFragment extends Fragment implements
         return Integer.parseInt(mRestDurationView.getText().toString());
     }
 
+    private void onWorkoutCompleted() {
+        setStopWorkoutState();
+        setStopRestCountdownState();
+
+        ExerciseSummary summary = new ExerciseSummary(mExercise);
+        summary.setWeight(Integer.parseInt(mWeightView.getText().toString()));
+        summary.setSet(Integer.parseInt(mSetView.getText().toString()));
+        summary.setDuration(mDurationSec);
+        if (mListener != null) {
+            mListener.onWorkoutCompleted(summary);
+        }
+    }
+
     private void setupToolbar() {
         if (mExercise == null) {
             return;
         }
         mToolbar.setTitle(mExercise.mExerciseName);
         mToolbar.setNavigationIcon(ContextCompat.getDrawable(mContext, R.drawable.ic_arrow_back_white_24dp));
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onWorkoutCompleted();
+            }
+        });
     }
 }

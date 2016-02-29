@@ -2,7 +2,6 @@ package com.chinhhuynh.gymtracker;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.ArraySet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +11,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.bumptech.glide.Glide;
 import com.chinhhuynh.gymtracker.model.Exercise;
 
 /**
@@ -87,6 +86,11 @@ public class WorkoutSessionAdapter extends BaseAdapter {
             }
         });
 
+        Glide.with(mContext)
+                .load(exercise.getIconAbsolutePath())
+                .asBitmap()
+                .into(viewHolder.icon);
+
         return convertView;
     }
 
@@ -116,7 +120,9 @@ public class WorkoutSessionAdapter extends BaseAdapter {
         View view = mLayoutInflater.inflate(R.layout.workout_session_exercise, null);
 
         ExerciseViewHolder viewHolder = new ExerciseViewHolder(
-                (TextView) view.findViewById(R.id.exercise),
+                (TextView) view.findViewById(R.id.exercise_title),
+                (TextView) view.findViewById(R.id.exercise_subtext),
+                (ImageView) view.findViewById(R.id.exercise_icon),
                 (ImageView) view.findViewById(R.id.action));
         view.setTag(viewHolder);
 
@@ -146,10 +152,14 @@ public class WorkoutSessionAdapter extends BaseAdapter {
 
     public static class ExerciseViewHolder {
         public final TextView title;
+        public final TextView subText;
+        public final ImageView icon;
         public final ImageView action;
 
-        public ExerciseViewHolder(TextView title, ImageView action) {
+        public ExerciseViewHolder(TextView title, TextView subText, ImageView icon, ImageView action) {
             this.title = title;
+            this.subText = subText;
+            this.icon = icon;
             this.action = action;
         }
     }

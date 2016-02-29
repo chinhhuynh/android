@@ -5,15 +5,40 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/exercise"
-        style="@style/TextAppearance.SingleLineItem"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
+    <RelativeLayout
         android:layout_weight="1"
         android:layout_gravity="left|center_vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/exercise_icon"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/session_exercise_list_icon_size"
+            android:layout_height="@dimen/session_exercise_list_icon_size"/>
+
+        <TextView
+            android:id="@+id/exercise_title"
+            style="@style/TextAppearance.SingleLineItem"
+            android:layout_toRightOf="@id/exercise_icon"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/exercise_subtext"
+            android:layout_toRightOf="@id/exercise_icon"
+            android:layout_below="@id/exercise_title"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/action"

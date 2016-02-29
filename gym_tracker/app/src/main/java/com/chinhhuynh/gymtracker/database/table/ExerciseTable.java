@@ -4,11 +4,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.chinhhuynh.gymtracker.database.DatabaseHelper;
-import com.chinhhuynh.gymtracker.model.Exercise;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import com.chinhhuynh.gymtracker.database.DatabaseHelper;
+import com.chinhhuynh.gymtracker.model.Exercise;
 
 public final class ExerciseTable extends DbTable<Exercise> {
 
@@ -110,20 +110,11 @@ public final class ExerciseTable extends DbTable<Exercise> {
         return contentValues;
     }
 
-    public static Cursor queryByName(String... queryTokens) {
+    public static Cursor queryByMuscleGroup(String muscleGroup) {
         SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
-        StringBuilder sb = new StringBuilder();
-        String[] formattedTokens = new String[queryTokens.length];
-        for (int i = 0; i < queryTokens.length; i++) {
-            formattedTokens[i] = '%' + queryTokens[i] + '%';
-            if (i > 0) {
-                sb.append(" OR ");
-            }
-            sb.append(ExerciseTable.COL_NAME).append(" LIKE ?");
-        }
-        String selection = sb.toString();
+        String selection = String.format("%s = ?", ExerciseTable.COL_MUSCLE_GROUP);
 
-        return db.query(TABLE_NAME, PROJECTION /*columns*/, selection,
-                formattedTokens /*selectionArgs*/, null /*groupBy*/, null /*having*/, null /*orderBy*/);
+        return db.query(TABLE_NAME, PROJECTION /*columns*/, selection, new String[] { muscleGroup } /*selectionArgs*/,
+                null /*groupBy*/, null /*having*/, null /*orderBy*/);
     }
 }

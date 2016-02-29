@@ -1,10 +1,14 @@
 package com.chinhhuynh.gymtracker.model;
 
+import android.graphics.drawable.Drawable;
+
 public final class Exercise {
 
     public final String mExerciseName;
     public final String mMuscleGroup;
     public final String mIconFileName;
+
+    public Drawable mIconDrawable;
 
     public Exercise(String exerciseName,
                     String muscleGroup,

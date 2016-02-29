@@ -53,7 +53,7 @@ public final class WorkoutSessionFragment extends Fragment implements ExercisePi
         mContext = getContext();
         mActivity = (AppCompatActivity) getActivity();
 
-        mExercisePicker = new ExercisePickerDialog(mContext, R.layout.exercise_picker)
+        mExercisePicker = new ExercisePickerDialog(mContext, R.layout.exercise_picker, getLoaderManager())
                 .listener(this);
 
         if (mExercisesAdapter == null) {

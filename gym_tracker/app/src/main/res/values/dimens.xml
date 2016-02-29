@@ -32,4 +32,6 @@
     <!-- Workout Session -->
     <dimen name="exercise_action_icon_height">40dp</dimen>
     <dimen name="exercise_action_icon_padding">10dp</dimen>
+    <dimen name="exercise_picker_icon_padding">10dp</dimen>
+    <dimen name="exercise_picker_icon_size">20dp</dimen>
 </resources>

@@ -8,15 +8,15 @@ import com.chinhhuynh.gymtracker.database.table.ExerciseTable;
 
 public final class ExerciseLoader extends CursorLoader {
 
-    private final String[] mQueryTokens;
+    private final String mMuscleGroup;
 
-    public ExerciseLoader(Context context, String query) {
+    public ExerciseLoader(Context context, String muscleGroup) {
         super(context);
-        mQueryTokens = query.split(" ");
+        mMuscleGroup = muscleGroup;
     }
 
     @Override
     public Cursor loadInBackground() {
-        return ExerciseTable.queryByName(mQueryTokens);
+        return ExerciseTable.queryByMuscleGroup(mMuscleGroup);
     }
 }

@@ -2,6 +2,11 @@ package com.chinhhuynh.gymtracker.views;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.database.Cursor;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -10,20 +15,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
 
 import com.chinhhuynh.gymtracker.R;
+import com.chinhhuynh.gymtracker.database.table.ExerciseTable;
+import com.chinhhuynh.gymtracker.loaders.ExerciseLoader;
 import com.chinhhuynh.gymtracker.model.Exercise;
+import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
+import utils.ThreadUtils;
 
 public final class ExercisePickerDialog {
 
     public interface EventsListener {
         void onExerciseSelect(Exercise exercise);
     }
+
+    private static final int EXERCISE_LOADER = 0;
 
     private static final int MUSCLE_GROUP_POSITION = 0;
     private static final int EXERCISE_POSITION = 1;
@@ -47,51 +58,34 @@ public final class ExercisePickerDialog {
             Exercise.MUSCLE_GROUP_LOWER_BACK,
     };
 
-    private static Exercise[] ABS_EXERCISES = {
-            new Exercise(Exercise.EXERCISE_RUSSIAN_TWIST, Exercise.MUSCLE_GROUP_ABS, null),
-            new Exercise(Exercise.EXERCISE_WEIGHTED_SUITCASE_CRUNCH, Exercise.MUSCLE_GROUP_ABS, null),
-            new Exercise(Exercise.EXERCISE_BOTTOMS_UP, Exercise.MUSCLE_GROUP_ABS, null),
-            new Exercise(Exercise.EXERCISE_SPIDER_CRAWL, Exercise.MUSCLE_GROUP_ABS, null),
-            new Exercise(Exercise.EXERCISE_SPELL_CASTER, Exercise.MUSCLE_GROUP_ABS, null),
-            new Exercise(Exercise.EXERCISE_SIT_UP, Exercise.MUSCLE_GROUP_ABS, null),
-            new Exercise(Exercise.EXERCISE_HANGING_LEG_RAISE, Exercise.MUSCLE_GROUP_ABS, null),
-            new Exercise(Exercise.EXERCISE_ROPE_CRUNCH, Exercise.MUSCLE_GROUP_ABS, null),
-    };
-
-    private static Exercise[] CHEST_EXERCISES = {
-            new Exercise(Exercise.EXERCISE_PUSH_UP, Exercise.MUSCLE_GROUP_CHEST, null),
-            new Exercise(Exercise.EXERCISE_DUMBBELL_BENCH_PRESS, Exercise.MUSCLE_GROUP_CHEST, null),
-            new Exercise(Exercise.EXERCISE_BARBELL_BENCH_PRESS, Exercise.MUSCLE_GROUP_CHEST, null),
-            new Exercise(Exercise.EXERCISE_INCLINE_BARBELL_PRESS, Exercise.MUSCLE_GROUP_CHEST, null),
-            new Exercise(Exercise.EXERCISE_LOW_CABLE_CROSSOVER, Exercise.MUSCLE_GROUP_CHEST, null),
-            new Exercise(Exercise.EXERCISE_BUTTERFLY, Exercise.MUSCLE_GROUP_CHEST, null),
-    };
-
-    private static Map<String, Exercise[]> EXERCISES;
-    static {
-        EXERCISES = new HashMap<>();
-        EXERCISES.put(Exercise.MUSCLE_GROUP_ABS, ABS_EXERCISES);
-        EXERCISES.put(Exercise.MUSCLE_GROUP_CHEST, CHEST_EXERCISES);
-    }
-
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
+    private final LoaderManager mLoaderManager;
     private final int mLayoutResId;
+    private final int mIconSize;
+    private final int mIconPadding;
 
     private AlertDialog mAlertDialog;
     private ViewPager mLayoutView;
     private View mMuscleGroupView;
     private View mExercisesLayoutView;
     private ListView mExercisesView;
-    private ArrayAdapter<Exercise> mExercisesAdapter;
+    private ExerciseCursorAdapter mExercisesAdapter;
     private TextView mMuscleGroupTitleView;
+
+    private ExerciseLoaderCallbacks mExerciseLoaderCallbacks;
+    private String mMuscleGroup;
 
     private EventsListener mListener;
 
-    public ExercisePickerDialog(Context context, int layoutResId) {
+    public ExercisePickerDialog(Context context, int layoutResId, LoaderManager loaderManager) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
+        mLoaderManager = loaderManager;
         mLayoutResId = layoutResId;
+
+        mIconSize = context.getResources().getDimensionPixelOffset(R.dimen.exercise_picker_icon_size);
+        mIconPadding = context.getResources().getDimensionPixelOffset(R.dimen.exercise_picker_icon_padding);
     }
 
     public ExercisePickerDialog listener(EventsListener listener) {
@@ -111,6 +105,10 @@ public final class ExercisePickerDialog {
         alertDialogBuilder.setTitle(R.string.select_exercise_title);
         alertDialogBuilder.setView(mLayoutView);
 
+        mMuscleGroup = "";
+        mExerciseLoaderCallbacks = new ExerciseLoaderCallbacks();
+        mLoaderManager.initLoader(EXERCISE_LOADER, null, mExerciseLoaderCallbacks);
+
         mAlertDialog = alertDialogBuilder.create();
         mAlertDialog.show();
     }
@@ -123,17 +121,32 @@ public final class ExercisePickerDialog {
         view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String muscleGroup = MUSCLE_GROUPS[position];
-                Exercise[] exercises = EXERCISES.get(muscleGroup);
-                mMuscleGroupTitleView.setText(muscleGroup);
-                mExercisesAdapter = exercises != null
-                        ? new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, exercises)
-                        : null;
-                mExercisesView.setAdapter(mExercisesAdapter);
+                mMuscleGroup = MUSCLE_GROUPS[position];
+                mMuscleGroupTitleView.setText(mMuscleGroup);
+                mLoaderManager.restartLoader(EXERCISE_LOADER, null, mExerciseLoaderCallbacks);
                 mLayoutView.setCurrentItem(EXERCISE_POSITION, true /*smoothScroll*/);
             }
         });
         return view;
+    }
+
+    private final class ExerciseLoaderCallbacks implements LoaderManager.LoaderCallbacks<Cursor> {
+
+        @Override
+        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+            return new ExerciseLoader(mContext, mMuscleGroup);
+        }
+
+        @Override
+        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+            mExercisesAdapter = new ExerciseCursorAdapter(mContext, data, false /*autoRequery*/);
+            mExercisesView.setAdapter(mExercisesAdapter);
+        }
+
+        @Override
+        public void onLoaderReset(Loader<Cursor> loader) {
+            // no-op.
+        }
     }
 
     private View newExercisesLayoutView() {
@@ -199,6 +212,55 @@ public final class ExercisePickerDialog {
         @Override
         public boolean isViewFromObject(View view, Object object) {
             return view == object;
+        }
+    }
+
+    private final class ExerciseCursorAdapter extends CursorAdapter {
+
+        private final File mExerciseFolder;
+
+        private ExerciseCursorAdapter(Context context, Cursor cursor, boolean autoRequery) {
+            super(context, cursor, autoRequery);
+
+            mExerciseFolder = mContext.getDir(ExtractAssetsTask.EXERCISE_FOLDER, Context.MODE_PRIVATE);
+        }
+
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            return mLayoutInflater.inflate(android.R.layout.simple_list_item_1, null);
+        }
+
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
+            Exercise exercise = getExercise(cursor);
+            exercise.mIconDrawable.setBounds(0, 0, mIconSize, mIconSize);
+
+            TextView exerciseView = (TextView) view.findViewById(android.R.id.text1);
+            exerciseView.setText(exercise.mExerciseName);
+            exerciseView.setCompoundDrawablePadding(mIconPadding);
+            exerciseView.setCompoundDrawables(exercise.mIconDrawable, null, null, null);
+        }
+
+        @Override
+        public Exercise getItem(int position) {
+            Cursor cursor = (Cursor) super.getItem(position);
+            return getExercise(cursor);
+        }
+
+        private Exercise getExercise(Cursor cursor) {
+            ThreadUtils.assertBackgroundThread();
+
+            String name = cursor.getString(ExerciseTable.COL_IDX_NAME);
+            String muscleGroup = cursor.getString(ExerciseTable.COL_IDX_MUSCLE_GROUP);
+            String iconFileName = cursor.getString(ExerciseTable.COL_IDX_ICON_FILE_NAME);
+
+            File icon = new File(mExerciseFolder, iconFileName);
+            Drawable iconDrawable = Drawable.createFromPath(icon.getAbsolutePath());
+
+            Exercise exercise = new Exercise(name, muscleGroup, iconFileName);
+            exercise.mIconDrawable = iconDrawable;
+
+            return exercise;
         }
     }
 }

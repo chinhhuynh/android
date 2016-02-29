@@ -1,6 +1,11 @@
 package com.chinhhuynh.gymtracker.model;
 
-import android.graphics.drawable.Drawable;
+import android.content.Context;
+
+import com.chinhhuynh.gymtracker.GymTrackerApplication;
+import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
+
+import java.io.FileDescriptor;
 
 public final class Exercise {
 
@@ -8,7 +13,7 @@ public final class Exercise {
     public final String mMuscleGroup;
     public final String mIconFileName;
 
-    public Drawable mIconDrawable;
+    private final String mExerciseFolderPath;
 
     public Exercise(String exerciseName,
                     String muscleGroup,
@@ -16,6 +21,9 @@ public final class Exercise {
         mExerciseName = exerciseName;
         mMuscleGroup = muscleGroup;
         mIconFileName = iconFileName;
+
+        Context context = GymTrackerApplication.getAppContext();
+        mExerciseFolderPath = context.getDir(ExtractAssetsTask.EXERCISE_FOLDER, Context.MODE_PRIVATE).getAbsolutePath();
     }
 
     @Override
@@ -29,6 +37,10 @@ public final class Exercise {
         result = 31 * result + mExerciseName.hashCode();
         result = 31 * result + mMuscleGroup.hashCode();
         return result;
+    }
+
+    public String getIconAbsolutePath() {
+        return mExerciseFolderPath.concat("/").concat(mIconFileName);
     }
 
     public static final String MUSCLE_GROUP_ABS = "Abdominals";

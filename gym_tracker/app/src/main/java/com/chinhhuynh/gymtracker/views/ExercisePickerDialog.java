@@ -21,8 +21,6 @@ import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.io.File;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -31,7 +29,6 @@ import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.database.table.ExerciseTable;
 import com.chinhhuynh.gymtracker.loaders.ExerciseLoader;
 import com.chinhhuynh.gymtracker.model.Exercise;
-import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
 
 public final class ExercisePickerDialog {
 
@@ -224,12 +221,8 @@ public final class ExercisePickerDialog {
 
     private final class ExerciseCursorAdapter extends CursorAdapter {
 
-        private final File mExerciseFolder;
-
         private ExerciseCursorAdapter(Context context, Cursor cursor, boolean autoRequery) {
             super(context, cursor, autoRequery);
-
-            mExerciseFolder = mContext.getDir(ExtractAssetsTask.EXERCISE_FOLDER, Context.MODE_PRIVATE);
         }
 
         @Override
@@ -254,9 +247,8 @@ public final class ExercisePickerDialog {
             exerciseView.setText(exercise.mExerciseName);
             exerciseView.setCompoundDrawablePadding(mIconPadding);
 
-            File icon = new File(mExerciseFolder, exercise.mIconFileName);
             Glide.with(mContext)
-                    .load(icon.getAbsolutePath())
+                    .load(exercise.getIconAbsolutePath())
                     .asBitmap()
                     .into((Target) view.getTag());
         }

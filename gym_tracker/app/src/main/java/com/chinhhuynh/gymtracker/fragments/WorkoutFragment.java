@@ -41,7 +41,7 @@ public final class WorkoutFragment extends Fragment implements
     public static final String TAG = WorkoutFragment.class.getSimpleName();
 
     public interface WorkoutEventListener {
-        void onWorkoutCompleted(@NotNull ExerciseSummary summary);
+        void onExerciseCompleted(@NotNull ExerciseSummary summary);
     }
 
     private static final float SQRT_2 = (float) Math.sqrt(2);
@@ -320,7 +320,7 @@ public final class WorkoutFragment extends Fragment implements
         summary.setSet(Integer.parseInt(mSetView.getText().toString()));
         summary.setDuration(mDurationSec);
         if (mListener != null) {
-            mListener.onWorkoutCompleted(summary);
+            mListener.onExerciseCompleted(summary);
         }
     }
 

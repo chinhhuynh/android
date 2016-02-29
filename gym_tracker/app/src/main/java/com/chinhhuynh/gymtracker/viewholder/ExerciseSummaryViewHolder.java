@@ -51,10 +51,10 @@ public final class ExerciseSummaryViewHolder extends RecyclerView.ViewHolder {
 
         mExercise = exerciseSummary.mExercise;
 
-        mDuration.setText(String.valueOf(exerciseSummary.mDuration));
-        mWeight.setText(String.valueOf(exerciseSummary.mWeight));
-        mSets.setText(String.valueOf(exerciseSummary.mSet));
-        mReps.setText(String.valueOf(exerciseSummary.mRep));
+        mDuration.setText(String.valueOf(exerciseSummary.duration));
+        mWeight.setText(String.valueOf(exerciseSummary.weight));
+        mSets.setText(String.valueOf(exerciseSummary.set));
+        mReps.setText(String.valueOf(exerciseSummary.rep));
     }
 
     public void onViewAttachedToWindow() {

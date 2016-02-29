@@ -10,12 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.bumptech.glide.Glide;
 import com.chinhhuynh.gymtracker.model.Exercise;
+import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 
 /**
  * Adapter for workout session.
@@ -31,6 +34,7 @@ public class WorkoutSessionAdapter extends BaseAdapter {
     private final LayoutInflater mLayoutInflater;
     private final List<Exercise> mExercises;
     private final Set<Exercise> mCompleted;
+    private final Map<Exercise, ExerciseSummary> mSummaries;
 
     private boolean mIsEditMode;
     private EventListener mListener;
@@ -40,6 +44,7 @@ public class WorkoutSessionAdapter extends BaseAdapter {
         mLayoutInflater = LayoutInflater.from(context);
         mExercises = new ArrayList<>();
         mCompleted = new HashSet<>();
+        mSummaries = new HashMap<>();
     }
 
     @Override
@@ -65,8 +70,14 @@ public class WorkoutSessionAdapter extends BaseAdapter {
 
         final Exercise exercise = mExercises.get(position);
         ExerciseViewHolder viewHolder = (ExerciseViewHolder) convertView.getTag();
-        viewHolder.title.setText(exercise.mExerciseName);
 
+        // texts
+        viewHolder.title.setText(exercise.mExerciseName);
+        String subText = getExerciseSubText(exercise);
+        viewHolder.subText.setText(subText);
+        viewHolder.subText.setVisibility(subText == null ? View.GONE : View.VISIBLE);
+
+        // action icon
         Drawable actionIcon = getActionIcon(exercise);
         if (actionIcon != null) {
             viewHolder.action.setImageDrawable(getActionIcon(exercise));
@@ -86,6 +97,7 @@ public class WorkoutSessionAdapter extends BaseAdapter {
             }
         });
 
+        // exercise icon
         Glide.with(mContext)
                 .load(exercise.getIconAbsolutePath())
                 .asBitmap()
@@ -106,8 +118,9 @@ public class WorkoutSessionAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void setExerciseCompleted(Exercise exercise) {
-        mCompleted.add(exercise);
+    public void setExerciseCompleted(ExerciseSummary summary) {
+        mCompleted.add(summary.mExercise);
+        mSummaries.put(summary.mExercise, summary);
         notifyDataSetChanged();
     }
 
@@ -134,6 +147,14 @@ public class WorkoutSessionAdapter extends BaseAdapter {
             return mContext.getResources().getDrawable(R.drawable.ic_clear_black_24dp);
         } else if (mCompleted.contains(exercise)) {
             return  mContext.getResources().getDrawable(R.drawable.ic_check_black_24dp);
+        }
+        return null;
+    }
+
+    private String getExerciseSubText(Exercise exercise) {
+        ExerciseSummary summary = mSummaries.get(exercise);
+        if (summary != null) {
+            return String.format("%d seconds | %d sets | %s lbs", summary.duration, summary.set, summary.weight);
         }
         return null;
     }

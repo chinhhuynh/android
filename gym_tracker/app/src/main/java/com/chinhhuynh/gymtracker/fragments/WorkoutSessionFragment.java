@@ -122,7 +122,7 @@ public final class WorkoutSessionFragment extends Fragment implements
     }
 
     @Override
-    public void onWorkoutCompleted(@NotNull ExerciseSummary summary) {
+    public void onExerciseCompleted(@NotNull ExerciseSummary summary) {
         Fragment workout = mActivity.getSupportFragmentManager().findFragmentByTag(WorkoutFragment.TAG);
         mActivity.getSupportFragmentManager()
                 .beginTransaction()
@@ -196,8 +196,8 @@ public final class WorkoutSessionFragment extends Fragment implements
     }
 
     private void updateExercise(ExerciseSummary summary) {
-        if (summary.mSet > 0) {
-            mExercisesAdapter.setExerciseCompleted(summary.mExercise);
+        if (summary.set > 0) {
+            mExercisesAdapter.setExerciseCompleted(summary);
         }
     }
 

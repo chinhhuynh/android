@@ -2,8 +2,10 @@ package com.chinhhuynh.gymtracker.views;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -21,12 +23,15 @@ import android.widget.TextView;
 
 import java.io.File;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.database.table.ExerciseTable;
 import com.chinhhuynh.gymtracker.loaders.ExerciseLoader;
 import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
-import utils.ThreadUtils;
 
 public final class ExercisePickerDialog {
 
@@ -59,6 +64,7 @@ public final class ExercisePickerDialog {
     };
 
     private final Context mContext;
+    private final Resources mResources;
     private final LayoutInflater mLayoutInflater;
     private final LoaderManager mLoaderManager;
     private final int mLayoutResId;
@@ -80,12 +86,13 @@ public final class ExercisePickerDialog {
 
     public ExercisePickerDialog(Context context, int layoutResId, LoaderManager loaderManager) {
         mContext = context;
+        mResources = mContext.getResources();
         mLayoutInflater = LayoutInflater.from(context);
         mLoaderManager = loaderManager;
         mLayoutResId = layoutResId;
 
-        mIconSize = context.getResources().getDimensionPixelOffset(R.dimen.exercise_picker_icon_size);
-        mIconPadding = context.getResources().getDimensionPixelOffset(R.dimen.exercise_picker_icon_padding);
+        mIconSize = mResources.getDimensionPixelOffset(R.dimen.exercise_picker_icon_size);
+        mIconPadding = mResources.getDimensionPixelOffset(R.dimen.exercise_picker_icon_padding);
     }
 
     public ExercisePickerDialog listener(EventsListener listener) {
@@ -227,18 +234,31 @@ public final class ExercisePickerDialog {
 
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            return mLayoutInflater.inflate(android.R.layout.simple_list_item_1, null);
+            final TextView textView = (TextView) mLayoutInflater.inflate(android.R.layout.simple_list_item_1, null);
+            Target target = new SimpleTarget<Bitmap>(mIconSize, mIconSize) {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                    textView.setCompoundDrawablesWithIntrinsicBounds(
+                            new BitmapDrawable(mResources, resource), null, null, null);
+                }
+            };
+            textView.setTag(target);
+            return textView;
         }
 
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
             Exercise exercise = getExercise(cursor);
-            exercise.mIconDrawable.setBounds(0, 0, mIconSize, mIconSize);
 
-            TextView exerciseView = (TextView) view.findViewById(android.R.id.text1);
+            final TextView exerciseView = (TextView) view.findViewById(android.R.id.text1);
             exerciseView.setText(exercise.mExerciseName);
             exerciseView.setCompoundDrawablePadding(mIconPadding);
-            exerciseView.setCompoundDrawables(exercise.mIconDrawable, null, null, null);
+
+            File icon = new File(mExerciseFolder, exercise.mIconFileName);
+            Glide.with(mContext)
+                    .load(icon.getAbsolutePath())
+                    .asBitmap()
+                    .into((Target) view.getTag());
         }
 
         @Override
@@ -248,19 +268,11 @@ public final class ExercisePickerDialog {
         }
 
         private Exercise getExercise(Cursor cursor) {
-            ThreadUtils.assertBackgroundThread();
-
             String name = cursor.getString(ExerciseTable.COL_IDX_NAME);
             String muscleGroup = cursor.getString(ExerciseTable.COL_IDX_MUSCLE_GROUP);
             String iconFileName = cursor.getString(ExerciseTable.COL_IDX_ICON_FILE_NAME);
 
-            File icon = new File(mExerciseFolder, iconFileName);
-            Drawable iconDrawable = Drawable.createFromPath(icon.getAbsolutePath());
-
-            Exercise exercise = new Exercise(name, muscleGroup, iconFileName);
-            exercise.mIconDrawable = iconDrawable;
-
-            return exercise;
+            return new Exercise(name, muscleGroup, iconFileName);
         }
     }
 }

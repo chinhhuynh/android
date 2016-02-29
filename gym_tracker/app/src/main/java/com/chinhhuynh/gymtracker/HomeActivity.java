@@ -43,7 +43,8 @@ public class HomeActivity extends AppCompatActivity implements
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.content, mWorkoutSessionFragment)
+                    .replace(R.id.content, mWorkoutSessionFragment, WorkoutSessionFragment.class.getSimpleName())
+                    .addToBackStack(WorkoutSessionFragment.class.getSimpleName())
                     .commit();
         }
 
@@ -122,7 +123,10 @@ public class HomeActivity extends AppCompatActivity implements
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content, fragment)
+                .addToBackStack(fragment.getClass().getSimpleName())
+                .commit();
 
         // Highlight the selected item, update the title, and close the drawer
         menuItem.setChecked(true);

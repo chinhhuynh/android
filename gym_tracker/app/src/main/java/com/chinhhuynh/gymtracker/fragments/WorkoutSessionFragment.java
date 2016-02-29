@@ -21,12 +21,14 @@ import com.chinhhuynh.gymtracker.WorkoutSessionAdapter;
 import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import com.chinhhuynh.gymtracker.views.ExercisePickerDialog;
+import com.chinhhuynh.lifecycle.activity.OnBackPressed;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Fragment for creating a workout session.
  */
 public final class WorkoutSessionFragment extends Fragment implements
+        OnBackPressed,
         ExercisePickerDialog.EventsListener,
         WorkoutSessionAdapter.EventListener,
         WorkoutFragment.WorkoutEventListener {
@@ -80,6 +82,15 @@ public final class WorkoutSessionFragment extends Fragment implements
     public void onStart() {
         super.onStart();
         setupActionBar();
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (mIsEditing) {
+            onFinishEditing();
+            return true;
+        }
+        return false;
     }
 
     @Override

@@ -16,7 +16,7 @@ import com.chinhhuynh.gymtracker.log.Timber;
 
 public final class ExtractAssetsTask extends AsyncTask<Void, Void, Void> {
 
-    private static final String TAG = "ExtractAssetsTask";
+    private static final String TAG = ExtractAssetsTask.class.getSimpleName();
 
     public static final String EXERCISE_FOLDER = "exercises";
 

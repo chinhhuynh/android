@@ -14,7 +14,7 @@ import android.view.ViewGroup;
  */
 public final class CreateWorkoutFragment extends Fragment {
 
-    public static final String TAG = "CreateWorkoutFragment";
+    public static final String TAG = CreateWorkoutFragment.class.getSimpleName();
 
     private View mFragmentLayout;
 

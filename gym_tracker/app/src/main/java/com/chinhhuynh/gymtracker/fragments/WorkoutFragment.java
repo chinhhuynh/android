@@ -38,7 +38,7 @@ public final class WorkoutFragment extends Fragment implements
         OnBackPressed,
         RestCountdown.CountdownListener {
 
-    public static final String TAG = "WorkoutFragment";
+    public static final String TAG = WorkoutFragment.class.getSimpleName();
 
     public interface WorkoutEventListener {
         void onWorkoutCompleted(@NotNull ExerciseSummary summary);

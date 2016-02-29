@@ -31,7 +31,7 @@ import com.cocosw.bottomsheet.BottomSheet;
  */
 public final class WorkoutHistoryFragment extends Fragment {
 
-    public static final String TAG = "WorkoutHistoryFragment";
+    public static final String TAG = WorkoutHistoryFragment.class.getSimpleName();
 
     private AppCompatActivity mActivity;
     private Context mContext;

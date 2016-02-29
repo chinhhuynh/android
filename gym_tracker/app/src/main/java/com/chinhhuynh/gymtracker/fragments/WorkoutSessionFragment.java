@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,8 +26,10 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Fragment for creating a workout session.
  */
-public final class WorkoutSessionFragment extends Fragment implements ExercisePickerDialog.EventsListener,
-        WorkoutSessionAdapter.EventListener, WorkoutFragment.WorkoutEventListener {
+public final class WorkoutSessionFragment extends Fragment implements
+        ExercisePickerDialog.EventsListener,
+        WorkoutSessionAdapter.EventListener,
+        WorkoutFragment.WorkoutEventListener {
 
     public static final String TAG = WorkoutSessionFragment.class.getSimpleName();
     private static final int ANIMATION_DURATION_MS = 100;

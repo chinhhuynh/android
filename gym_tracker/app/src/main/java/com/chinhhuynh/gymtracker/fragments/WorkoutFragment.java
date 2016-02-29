@@ -199,8 +199,9 @@ public final class WorkoutFragment extends Fragment implements
     }
 
     @Override
-    public void onBackPressed() {
+    public boolean onBackPressed() {
         onWorkoutCompleted();
+        return true;
     }
 
     @Override

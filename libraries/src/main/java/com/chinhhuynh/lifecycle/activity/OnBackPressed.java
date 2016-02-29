@@ -8,5 +8,5 @@ import android.app.Activity;
  */
 public interface OnBackPressed {
 
-    void onBackPressed();
+    boolean onBackPressed();
 }

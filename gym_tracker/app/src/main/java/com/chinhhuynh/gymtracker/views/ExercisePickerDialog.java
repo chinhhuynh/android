@@ -2,6 +2,7 @@ package com.chinhhuynh.gymtracker.views;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -114,6 +116,17 @@ public final class ExercisePickerDialog {
         mLoaderManager.initLoader(EXERCISE_LOADER, null, mExerciseLoaderCallbacks);
 
         mAlertDialog = alertDialogBuilder.create();
+        mAlertDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK
+                        && mLayoutView.getCurrentItem() == EXERCISE_POSITION) {
+                    mLayoutView.setCurrentItem(MUSCLE_GROUP_POSITION, true /*smoothScroll*/);
+                    return true;
+                }
+                return false;
+            }
+        });
         mAlertDialog.show();
     }
 

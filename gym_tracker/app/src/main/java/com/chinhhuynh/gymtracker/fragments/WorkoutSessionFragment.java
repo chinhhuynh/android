@@ -1,6 +1,7 @@
 package com.chinhhuynh.gymtracker.fragments;
 
 import android.animation.Animator;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,6 +24,8 @@ import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import com.chinhhuynh.gymtracker.views.ExercisePickerDialog;
 import com.chinhhuynh.lifecycle.activity.OnBackPressed;
 import org.jetbrains.annotations.NotNull;
+
+import static android.support.v4.app.FragmentManager.*;
 
 /**
  * Fragment for creating a workout session.
@@ -129,6 +132,7 @@ public final class WorkoutSessionFragment extends Fragment implements
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                 .remove(workout)
                 .commit();
+        mActivity.getSupportFragmentManager().popBackStack(workout.getTag(), POP_BACK_STACK_INCLUSIVE);
         updateExercise(summary);
     }
 

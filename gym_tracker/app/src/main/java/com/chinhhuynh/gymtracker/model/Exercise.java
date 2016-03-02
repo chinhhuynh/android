@@ -32,6 +32,16 @@ public final class Exercise {
     }
 
     @Override
+    public boolean equals(Object object) {
+        if (object instanceof Exercise) {
+            Exercise other = (Exercise) object;
+            return mExerciseName.equals(other.mExerciseName)
+                    && mMuscleGroup.equals(other.mMuscleGroup);
+        }
+        return false;
+    }
+
+    @Override
     public int hashCode() {
         int result = 17;
         result = 31 * result + mExerciseName.hashCode();

@@ -70,7 +70,7 @@ public final class StartButton extends View {
         mBackgroundPaint = new Paint();
         mBackgroundPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         mBackgroundPaint.setStyle(Paint.Style.FILL);
-        mBackgroundPaint.setColor(Color.GRAY);
+        mBackgroundPaint.setColor(getResources().getColor(R.color.md_black_1000));
 
         mIconPaint = new Paint();
         mIconPaint.setFlags(Paint.ANTI_ALIAS_FLAG);

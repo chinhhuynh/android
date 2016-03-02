@@ -2,15 +2,27 @@ package com.chinhhuynh.gymtracker.model;
 
 public final class ExerciseSummary {
 
-    public final Exercise mExercise;
+    public final Exercise exercise;
 
+    public long startTime;
     public int duration;
     public int weight;
     public int set;
+    public int rest;
     public int rep;
 
     public ExerciseSummary(Exercise exercise) {
-        mExercise = exercise;
+        this.exercise = exercise;
+    }
+
+    public ExerciseSummary(ExerciseSummary other) {
+        exercise = other.exercise;
+
+        startTime = other.startTime;
+        duration = other.duration;
+        weight = other.weight;
+        set = other.set;
+        rest = other.rest;
     }
 
     public ExerciseSummary setDuration(int duration) {
@@ -25,6 +37,11 @@ public final class ExerciseSummary {
 
     public ExerciseSummary setSet(int set) {
         this.set = set;
+        return this;
+    }
+
+    public ExerciseSummary setRest(int rest) {
+        this.rest = rest;
         return this;
     }
 

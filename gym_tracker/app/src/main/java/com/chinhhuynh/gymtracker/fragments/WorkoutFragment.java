@@ -76,15 +76,16 @@ public final class WorkoutFragment extends Fragment implements
     private TextView mRestDurationView;
 
     private Exercise mExercise;
+    private ExerciseSummary mSummary;
     private WorkoutEventListener mListener;
     private int mDurationSec;
 
-    private long mStartTime;
+    private long mCurrentSetStartTime;
     private Runnable mClockTimer = new Runnable() {
         @Override
         public void run() {
             long now = System.currentTimeMillis();
-            long seconds = TimeUnit.MILLISECONDS.toSeconds(now - mStartTime);
+            long seconds = TimeUnit.MILLISECONDS.toSeconds(now - mCurrentSetStartTime);
             mClockView.setText(String.format(CLOCK_DISPLAY, seconds / 60, seconds % 60));
             mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
         }
@@ -189,6 +190,8 @@ public final class WorkoutFragment extends Fragment implements
                     }
                 });
 
+        initViews();
+
         return fragmentLayout;
     }
 
@@ -214,12 +217,13 @@ public final class WorkoutFragment extends Fragment implements
         mRestCountdownView.setRestDuration(getCurrentRestDuration());
         mRestCountdownView.setVisibility(View.VISIBLE);
 
-        mStartTime = System.currentTimeMillis();
+        mCurrentSetStartTime = System.currentTimeMillis();
         mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
     }
 
-    public WorkoutFragment setExercise(Exercise exercise) {
+    public WorkoutFragment setExercise(Exercise exercise, ExerciseSummary summary) {
         mExercise = exercise;
+        mSummary = summary == null ? new ExerciseSummary(exercise) : new ExerciseSummary(summary);
         return this;
     }
 
@@ -228,12 +232,25 @@ public final class WorkoutFragment extends Fragment implements
         return this;
     }
 
+    private void initViews() {
+        mSetView.setText(String.valueOf(mSummary.set));
+        mWeightView.setText(String.valueOf(mSummary.weight));
+        if (mSummary.rest != 0) {
+            mRestDurationView.setText(String.valueOf(mSummary.rest));
+        }
+    }
+
     private void startWorkout() {
         mRestCountdownView.stop();
         mRestCountdownView.setRestDuration(getCurrentRestDuration());
         mRestCountdownView.setVisibility(View.VISIBLE);
 
-        mStartTime = System.currentTimeMillis();
+        long now = System.currentTimeMillis();
+        if (mSummary.startTime == 0) {
+            mSummary.startTime = now;
+        }
+
+        mCurrentSetStartTime = now;
         mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
         changeToStopButton();
     }
@@ -241,8 +258,9 @@ public final class WorkoutFragment extends Fragment implements
     private void setStopWorkoutState() {
         mClockView.setText(CLOCK_RESET);
         mHandler.removeCallbacks(mClockTimer);
-        if (mStartTime != 0) {
-            mDurationSec += TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - mStartTime);
+        if (mCurrentSetStartTime != 0) {
+            mDurationSec += TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - mCurrentSetStartTime);
+            mCurrentSetStartTime = 0;
         }
     }
 
@@ -315,12 +333,12 @@ public final class WorkoutFragment extends Fragment implements
         setStopWorkoutState();
         setStopRestCountdownState();
 
-        ExerciseSummary summary = new ExerciseSummary(mExercise);
-        summary.setWeight(Integer.parseInt(mWeightView.getText().toString()));
-        summary.setSet(Integer.parseInt(mSetView.getText().toString()));
-        summary.setDuration(mDurationSec);
+        mSummary.setWeight(Integer.parseInt(mWeightView.getText().toString()))
+                .setSet(Integer.parseInt(mSetView.getText().toString()))
+                .setDuration(mDurationSec + mSummary.duration)
+                .setRep(Integer.parseInt(mRestDurationView.getText().toString()));
         if (mListener != null) {
-            mListener.onExerciseCompleted(summary);
+            mListener.onExerciseCompleted(mSummary);
         }
     }
 

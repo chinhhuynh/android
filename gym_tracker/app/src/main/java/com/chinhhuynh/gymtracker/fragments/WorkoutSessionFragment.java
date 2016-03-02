@@ -1,7 +1,6 @@
 package com.chinhhuynh.gymtracker.fragments;
 
 import android.animation.Animator;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,6 +24,9 @@ import com.chinhhuynh.gymtracker.views.ExercisePickerDialog;
 import com.chinhhuynh.lifecycle.activity.OnBackPressed;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static android.support.v4.app.FragmentManager.*;
 
 /**
@@ -41,6 +43,7 @@ public final class WorkoutSessionFragment extends Fragment implements
 
     private AppCompatActivity mActivity;
     private Context mContext;
+    private Map<Exercise, ExerciseSummary> mSummaries;
 
     private FloatingActionButton mFab;
     private ExercisePickerDialog mExercisePicker;
@@ -58,6 +61,7 @@ public final class WorkoutSessionFragment extends Fragment implements
 
         mContext = getContext();
         mActivity = (AppCompatActivity) getActivity();
+        mSummaries = new HashMap<>();
 
         mExercisePicker = new ExercisePickerDialog(mContext, R.layout.exercise_picker, getLoaderManager())
                 .listener(this);
@@ -139,7 +143,7 @@ public final class WorkoutSessionFragment extends Fragment implements
     @Override
     public void onItemClicked(Exercise exercise) {
         WorkoutFragment workout = new WorkoutFragment();
-        workout.setExercise(exercise)
+        workout.setExercise(exercise, mSummaries.get(exercise))
                 .setListener(this);
         mActivity.getSupportFragmentManager()
                 .beginTransaction()
@@ -202,6 +206,7 @@ public final class WorkoutSessionFragment extends Fragment implements
     private void updateExercise(ExerciseSummary summary) {
         if (summary.set > 0) {
             mExercisesAdapter.setExerciseCompleted(summary);
+            mSummaries.put(summary.exercise, summary);
         }
     }
 

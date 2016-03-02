@@ -119,8 +119,8 @@ public class WorkoutSessionAdapter extends BaseAdapter {
     }
 
     public void setExerciseCompleted(ExerciseSummary summary) {
-        mCompleted.add(summary.mExercise);
-        mSummaries.put(summary.mExercise, summary);
+        mCompleted.add(summary.exercise);
+        mSummaries.put(summary.exercise, summary);
         notifyDataSetChanged();
     }
 

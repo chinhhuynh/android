@@ -45,11 +45,11 @@ public final class ExerciseSummaryViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(ExerciseSummary exerciseSummary) {
         if (mExercise != null &&
-                !TextUtils.equals(mExercise.mExerciseName, exerciseSummary.mExercise.mExerciseName)) {
+                !TextUtils.equals(mExercise.mExerciseName, exerciseSummary.exercise.mExerciseName)) {
             Glide.clear(mViewTarget);
         }
 
-        mExercise = exerciseSummary.mExercise;
+        mExercise = exerciseSummary.exercise;
 
         mDuration.setText(String.valueOf(exerciseSummary.duration));
         mWeight.setText(String.valueOf(exerciseSummary.weight));

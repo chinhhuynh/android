@@ -69,6 +69,7 @@ public final class ExercisePickerDialog {
     private final int mLayoutResId;
     private final int mIconSize;
     private final int mIconPadding;
+    private final int mExerciseLeftPadding;
 
     private AlertDialog mAlertDialog;
     private ViewPager mLayoutView;
@@ -92,6 +93,7 @@ public final class ExercisePickerDialog {
 
         mIconSize = mResources.getDimensionPixelOffset(R.dimen.exercise_picker_icon_size);
         mIconPadding = mResources.getDimensionPixelOffset(R.dimen.exercise_picker_icon_padding);
+        mExerciseLeftPadding = mResources.getDimensionPixelOffset(R.dimen.activity_horizontal_margin);
     }
 
     public ExercisePickerDialog listener(EventsListener listener) {
@@ -241,6 +243,7 @@ public final class ExercisePickerDialog {
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
             final TextView textView = (TextView) mLayoutInflater.inflate(android.R.layout.simple_list_item_1, null);
+            textView.setPadding(mExerciseLeftPadding, 0, 0, 0);
             Target target = new SimpleTarget<Bitmap>(mIconSize, mIconSize) {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {

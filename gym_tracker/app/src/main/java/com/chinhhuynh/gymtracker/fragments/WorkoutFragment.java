@@ -235,8 +235,8 @@ public final class WorkoutFragment extends Fragment implements
     private void initViews() {
         mSetView.setText(String.valueOf(mSummary.set));
         mWeightView.setText(String.valueOf(mSummary.weight));
-        if (mSummary.rest != 0) {
-            mRestDurationView.setText(String.valueOf(mSummary.rest));
+        if (mSummary.restDuration != 0) {
+            mRestDurationView.setText(String.valueOf(mSummary.restDuration));
         }
     }
 

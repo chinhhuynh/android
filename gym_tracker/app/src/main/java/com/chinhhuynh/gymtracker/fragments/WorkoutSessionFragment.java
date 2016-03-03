@@ -155,6 +155,7 @@ public final class WorkoutSessionFragment extends Fragment implements
 
     @Override
     public void onItemRemoved(Exercise exercise) {
+        mSummaries.remove(exercise);
         updateMenu();
         if (!hasExercise()) {
             onFinishEditing();

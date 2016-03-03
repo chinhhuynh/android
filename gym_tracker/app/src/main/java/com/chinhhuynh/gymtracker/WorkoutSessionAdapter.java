@@ -197,6 +197,8 @@ public class WorkoutSessionAdapter extends BaseAdapter {
         public void onClick(View v) {
             if (mIsEditMode) {
                 mExercises.remove(mExercise);
+                mSummaries.remove(mExercise);
+                mCompleted.remove(mExercise);
                 notifyItemRemoved(mExercise);
                 notifyDataSetChanged();
             }

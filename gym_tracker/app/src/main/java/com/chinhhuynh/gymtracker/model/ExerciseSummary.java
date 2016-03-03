@@ -8,7 +8,7 @@ public final class ExerciseSummary {
     public int duration;
     public int weight;
     public int set;
-    public int rest;
+    public int restDuration;
     public int rep;
 
     public ExerciseSummary(Exercise exercise) {
@@ -22,7 +22,7 @@ public final class ExerciseSummary {
         duration = other.duration;
         weight = other.weight;
         set = other.set;
-        rest = other.rest;
+        restDuration = other.restDuration;
     }
 
     public ExerciseSummary setDuration(int duration) {
@@ -40,8 +40,8 @@ public final class ExerciseSummary {
         return this;
     }
 
-    public ExerciseSummary setRest(int rest) {
-        this.rest = rest;
+    public ExerciseSummary setRestDuration(int restDuration) {
+        this.restDuration = restDuration;
         return this;
     }
 

@@ -7,14 +7,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
-
-import java.io.File;
 
 public final class ExerciseSummaryViewHolder extends RecyclerView.ViewHolder {
 
@@ -24,7 +24,6 @@ public final class ExerciseSummaryViewHolder extends RecyclerView.ViewHolder {
     private final TextView mDuration;
     private final TextView mWeight;
     private final TextView mSets;
-    private final TextView mReps;
 
     private Exercise mExercise;
     private BitmapImageViewTarget mViewTarget;
@@ -38,7 +37,6 @@ public final class ExerciseSummaryViewHolder extends RecyclerView.ViewHolder {
         mDuration = (TextView) itemView.findViewById(R.id.duration);
         mWeight = (TextView) itemView.findViewById(R.id.workout_weight);
         mSets = (TextView) itemView.findViewById(R.id.sets);
-        mReps = (TextView) itemView.findViewById(R.id.reps);
 
         mViewTarget = new BitmapImageViewTarget(mIconView);
     }
@@ -56,7 +54,6 @@ public final class ExerciseSummaryViewHolder extends RecyclerView.ViewHolder {
         mDuration.setText(String.valueOf(durationMin));
         mWeight.setText(String.valueOf(exerciseSummary.weight));
         mSets.setText(String.valueOf(exerciseSummary.set));
-        mReps.setText(String.valueOf(exerciseSummary.rep));
     }
 
     public void onViewAttachedToWindow() {

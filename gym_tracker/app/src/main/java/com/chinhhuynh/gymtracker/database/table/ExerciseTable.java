@@ -18,11 +18,11 @@ public final class ExerciseTable extends DbTable<Exercise> {
     public static final int COL_IDX_MUSCLE_GROUP = 2;
     public static final int COL_IDX_ICON_FILE_NAME = 3;
 
-    private static final String TABLE_NAME = "Exercise";
+    public static final String TABLE_NAME = "Exercise";
 
-    private static final String COL_NAME = "name";
-    private static final String COL_MUSCLE_GROUP = "muscle_group";
-    private static final String COL_ICON_FILE_NAME = "icon_file_name";
+    public static final String COL_NAME = "name";
+    public static final String COL_MUSCLE_GROUP = "muscle_group";
+    public static final String COL_ICON_FILE_NAME = "icon_file_name";
 
     private static final String[][] COLUMNS = {
             { _ID, DataType.TEXT },

@@ -19,6 +19,7 @@ public final class WorkoutTable extends DbTable<ExerciseSummary> {
     public static final int COL_IDX_START_TIME = 5;
     public static final int COL_IDX_WORKOUT_DURATION = 6;
     public static final int COL_IDX_REST_DURATION = 7;
+    public static final int COL_IDX_EXERCISE_ICON_FILE_NAME = 8;
 
     private static final String TABLE_NAME = "Workout";
 
@@ -51,6 +52,13 @@ public final class WorkoutTable extends DbTable<ExerciseSummary> {
             COL_WORKOUT_DURATION,
             COL_REST_DURATION,
     };
+
+    private static String SQL_QUERY_BY_TIME_RANGE =
+            "SELECT workout.*, exercise.%s " +
+            "FROM %s workout INNER JOIN %s exercise " +
+            "ON workout.%s=exercise.%s AND workout.%s=exercise.%s " +
+            "WHERE workout.%s BETWEEN %s and %s " +
+            "ORDER BY %s DESC";
 
     private static WorkoutTable INSTANCE;
 
@@ -108,11 +116,10 @@ public final class WorkoutTable extends DbTable<ExerciseSummary> {
     public static Cursor queryByTimeRange(long start, long end) {
         SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
 
-        String selection = String.format("%s BETWEEN ? AND ?", WorkoutTable.COL_START_TIME);
-        String orderBy = String.format("%s DESC", WorkoutTable.COL_START_TIME);
+        String query = String.format(SQL_QUERY_BY_TIME_RANGE, ExerciseTable.COL_ICON_FILE_NAME, TABLE_NAME,
+                ExerciseTable.TABLE_NAME, COL_EXERCISE_NAME, ExerciseTable.COL_NAME, COL_EXERCISE_MUSCLE_GROUP,
+                ExerciseTable.COL_MUSCLE_GROUP, COL_START_TIME, String.valueOf(start), String.valueOf(end), COL_START_TIME);
 
-        return db.query(TABLE_NAME, PROJECTION /*columns*/, selection,
-                new String[] { String.valueOf(start), String.valueOf(end) } /*selectionArgs*/,
-                null /*groupBy*/, null /*having*/, orderBy);
+        return db.rawQuery(query, null);
     }
 }

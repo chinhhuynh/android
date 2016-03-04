@@ -101,6 +101,7 @@ public class HomeActivity extends AppCompatActivity implements
             do {
                 String exerciseName = cursor.getString(WorkoutTable.COL_IDX_EXERCISE_NAME);
                 String muscleGroup = cursor.getString(WorkoutTable.COL_IDX_EXERCISE_MUSCLE_GROUP);
+                String iconFileName = cursor.getString(WorkoutTable.COL_IDX_EXERCISE_ICON_FILE_NAME);
                 String startTime = cursor.getString(WorkoutTable.COL_IDX_START_TIME);
                 String set = cursor.getString(WorkoutTable.COL_IDX_SET_COUNT);
                 String weight = cursor.getString(WorkoutTable.COL_IDX_WEIGHT);

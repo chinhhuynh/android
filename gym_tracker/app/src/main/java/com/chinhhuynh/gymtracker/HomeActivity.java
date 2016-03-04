@@ -31,6 +31,7 @@ public class HomeActivity extends AppCompatActivity implements
     private ActionBarDrawerToggle mDrawerToggle;
 
     private Fragment mWorkoutSessionFragment;
+    private Fragment mWorkoutHistoryFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +41,13 @@ public class HomeActivity extends AppCompatActivity implements
         initializeToolbar();
 
         mWorkoutSessionFragment = new WorkoutSessionFragment();
+        mWorkoutHistoryFragment = new WorkoutHistoryFragment();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.content, mWorkoutSessionFragment, WorkoutSessionFragment.class.getSimpleName())
-                    .addToBackStack(WorkoutSessionFragment.class.getSimpleName())
+                    .replace(R.id.content, mWorkoutHistoryFragment, WorkoutHistoryFragment.class.getSimpleName())
+                    .addToBackStack(WorkoutHistoryFragment.class.getSimpleName())
                     .commit();
         }
 

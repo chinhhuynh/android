@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.WorkerThread;
 
+import com.chinhhuynh.gymtracker.database.DatabaseHelper;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import utils.ThreadUtils;
 
@@ -98,5 +99,7 @@ public final class WorkoutTable extends DbTable<ExerciseSummary> {
     @WorkerThread
     public void saveWorkout(ExerciseSummary summary) {
         ThreadUtils.assertBackgroundThread();
+        SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
+        db.insert(TABLE_NAME, null, getContentValues(summary));
     }
 }

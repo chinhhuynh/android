@@ -13,4 +13,8 @@ public class ThreadUtils {
     public static void assertBackgroundThread() {
         Assert.assertFalse(Looper.getMainLooper().getThread() == Thread.currentThread());
     }
+
+    public static void runOnBackgroundThread(Runnable runnable) {
+        Executors.BACKGROUND_EXECUTOR.execute(runnable);
+    }
 }

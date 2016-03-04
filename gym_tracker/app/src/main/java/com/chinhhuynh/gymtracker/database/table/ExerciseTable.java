@@ -3,6 +3,7 @@ package com.chinhhuynh.gymtracker.database.table;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.WorkerThread;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -110,6 +111,7 @@ public final class ExerciseTable extends DbTable<Exercise> {
         return contentValues;
     }
 
+    @WorkerThread
     public static Cursor queryByMuscleGroup(String muscleGroup) {
         SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
         String selection = String.format("%s = ?", ExerciseTable.COL_MUSCLE_GROUP);

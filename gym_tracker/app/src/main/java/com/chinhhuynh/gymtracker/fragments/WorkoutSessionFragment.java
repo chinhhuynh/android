@@ -18,11 +18,14 @@ import android.widget.ListView;
 import com.chinhhuynh.gymtracker.AnimatorEndListener;
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.WorkoutSessionAdapter;
+import com.chinhhuynh.gymtracker.database.table.WorkoutTable;
 import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import com.chinhhuynh.gymtracker.views.ExercisePickerDialog;
 import com.chinhhuynh.lifecycle.activity.OnBackPressed;
 import org.jetbrains.annotations.NotNull;
+import utils.Executors;
+import utils.ThreadUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -204,10 +207,16 @@ public final class WorkoutSessionFragment extends Fragment implements
         }
     }
 
-    private void updateExercise(ExerciseSummary summary) {
+    private void updateExercise(final ExerciseSummary summary) {
         if (summary.set > 0) {
             mExercisesAdapter.setExerciseCompleted(summary);
             mSummaries.put(summary.exercise, summary);
+            ThreadUtils.runOnBackgroundThread(new Runnable() {
+                @Override
+                public void run() {
+                    WorkoutTable.getInstance().saveWorkout(summary);
+                }
+            });
         }
     }
 

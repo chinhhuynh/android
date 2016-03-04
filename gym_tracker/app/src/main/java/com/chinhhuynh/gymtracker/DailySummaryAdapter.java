@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.chinhhuynh.gymtracker.model.DailySummary;
@@ -23,6 +24,8 @@ public final class DailySummaryAdapter extends RecyclerView.Adapter<DailySummary
     public DailySummaryAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
         mRecycledViewPool = new RecyclerView.RecycledViewPool();
+
+        mSummaries = new ArrayList<>();
     }
 
     @Override
@@ -55,8 +58,9 @@ public final class DailySummaryAdapter extends RecyclerView.Adapter<DailySummary
         return ViewType.DAILY_SUMMARY;
     }
 
-    public void setSummaries(List<DailySummary> summaries) {
-        mSummaries = summaries;
+    public void addSummaries(List<DailySummary> summaries) {
+        mSummaries.addAll(summaries);
+        notifyDataSetChanged();
     }
 
     private View newView(ViewGroup parent, int viewType) {

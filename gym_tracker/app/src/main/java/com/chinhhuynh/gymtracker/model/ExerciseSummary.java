@@ -40,6 +40,11 @@ public final class ExerciseSummary {
         return this;
     }
 
+    public ExerciseSummary setStartTime(long startTime) {
+        this.startTime = startTime;
+        return this;
+    }
+
     public ExerciseSummary setRestDuration(int restDuration) {
         this.restDuration = restDuration;
         return this;

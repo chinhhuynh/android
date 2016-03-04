@@ -14,12 +14,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
 import android.view.MenuItem;
 
-import com.chinhhuynh.gymtracker.database.table.ExerciseTable;
+import com.chinhhuynh.gymtracker.database.table.WorkoutTable;
 import com.chinhhuynh.gymtracker.fragments.WorkoutHistoryFragment;
 import com.chinhhuynh.gymtracker.fragments.WorkoutSessionFragment;
-import com.chinhhuynh.gymtracker.loaders.ExerciseLoader;
+import com.chinhhuynh.gymtracker.loaders.SummaryLoader;
 import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
 import com.chinhhuynh.lifecycle.activity.OnBackPressed;
 
@@ -49,10 +50,6 @@ public class HomeActivity extends AppCompatActivity implements
         }
 
         extractAssets();
-
-        ExerciseLoader loader = new ExerciseLoader(this, "Sit up");
-        loader.registerListener(0 /*id*/, this);
-        loader.startLoading();
     }
 
     @Override
@@ -81,6 +78,16 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        long now = System.currentTimeMillis();
+        SummaryLoader loader = new SummaryLoader(this, now - DateUtils.DAY_IN_MILLIS, now);
+        loader.registerListener(0 /*id*/, this);
+        loader.startLoading();
+    }
+
+    @Override
     public void onLoadComplete(Loader<Cursor> loader, Cursor cursor) {
         if (cursor == null) {
             return;
@@ -90,9 +97,12 @@ public class HomeActivity extends AppCompatActivity implements
                 return;
             }
             do {
-                String exerciseName = cursor.getString(ExerciseTable.COL_IDX_NAME);
-                String muscleGroup = cursor.getString(ExerciseTable.COL_IDX_MUSCLE_GROUP);
-                String iconFileName = cursor.getString(ExerciseTable.COL_IDX_ICON_FILE_NAME);
+                String exerciseName = cursor.getString(WorkoutTable.COL_IDX_EXERCISE_NAME);
+                String muscleGroup = cursor.getString(WorkoutTable.COL_IDX_EXERCISE_MUSCLE_GROUP);
+                String startTime = cursor.getString(WorkoutTable.COL_IDX_START_TIME);
+                String set = cursor.getString(WorkoutTable.COL_IDX_SET_COUNT);
+                String weight = cursor.getString(WorkoutTable.COL_IDX_WEIGHT);
+                String duration = cursor.getString(WorkoutTable.COL_IDX_WORKOUT_DURATION);
             } while (cursor.moveToNext());
         } finally {
             cursor.close();

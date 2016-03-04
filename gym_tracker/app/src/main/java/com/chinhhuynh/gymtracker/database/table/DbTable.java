@@ -7,7 +7,8 @@ import android.provider.BaseColumns;
 public abstract class DbTable<T> implements BaseColumns {
 
     public static DbTable[] TABLES = {
-            ExerciseTable.getInstance()
+            ExerciseTable.getInstance(),
+            WorkoutTable.getInstance(),
     };
 
     /**

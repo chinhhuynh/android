@@ -1,6 +1,7 @@
 package com.chinhhuynh.gymtracker.database.table;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.WorkerThread;
 
@@ -13,7 +14,7 @@ public final class WorkoutTable extends DbTable<ExerciseSummary> {
     public static final int COL_IDX_ID = 0;
     public static final int COL_IDX_EXERCISE_NAME = 1;
     public static final int COL_IDX_EXERCISE_MUSCLE_GROUP = 2;
-    public static final int COL_IDX_SET = 3;
+    public static final int COL_IDX_SET_COUNT = 3;
     public static final int COL_IDX_WEIGHT = 4;
     public static final int COL_IDX_START_TIME = 5;
     public static final int COL_IDX_WORKOUT_DURATION = 6;
@@ -23,7 +24,7 @@ public final class WorkoutTable extends DbTable<ExerciseSummary> {
 
     private static final String COL_EXERCISE_NAME = "exercise_name";
     private static final String COL_EXERCISE_MUSCLE_GROUP = "exercise_muscle_group";
-    private static final String COL_SET = "set";
+    private static final String COL_SET_COUNT = "set_count";
     private static final String COL_WEIGHT = "weight";
     private static final String COL_START_TIME = "start_time";
     private static final String COL_WORKOUT_DURATION = "workout_duration";
@@ -33,7 +34,7 @@ public final class WorkoutTable extends DbTable<ExerciseSummary> {
             { _ID, DataType.TEXT },
             { COL_EXERCISE_NAME, DataType.TEXT },
             { COL_EXERCISE_MUSCLE_GROUP, DataType.TEXT },
-            { COL_SET, DataType.INTEGER },
+            { COL_SET_COUNT, DataType.INTEGER },
             { COL_WEIGHT, DataType.INTEGER },
             { COL_START_TIME, DataType.INTEGER },
             { COL_WORKOUT_DURATION, DataType.INTEGER },
@@ -44,7 +45,7 @@ public final class WorkoutTable extends DbTable<ExerciseSummary> {
             _ID,
             COL_EXERCISE_NAME,
             COL_EXERCISE_MUSCLE_GROUP,
-            COL_SET,
+            COL_SET_COUNT,
             COL_WEIGHT,
             COL_START_TIME,
             COL_WORKOUT_DURATION,
@@ -88,7 +89,7 @@ public final class WorkoutTable extends DbTable<ExerciseSummary> {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_EXERCISE_NAME, summary.exercise.mExerciseName);
         contentValues.put(COL_EXERCISE_MUSCLE_GROUP, summary.exercise.mMuscleGroup);
-        contentValues.put(COL_SET, summary.set);
+        contentValues.put(COL_SET_COUNT, summary.set);
         contentValues.put(COL_WEIGHT, summary.weight);
         contentValues.put(COL_START_TIME, summary.startTime);
         contentValues.put(COL_WORKOUT_DURATION, summary.duration);
@@ -101,5 +102,17 @@ public final class WorkoutTable extends DbTable<ExerciseSummary> {
         ThreadUtils.assertBackgroundThread();
         SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
         db.insert(TABLE_NAME, null, getContentValues(summary));
+    }
+
+    @WorkerThread
+    public static Cursor queryByTimeRange(long start, long end) {
+        SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
+
+        String selection = String.format("%s BETWEEN ? AND ?", WorkoutTable.COL_START_TIME);
+        String orderBy = String.format("%s DESC", WorkoutTable.COL_START_TIME);
+
+        return db.query(TABLE_NAME, PROJECTION /*columns*/, selection,
+                new String[] { String.valueOf(start), String.valueOf(end) } /*selectionArgs*/,
+                null /*groupBy*/, null /*having*/, orderBy);
     }
 }

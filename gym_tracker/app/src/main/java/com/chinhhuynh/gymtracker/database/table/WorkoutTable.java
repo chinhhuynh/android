@@ -2,8 +2,10 @@ package com.chinhhuynh.gymtracker.database.table;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.WorkerThread;
 
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
+import utils.ThreadUtils;
 
 public final class WorkoutTable extends DbTable<ExerciseSummary> {
 
@@ -91,5 +93,10 @@ public final class WorkoutTable extends DbTable<ExerciseSummary> {
         contentValues.put(COL_WORKOUT_DURATION, summary.duration);
         contentValues.put(COL_REST_DURATION, summary.restDuration);
         return contentValues;
+    }
+
+    @WorkerThread
+    public void saveWorkout(ExerciseSummary summary) {
+        ThreadUtils.assertBackgroundThread();
     }
 }

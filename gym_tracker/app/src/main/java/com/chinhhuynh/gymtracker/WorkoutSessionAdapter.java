@@ -154,7 +154,7 @@ public class WorkoutSessionAdapter extends BaseAdapter {
     private String getExerciseSubText(Exercise exercise) {
         ExerciseSummary summary = mSummaries.get(exercise);
         if (summary != null) {
-            return String.format("%d seconds | %d sets | %s lbs", summary.duration, summary.set, summary.weight);
+            return String.format("%d seconds | %d sets | %s lbs", summary.durationSec, summary.set, summary.weight);
         }
         return null;
     }

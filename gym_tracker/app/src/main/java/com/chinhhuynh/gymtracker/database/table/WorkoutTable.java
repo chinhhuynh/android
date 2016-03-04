@@ -100,8 +100,8 @@ public final class WorkoutTable extends DbTable<ExerciseSummary> {
         contentValues.put(COL_SET_COUNT, summary.set);
         contentValues.put(COL_WEIGHT, summary.weight);
         contentValues.put(COL_START_TIME, summary.startTime);
-        contentValues.put(COL_WORKOUT_DURATION, summary.duration);
-        contentValues.put(COL_REST_DURATION, summary.restDuration);
+        contentValues.put(COL_WORKOUT_DURATION, summary.durationSec);
+        contentValues.put(COL_REST_DURATION, summary.restDurationSec);
         return contentValues;
     }
 

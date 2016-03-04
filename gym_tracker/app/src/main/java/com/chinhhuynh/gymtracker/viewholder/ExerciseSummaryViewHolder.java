@@ -51,7 +51,9 @@ public final class ExerciseSummaryViewHolder extends RecyclerView.ViewHolder {
 
         mExercise = exerciseSummary.exercise;
 
-        mDuration.setText(String.valueOf(exerciseSummary.duration));
+        int durationMin = exerciseSummary.durationSec < 60 ? 1 : exerciseSummary.durationSec / 60;
+
+        mDuration.setText(String.valueOf(durationMin));
         mWeight.setText(String.valueOf(exerciseSummary.weight));
         mSets.setText(String.valueOf(exerciseSummary.set));
         mReps.setText(String.valueOf(exerciseSummary.rep));

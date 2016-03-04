@@ -5,10 +5,10 @@ public final class ExerciseSummary {
     public final Exercise exercise;
 
     public long startTime;
-    public int duration;
+    public int durationSec;
     public int weight;
     public int set;
-    public int restDuration;
+    public int restDurationSec;
     public int rep;
 
     public ExerciseSummary(Exercise exercise) {
@@ -19,14 +19,14 @@ public final class ExerciseSummary {
         exercise = other.exercise;
 
         startTime = other.startTime;
-        duration = other.duration;
+        durationSec = other.durationSec;
         weight = other.weight;
         set = other.set;
-        restDuration = other.restDuration;
+        restDurationSec = other.restDurationSec;
     }
 
     public ExerciseSummary setDuration(int duration) {
-        this.duration = duration;
+        this.durationSec = duration;
         return this;
     }
 
@@ -46,7 +46,7 @@ public final class ExerciseSummary {
     }
 
     public ExerciseSummary setRestDuration(int restDuration) {
-        this.restDuration = restDuration;
+        this.restDurationSec = restDuration;
         return this;
     }
 

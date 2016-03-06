@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="@dimen/activity_horizontal_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="@dimen/history_exercise_list_height">
 
     <ImageView
         android:id="@+id/exercise_icon"
         android:layout_centerVertical="true"
-        android:layout_width="@dimen/session_exercise_list_icon_size"
-        android:layout_height="@dimen/session_exercise_list_icon_size"/>
+        android:layout_width="@dimen/history_exercise_list_icon_size"
+        android:layout_height="@dimen/history_exercise_list_icon_size"/>
 
     <LinearLayout
         android:layout_toRightOf="@id/exercise_icon"
@@ -34,4 +34,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
+
+    <ImageView
+        android:src="@drawable/divider"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/exercise_icon"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

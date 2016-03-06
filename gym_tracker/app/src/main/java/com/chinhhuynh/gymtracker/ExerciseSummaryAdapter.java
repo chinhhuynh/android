@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import java.util.List;
 
@@ -15,16 +16,22 @@ import com.chinhhuynh.gymtracker.viewholder.ViewType;
 public final class ExerciseSummaryAdapter extends RecyclerView.Adapter<ExerciseSummaryViewHolder> {
 
     private final LayoutInflater mInflater;
+    private final int mViewHeight;
 
     private List<ExerciseSummary> mExercises;
 
     public ExerciseSummaryAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
+
+        mViewHeight = context.getResources().getDimensionPixelOffset(R.dimen.history_exercise_list_item_height);
     }
 
     @Override
     public ExerciseSummaryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.exercise_summary, parent);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, mViewHeight);
+        view.setLayoutParams(layoutParams);
         ExerciseSummaryViewHolder viewHolder = new ExerciseSummaryViewHolder(view);
         view.setTag(viewHolder);
         return viewHolder;

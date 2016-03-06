@@ -36,4 +36,8 @@
     <dimen name="exercise_picker_icon_size">20dp</dimen>
     <dimen name="session_exercise_list_icon_size">20dp</dimen>
 
+    <!-- Workout History -->
+    <dimen name="history_exercise_list_icon_size">20dp</dimen>
+    <dimen name="history_exercise_list_item_height">70dp</dimen>
+
 </resources>

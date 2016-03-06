@@ -141,6 +141,7 @@ public final class WorkoutSessionFragment extends Fragment implements
                 .commit();
         mActivity.getSupportFragmentManager().popBackStack(workout.getTag(), POP_BACK_STACK_INCLUSIVE);
         updateExercise(summary);
+        showFab();
     }
 
     @Override
@@ -154,6 +155,7 @@ public final class WorkoutSessionFragment extends Fragment implements
                 .add(R.id.drawer_layout, workout, WorkoutFragment.TAG)
                 .addToBackStack(WorkoutFragment.TAG)
                 .commit();
+        hideFab();
     }
 
     @Override
@@ -169,6 +171,17 @@ public final class WorkoutSessionFragment extends Fragment implements
         mIsEditing = false;
         mExercisesAdapter.setEditMode(false /*isEditMode*/);
         updateMenu();
+        showFab();
+    }
+
+    private void onEditing() {
+        mIsEditing = true;
+        mExercisesAdapter.setEditMode(true /*isEditMode*/);
+        updateMenu();
+        hideFab();
+    }
+
+    private void showFab() {
         mFab.setVisibility(View.VISIBLE);
         mFab
                 .animate()
@@ -179,10 +192,7 @@ public final class WorkoutSessionFragment extends Fragment implements
                 .start();
     }
 
-    private void onEditing() {
-        mIsEditing = true;
-        mExercisesAdapter.setEditMode(true /*isEditMode*/);
-        updateMenu();
+    private void hideFab() {
         mFab
                 .animate()
                 .scaleX(0f)

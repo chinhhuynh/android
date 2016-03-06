@@ -1,86 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:padding="@dimen/exercises_gap"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
-    <ImageView android:id="@+id/exercise_icon"
-               android:layout_gravity="center_horizontal"
-               android:layout_width="100dp"
-               android:layout_height="100dp"/>
-    <LinearLayout android:layout_gravity="center_horizontal"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content">
-        <LinearLayout android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:padding="@dimen/exercise_details_gap"
-                      android:orientation="vertical">
-            <TextView android:id="@+id/duration"
-                      android:background="@drawable/round_corner"
-                      android:paddingLeft="@dimen/exercise_details_stat_padding"
-                      android:paddingRight="@dimen/exercise_details_stat_padding"
-                      android:textSize="@dimen/exercise_details_text_size"
-                      android:textColor="@color/md_white_1000"
-                      android:textStyle="bold"
-                      android:textAlignment="center"
-                      android:layout_gravity="center_horizontal"
-                      android:minWidth="@dimen/exercise_details_stat_min_width"
-                      android:layout_width="wrap_content"
-                      android:layout_height="match_parent"/>
-            <TextView android:text="mins"
-                      android:layout_marginTop="@dimen/exercise_details_label_margin_top"
-                      android:layout_gravity="center_horizontal"
-                      android:textAlignment="center"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"/>
-        </LinearLayout>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="@dimen/activity_horizontal_margin"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-        <LinearLayout android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:padding="@dimen/exercise_details_gap"
-                      android:orientation="vertical">
-            <TextView android:id="@+id/workout_weight"
-                      android:background="@drawable/round_corner"
-                      android:paddingLeft="@dimen/exercise_details_stat_padding"
-                      android:paddingRight="@dimen/exercise_details_stat_padding"
-                      android:textSize="@dimen/exercise_details_text_size"
-                      android:textColor="@color/md_white_1000"
-                      android:textStyle="bold"
-                      android:textAlignment="center"
-                      android:layout_gravity="center_horizontal"
-                      android:minWidth="@dimen/exercise_details_stat_min_width"
-                      android:layout_width="wrap_content"
-                      android:layout_height="match_parent"/>
-            <TextView android:text="@string/stat_weight_label"
-                      android:layout_marginTop="@dimen/exercise_details_label_margin_top"
-                      android:layout_gravity="center_horizontal"
-                      android:textAlignment="center"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"/>
-        </LinearLayout>
+    <ImageView
+        android:id="@+id/exercise_icon"
+        android:layout_centerVertical="true"
+        android:layout_width="@dimen/session_exercise_list_icon_size"
+        android:layout_height="@dimen/session_exercise_list_icon_size"/>
 
-        <LinearLayout android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:padding="@dimen/exercise_details_gap"
-                      android:orientation="vertical">
-            <TextView android:id="@+id/sets"
-                      android:background="@drawable/round_corner"
-                      android:paddingLeft="@dimen/exercise_details_stat_padding"
-                      android:paddingRight="@dimen/exercise_details_stat_padding"
-                      android:textSize="@dimen/exercise_details_text_size"
-                      android:textColor="@color/md_white_1000"
-                      android:textStyle="bold"
-                      android:textAlignment="center"
-                      android:layout_gravity="center_horizontal"
-                      android:minWidth="@dimen/exercise_details_stat_min_width"
-                      android:layout_width="wrap_content"
-                      android:layout_height="match_parent"/>
-            <TextView android:text="@string/stat_sets_label"
-                      android:layout_marginTop="@dimen/exercise_details_label_margin_top"
-                      android:layout_gravity="center_horizontal"
-                      android:textAlignment="center"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"/>
-        </LinearLayout>
+    <LinearLayout
+        android:layout_toRightOf="@id/exercise_icon"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/exercise_title"
+            style="@style/TextAppearance.SingleLineItem"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/exercise_subtext"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

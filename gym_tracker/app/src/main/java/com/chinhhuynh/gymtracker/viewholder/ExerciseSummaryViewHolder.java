@@ -2,7 +2,6 @@ package com.chinhhuynh.gymtracker.viewholder;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,11 +20,10 @@ public final class ExerciseSummaryViewHolder extends RecyclerView.ViewHolder {
     private final Context mContext;
 
     private final ImageView mIconView;
-    private final TextView mDuration;
-    private final TextView mWeight;
-    private final TextView mSets;
+    private final TextView mTitleView;
+    private final TextView mSubTextView;
 
-    private Exercise mExercise;
+    private ExerciseSummary mSummary;
     private BitmapImageViewTarget mViewTarget;
 
     public ExerciseSummaryViewHolder(View itemView) {
@@ -34,34 +32,35 @@ public final class ExerciseSummaryViewHolder extends RecyclerView.ViewHolder {
         mContext = itemView.getContext();
 
         mIconView = (ImageView) itemView.findViewById(R.id.exercise_icon);
-        mDuration = (TextView) itemView.findViewById(R.id.duration);
-        mWeight = (TextView) itemView.findViewById(R.id.workout_weight);
-        mSets = (TextView) itemView.findViewById(R.id.sets);
+        mTitleView = (TextView) itemView.findViewById(R.id.exercise_title);
+        mSubTextView = (TextView) itemView.findViewById(R.id.exercise_subtext);
 
         mViewTarget = new BitmapImageViewTarget(mIconView);
     }
 
-    public void bind(ExerciseSummary exerciseSummary) {
-        if (mExercise != null &&
-                !TextUtils.equals(mExercise.mExerciseName, exerciseSummary.exercise.mExerciseName)) {
-            Glide.clear(mViewTarget);
-        }
+    public void bind(ExerciseSummary summary) {
 
-        mExercise = exerciseSummary.exercise;
+        mSummary = summary;
 
-        int durationMin = exerciseSummary.durationSec < 60 ? 1 : exerciseSummary.durationSec / 60;
-
-        mDuration.setText(String.valueOf(durationMin));
-        mWeight.setText(String.valueOf(exerciseSummary.weight));
-        mSets.setText(String.valueOf(exerciseSummary.set));
+        mTitleView.setText(String.valueOf(mSummary.exercise.mExerciseName));
+        mSubTextView.setText(getExerciseSubText(mSummary.exercise));
+        Glide.clear(mViewTarget);
     }
 
     public void onViewAttachedToWindow() {
         File dir = mContext.getDir(ExtractAssetsTask.EXERCISE_FOLDER, Context.MODE_PRIVATE);
-        File icon = new File(dir, mExercise.mIconFileName);
+        File icon = new File(dir, mSummary.exercise.mIconFileName);
         Glide.with(mContext)
                 .load(icon)
                 .asBitmap()
                 .into(mViewTarget);
+    }
+
+    private String getExerciseSubText(Exercise exercise) {
+        if (mSummary != null) {
+            int durationMin = mSummary.durationSec < 60 ? 1 : mSummary.durationSec / 60;
+            return String.format("%d mins | %d sets | %s lbs", durationMin, mSummary.set, mSummary.weight);
+        }
+        return null;
     }
 }

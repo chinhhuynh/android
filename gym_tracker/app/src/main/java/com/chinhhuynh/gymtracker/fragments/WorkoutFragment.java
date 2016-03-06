@@ -211,6 +211,7 @@ public final class WorkoutFragment extends Fragment implements
     public void onCountdownFinished() {
         mVibrator.vibrate(HALF_SECOND);
         mClockView.setText(CLOCK_RESET);
+        mDurationSec += mRestCountdownView.getElapsedSec();
 
         // start the workout again.
         mRestCountdownView.stop();

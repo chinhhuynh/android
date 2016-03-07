@@ -2,7 +2,10 @@ package com.chinhhuynh.gymtracker.fragments;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +13,8 @@ import android.os.Looper;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +27,7 @@ import android.widget.TextView;
 import java.util.concurrent.TimeUnit;
 
 import com.chinhhuynh.gymtracker.GymTrackerApplication;
+import com.chinhhuynh.gymtracker.HomeActivity;
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
@@ -39,6 +45,7 @@ public final class WorkoutFragment extends Fragment implements
         RestCountdown.CountdownListener {
 
     public static final String TAG = WorkoutFragment.class.getSimpleName();
+    public static final int ACTIVE_WORKOUT_NOTIF_ID = 1;
 
     public interface WorkoutEventListener {
         void onExerciseCompleted(@NotNull ExerciseSummary summary);
@@ -69,6 +76,7 @@ public final class WorkoutFragment extends Fragment implements
     private RestCountdown mRestCountdownView;
     private NumberPickerDialog mWeightPicker;
     private NumberPickerDialog mRestDurationPicker;
+    private NotificationManager mNotificationManager;
 
     private Toolbar mToolbar;
     private TextView mSetView;
@@ -106,6 +114,7 @@ public final class WorkoutFragment extends Fragment implements
         mContext = mActivity;
         mHandler = new Handler(Looper.getMainLooper());
         mVibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
+        mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
         mClockView = (TextView) fragmentLayout.findViewById(R.id.clock);
         mStartButton = (StartButton) fragmentLayout.findViewById(R.id.start_button);
@@ -199,6 +208,18 @@ public final class WorkoutFragment extends Fragment implements
     public void onStart() {
         super.onStart();
         setupToolbar();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        showNotification();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mNotificationManager.cancelAll();
     }
 
     @Override
@@ -328,6 +349,23 @@ public final class WorkoutFragment extends Fragment implements
 
     private int getCurrentRestDuration() {
         return Integer.parseInt(mRestDurationView.getText().toString());
+    }
+
+    private void showNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("My notification")
+                .setContentText("Hello World!");
+        Intent resultIntent = new Intent(mContext, HomeActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(mContext);
+        stackBuilder.addParentStack(HomeActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(resultPendingIntent);
+
+        mNotificationManager.notify(ACTIVE_WORKOUT_NOTIF_ID, builder.build());
     }
 
     private void onWorkoutCompleted() {

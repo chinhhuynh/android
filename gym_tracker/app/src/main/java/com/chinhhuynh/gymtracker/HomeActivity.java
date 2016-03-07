@@ -53,14 +53,11 @@ public class HomeActivity extends AppCompatActivity implements
         }
 
         extractAssets();
-
-        startService(new Intent(this, LockScreenService.class));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopService(new Intent(this, LockScreenService.class));
     }
 
     @Override

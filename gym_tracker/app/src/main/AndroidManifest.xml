@@ -3,6 +3,7 @@
           package="com.chinhhuynh.gymtracker">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
         android:name="com.chinhhuynh.gymtracker.GymTrackerApplication"
@@ -20,6 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-    </application>
 
+        <service
+            android:name="com.chinhhuynh.gymtracker.LockScreenService"
+            android:icon="@drawable/play"
+            android:label="@string/app_name"
+            android:enabled="true"/>
+    </application>
 </manifest>

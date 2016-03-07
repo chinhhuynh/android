@@ -1,6 +1,7 @@
 package com.chinhhuynh.gymtracker;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Build;
@@ -52,6 +53,8 @@ public class HomeActivity extends AppCompatActivity implements
         }
 
         extractAssets();
+
+        startService(new Intent(this, LockScreenService.class));
     }
 
     @Override

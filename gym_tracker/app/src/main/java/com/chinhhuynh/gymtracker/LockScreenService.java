@@ -1,7 +1,10 @@
 package com.chinhhuynh.gymtracker;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.Binder;
 import android.os.IBinder;
@@ -11,15 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-public class LockScreenService extends Service {
+public final class LockScreenService extends Service {
 
-    public class LocalBinder extends Binder {
-        LockScreenService getService() {
-            return LockScreenService.this;
-        }
-    }
-
-    private final IBinder mBinder = new LocalBinder();
+    private IBinder mBinder;
+    private WindowManager mWindowManager;
+    private BroadcastReceiver mBroadcastReceiver;
+    private View mLockScreenView;
 
     @Nullable
     @Override
@@ -29,10 +29,23 @@ public class LockScreenService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        WindowManager mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        mBinder = new Binder();
+        mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        mBroadcastReceiver = new ScreenBroadcastReceiver();
+        mLockScreenView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.widget, null);
 
-        View mView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.widget, null);
+        registerReceiver(mBroadcastReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF));
+        registerReceiver(mBroadcastReceiver, new IntentFilter(Intent.ACTION_USER_PRESENT));
+        return START_STICKY;
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mBroadcastReceiver);
+    }
+
+    private void addLockScreenView() {
         WindowManager.LayoutParams mLayoutParams = new WindowManager.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 0, 0,
@@ -42,7 +55,22 @@ public class LockScreenService extends Service {
                         | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
                 PixelFormat.RGBA_8888);
 
-        mWindowManager.addView(mView, mLayoutParams);
-        return START_STICKY;
+        mWindowManager.addView(mLockScreenView, mLayoutParams);
+    }
+
+    private void removeLockScreenView() {
+        mWindowManager.removeView(mLockScreenView);
+    }
+
+    private class ScreenBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
+                addLockScreenView();
+            } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
+                removeLockScreenView();
+            }
+        }
     }
 }

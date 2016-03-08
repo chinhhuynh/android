@@ -1,10 +1,10 @@
 package com.chinhhuynh.gymtracker;
 
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.Binder;
 import android.os.IBinder;
@@ -16,10 +16,12 @@ import android.view.WindowManager;
 
 public final class LockScreenService extends Service {
 
+    private Context mContext;
     private IBinder mBinder;
     private WindowManager mWindowManager;
     private BroadcastReceiver mBroadcastReceiver;
     private View mLockScreenView;
+    private NotificationManager mNotificationManager;
 
     @Nullable
     @Override
@@ -29,20 +31,25 @@ public final class LockScreenService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        mContext = getApplicationContext();
         mBinder = new Binder();
         mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         mBroadcastReceiver = new ScreenBroadcastReceiver();
         mLockScreenView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.widget, null);
+        mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        registerReceiver(mBroadcastReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF));
-        registerReceiver(mBroadcastReceiver, new IntentFilter(Intent.ACTION_USER_PRESENT));
         return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(mBroadcastReceiver);
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        mNotificationManager.cancelAll();
+        stopSelf();
     }
 
     private void addLockScreenView() {

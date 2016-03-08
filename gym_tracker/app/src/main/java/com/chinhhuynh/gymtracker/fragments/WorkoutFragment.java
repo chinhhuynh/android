@@ -353,6 +353,7 @@ public final class WorkoutFragment extends Fragment implements
 
     private void showNotification() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
+                .setOngoing(true)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("My notification")
                 .setContentText("Hello World!");

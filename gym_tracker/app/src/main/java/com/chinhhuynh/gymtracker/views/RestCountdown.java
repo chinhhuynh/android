@@ -22,6 +22,7 @@ import com.chinhhuynh.gymtracker.R;
 public final class RestCountdown extends View {
 
     public interface CountdownListener {
+        void onCountdownChanged(int remaining);
         void onCountdownFinished();
     }
 
@@ -44,8 +45,11 @@ public final class RestCountdown extends View {
         public void run() {
             long now = System.currentTimeMillis();
             int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(now - mStartTime);
-            mRemaining = mDuration - seconds;
-            invalidate();
+            if (mDuration - seconds != mRemaining) {
+                mRemaining = mDuration - seconds;
+                invalidate();
+                notifyCountdownChanged(mRemaining);
+            }
             if (mRemaining > 0) {
                 mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
             } else {
@@ -155,6 +159,12 @@ public final class RestCountdown extends View {
     private void notifyCountdownFinished() {
         if (mListener != null) {
             mListener.onCountdownFinished();
+        }
+    }
+
+    private void notifyCountdownChanged(int remaining) {
+        if (mListener != null) {
+            mListener.onCountdownChanged(remaining);
         }
     }
 }

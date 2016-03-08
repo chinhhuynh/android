@@ -60,6 +60,7 @@ public final class WorkoutFragment extends Fragment implements
 
     private static final String CLOCK_RESET = "00:00";
     private static final String CLOCK_DISPLAY = "%02d:%02d";
+    private static final String REST_NOTIF_DISPLAY = "Start in: %02ds";
 
     private final float mMinimizeShiftDistance;
 
@@ -88,6 +89,7 @@ public final class WorkoutFragment extends Fragment implements
     private long mClockSeconds;
     private boolean mWasPaused;
     private boolean mIsWorkingOut;
+    private boolean mIsResting;
 
     private long mCurrentSetStartTime;
     private Runnable mClockTimer = new Runnable() {
@@ -241,6 +243,12 @@ public final class WorkoutFragment extends Fragment implements
     }
 
     @Override
+    public void onCountdownChanged(int remaining) {
+        String restText = String.format(REST_NOTIF_DISPLAY, remaining);
+        showRestNotification(restText);
+    }
+
+    @Override
     public void onCountdownFinished() {
         mVibrator.vibrate(HALF_SECOND);
         mClockView.setText(CLOCK_RESET);
@@ -253,6 +261,7 @@ public final class WorkoutFragment extends Fragment implements
 
         mCurrentSetStartTime = System.currentTimeMillis();
         mIsWorkingOut = true;
+        mIsResting = false;
         mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
     }
 
@@ -287,6 +296,7 @@ public final class WorkoutFragment extends Fragment implements
 
         mCurrentSetStartTime = now;
         mIsWorkingOut = true;
+        mIsResting = false;
         mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
         changeToStopButton();
     }
@@ -294,6 +304,7 @@ public final class WorkoutFragment extends Fragment implements
     private void setStopWorkoutState() {
         mClockView.setText(CLOCK_RESET);
         mIsWorkingOut = false;
+        mIsResting = false;
         mHandler.removeCallbacks(mClockTimer);
         if (mCurrentSetStartTime != 0) {
             mDurationSec += TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - mCurrentSetStartTime);
@@ -322,6 +333,7 @@ public final class WorkoutFragment extends Fragment implements
     }
 
     private void rest() {
+        mIsResting = true;
         mHandler.removeCallbacks(mClockTimer);
         mRestCountdownView.countdown();
     }
@@ -367,11 +379,17 @@ public final class WorkoutFragment extends Fragment implements
     }
 
     private boolean shouldShowNotification() {
-        return mWasPaused && mIsWorkingOut;
+        return mWasPaused && (mIsWorkingOut || mIsResting);
     }
 
     private void showClockNotification(String clockText) {
         mNotificationBuilder.setContentText(clockText);
+
+        mNotificationManager.notify(ACTIVE_WORKOUT_NOTIF_ID, mNotificationBuilder.build());
+    }
+
+    private void showRestNotification(String restText) {
+        mNotificationBuilder.setContentText(restText);
 
         mNotificationManager.notify(ACTIVE_WORKOUT_NOTIF_ID, mNotificationBuilder.build());
     }

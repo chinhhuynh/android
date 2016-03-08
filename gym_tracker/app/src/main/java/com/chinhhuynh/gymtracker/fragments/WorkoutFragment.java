@@ -73,6 +73,7 @@ public final class WorkoutFragment extends Fragment implements
     private NumberPickerDialog mWeightPicker;
     private NumberPickerDialog mRestDurationPicker;
     private NotificationManager mNotificationManager;
+    private NotificationCompat.Builder mNotificationBuilder;
 
     private Toolbar mToolbar;
     private TextView mSetView;
@@ -83,14 +84,22 @@ public final class WorkoutFragment extends Fragment implements
     private ExerciseSummary mSummary;
     private WorkoutEventListener mListener;
     private int mDurationSec;
+    private long mClockMinutes;
+    private long mClockSeconds;
+    private boolean mWasPaused;
+    private boolean mIsWorkingOut;
 
     private long mCurrentSetStartTime;
     private Runnable mClockTimer = new Runnable() {
         @Override
         public void run() {
             long now = System.currentTimeMillis();
-            long seconds = TimeUnit.MILLISECONDS.toSeconds(now - mCurrentSetStartTime);
-            mClockView.setText(String.format(CLOCK_DISPLAY, seconds / 60, seconds % 60));
+            long elapsed = TimeUnit.MILLISECONDS.toSeconds(now - mCurrentSetStartTime);
+            long minutes = elapsed / 60;
+            long seconds = elapsed % 60;
+            if (minutes != mClockMinutes || seconds != mClockSeconds) {
+                onClockTextChanged(minutes, seconds);
+            }
             mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
         }
     };
@@ -119,6 +128,12 @@ public final class WorkoutFragment extends Fragment implements
         mSetView = (TextView) fragmentLayout.findViewById(R.id.workout_set);
         mWeightView = (TextView) fragmentLayout.findViewById(R.id.workout_weight);
         mRestDurationView = (TextView) fragmentLayout.findViewById(R.id.workout_rest_duration);
+
+        mNotificationBuilder = new NotificationCompat.Builder(mContext)
+                .setOngoing(true) // not dismissible.
+                .setOnlyAlertOnce(true)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(mExercise.mExerciseName);
 
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,12 +224,13 @@ public final class WorkoutFragment extends Fragment implements
     @Override
     public void onPause() {
         super.onPause();
-        showNotification();
+        mWasPaused = true;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        mWasPaused = false;
         mNotificationManager.cancelAll();
     }
 
@@ -236,6 +252,7 @@ public final class WorkoutFragment extends Fragment implements
         mRestCountdownView.setVisibility(View.VISIBLE);
 
         mCurrentSetStartTime = System.currentTimeMillis();
+        mIsWorkingOut = true;
         mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
     }
 
@@ -269,12 +286,14 @@ public final class WorkoutFragment extends Fragment implements
         }
 
         mCurrentSetStartTime = now;
+        mIsWorkingOut = true;
         mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
         changeToStopButton();
     }
 
     private void setStopWorkoutState() {
         mClockView.setText(CLOCK_RESET);
+        mIsWorkingOut = false;
         mHandler.removeCallbacks(mClockTimer);
         if (mCurrentSetStartTime != 0) {
             mDurationSec += TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - mCurrentSetStartTime);
@@ -347,15 +366,14 @@ public final class WorkoutFragment extends Fragment implements
         return Integer.parseInt(mRestDurationView.getText().toString());
     }
 
-    private void showNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
-                .setOngoing(true)
-                .setTicker("Ticker")
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("My notification")
-                .setContentText("Hello World!");
+    private boolean shouldShowNotification() {
+        return mWasPaused && mIsWorkingOut;
+    }
 
-        mNotificationManager.notify(ACTIVE_WORKOUT_NOTIF_ID, builder.build());
+    private void showClockNotification(String clockText) {
+        mNotificationBuilder.setContentText(clockText);
+
+        mNotificationManager.notify(ACTIVE_WORKOUT_NOTIF_ID, mNotificationBuilder.build());
     }
 
     private void onWorkoutCompleted() {
@@ -368,6 +386,16 @@ public final class WorkoutFragment extends Fragment implements
                 .setRep(Integer.parseInt(mRestDurationView.getText().toString()));
         if (mListener != null) {
             mListener.onExerciseCompleted(mSummary);
+        }
+    }
+
+    private void onClockTextChanged(long minutes, long seconds) {
+        mClockMinutes = minutes;
+        mClockSeconds = seconds;
+        String clockText = String.format(CLOCK_DISPLAY, minutes, seconds);
+        mClockView.setText(clockText);
+        if (shouldShowNotification()) {
+            showClockNotification(clockText);
         }
     }
 

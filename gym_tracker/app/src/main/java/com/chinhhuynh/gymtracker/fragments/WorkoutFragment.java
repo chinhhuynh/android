@@ -3,9 +3,7 @@ package com.chinhhuynh.gymtracker.fragments;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +12,6 @@ import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -27,7 +24,6 @@ import android.widget.TextView;
 import java.util.concurrent.TimeUnit;
 
 import com.chinhhuynh.gymtracker.GymTrackerApplication;
-import com.chinhhuynh.gymtracker.HomeActivity;
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
@@ -354,17 +350,10 @@ public final class WorkoutFragment extends Fragment implements
     private void showNotification() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
                 .setOngoing(true)
+                .setTicker("Ticker")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("My notification")
                 .setContentText("Hello World!");
-        Intent resultIntent = new Intent(mContext, HomeActivity.class);
-
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(mContext);
-        stackBuilder.addParentStack(HomeActivity.class);
-        stackBuilder.addNextIntent(resultIntent);
-
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(resultPendingIntent);
 
         mNotificationManager.notify(ACTIVE_WORKOUT_NOTIF_ID, builder.build());
     }

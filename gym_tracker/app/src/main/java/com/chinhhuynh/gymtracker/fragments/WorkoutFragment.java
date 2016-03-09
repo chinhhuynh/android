@@ -60,7 +60,8 @@ public final class WorkoutFragment extends Fragment implements
 
     private static final String CLOCK_RESET = "00:00";
     private static final String CLOCK_DISPLAY = "%02d:%02d";
-    private static final String REST_NOTIF_DISPLAY = "Start in: %02ds";
+    private static final String REST_NOTIF_STRING = "Set %d | Start in: %02ds";
+    private static final String WORKOUT_NOTIF_STRING = "Set %d | %s";
 
     private final float mMinimizeShiftDistance;
 
@@ -244,9 +245,9 @@ public final class WorkoutFragment extends Fragment implements
 
     @Override
     public void onCountdownChanged(int remaining) {
-        String restText = String.format(REST_NOTIF_DISPLAY, remaining);
+        String notifText = String.format(REST_NOTIF_STRING, getCurrentSet() + 1, remaining);
         if (shouldShowNotification()) {
-            showRestNotification(restText);
+            showRestNotification(notifText);
         }
     }
 
@@ -384,14 +385,14 @@ public final class WorkoutFragment extends Fragment implements
         return mWasPaused && (mIsWorkingOut || mIsResting);
     }
 
-    private void showClockNotification(String clockText) {
-        mNotificationBuilder.setContentText(clockText);
+    private void showWorkoutNotification(String text) {
+        mNotificationBuilder.setContentText(text);
 
         mNotificationManager.notify(ACTIVE_WORKOUT_NOTIF_ID, mNotificationBuilder.build());
     }
 
-    private void showRestNotification(String restText) {
-        mNotificationBuilder.setContentText(restText);
+    private void showRestNotification(String text) {
+        mNotificationBuilder.setContentText(text);
 
         mNotificationManager.notify(ACTIVE_WORKOUT_NOTIF_ID, mNotificationBuilder.build());
     }
@@ -415,7 +416,8 @@ public final class WorkoutFragment extends Fragment implements
         String clockText = String.format(CLOCK_DISPLAY, minutes, seconds);
         mClockView.setText(clockText);
         if (shouldShowNotification()) {
-            showClockNotification(clockText);
+            String notifText = String.format(WORKOUT_NOTIF_STRING, getCurrentSet() + 1, clockText);
+            showWorkoutNotification(notifText);
         }
     }
 

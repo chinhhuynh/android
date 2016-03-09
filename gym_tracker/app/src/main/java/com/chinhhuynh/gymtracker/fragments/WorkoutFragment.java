@@ -63,7 +63,7 @@ public final class WorkoutFragment extends Fragment implements
 
     private static final String CLOCK_RESET = "00:00";
     private static final String CLOCK_DISPLAY = "%02d:%02d";
-    private static final String REST_NOTIF_STRING = "Set %d | Start in: %02ds";
+    private static final String REST_NOTIF_STRING = "Set %d | Start in: %ds";
     private static final String WORKOUT_NOTIF_STRING = "Set %d | %s";
 
     private final float mMinimizeShiftDistance;

@@ -3,7 +3,9 @@ package com.chinhhuynh.gymtracker.fragments;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 import java.util.concurrent.TimeUnit;
 
 import com.chinhhuynh.gymtracker.GymTrackerApplication;
+import com.chinhhuynh.gymtracker.HomeActivity;
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
@@ -387,14 +390,22 @@ public final class WorkoutFragment extends Fragment implements
 
     private void showWorkoutNotification(String text) {
         mNotificationBuilder.setContentText(text);
+        mNotificationBuilder.setContentIntent(newNotifIntent());
 
         mNotificationManager.notify(ACTIVE_WORKOUT_NOTIF_ID, mNotificationBuilder.build());
     }
 
     private void showRestNotification(String text) {
         mNotificationBuilder.setContentText(text);
+        mNotificationBuilder.setContentIntent(newNotifIntent());
 
         mNotificationManager.notify(ACTIVE_WORKOUT_NOTIF_ID, mNotificationBuilder.build());
+    }
+
+    private PendingIntent newNotifIntent() {
+        // use activity's intent to resume the activity instead of creating new one.
+        Intent intent = getActivity().getIntent();
+        return PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private void onWorkoutCompleted() {

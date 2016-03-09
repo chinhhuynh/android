@@ -21,7 +21,6 @@ public final class LockScreenService extends Service {
     private WindowManager mWindowManager;
     private BroadcastReceiver mBroadcastReceiver;
     private View mLockScreenView;
-    private NotificationManager mNotificationManager;
 
     @Nullable
     @Override
@@ -36,7 +35,6 @@ public final class LockScreenService extends Service {
         mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         mBroadcastReceiver = new ScreenBroadcastReceiver();
         mLockScreenView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.widget, null);
-        mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
         return START_STICKY;
     }
@@ -48,7 +46,9 @@ public final class LockScreenService extends Service {
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
-        mNotificationManager.cancelAll();
+        NotificationManager notificationManager =
+                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
         stopSelf();
     }
 

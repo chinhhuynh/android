@@ -245,7 +245,9 @@ public final class WorkoutFragment extends Fragment implements
     @Override
     public void onCountdownChanged(int remaining) {
         String restText = String.format(REST_NOTIF_DISPLAY, remaining);
-        showRestNotification(restText);
+        if (shouldShowNotification()) {
+            showRestNotification(restText);
+        }
     }
 
     @Override

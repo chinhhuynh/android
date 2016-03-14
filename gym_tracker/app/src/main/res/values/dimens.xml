@@ -40,4 +40,8 @@
     <dimen name="history_exercise_list_icon_size">20dp</dimen>
     <dimen name="history_exercise_list_item_height">70dp</dimen>
 
+    <!-- Notification -->
+    <dimen name="notif_title_text_size">16sp</dimen>
+    <dimen name="notif_text_size">14sp</dimen>
+
 </resources>

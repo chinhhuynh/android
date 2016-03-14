@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,12 +22,12 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
 
 import com.chinhhuynh.gymtracker.GymTrackerApplication;
-import com.chinhhuynh.gymtracker.HomeActivity;
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
@@ -137,9 +138,7 @@ public final class WorkoutFragment extends Fragment implements
 
         mNotificationBuilder = new NotificationCompat.Builder(mContext)
                 .setOngoing(true) // not dismissible.
-                .setOnlyAlertOnce(true)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(mExercise.mExerciseName);
+                .setOnlyAlertOnce(true);
 
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,7 +249,7 @@ public final class WorkoutFragment extends Fragment implements
     public void onCountdownChanged(int remaining) {
         String notifText = String.format(REST_NOTIF_STRING, getCurrentSet() + 1, remaining);
         if (shouldShowNotification()) {
-            showRestNotification(notifText);
+            showNotification(notifText);
         }
     }
 
@@ -388,18 +387,28 @@ public final class WorkoutFragment extends Fragment implements
         return mWasPaused && (mIsWorkingOut || mIsResting);
     }
 
-    private void showWorkoutNotification(String text) {
-        mNotificationBuilder.setContentText(text);
+    private void showNotification(String text) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mNotificationBuilder
+                    .setContent(getNotificationView(text))
+                    .setSmallIcon(R.mipmap.ic_launcher);
+        } else {
+            mNotificationBuilder
+                    .setContentText(text)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(mExercise.mExerciseName);
+        }
         mNotificationBuilder.setContentIntent(newNotifIntent());
-
         mNotificationManager.notify(ACTIVE_WORKOUT_NOTIF_ID, mNotificationBuilder.build());
     }
 
-    private void showRestNotification(String text) {
-        mNotificationBuilder.setContentText(text);
-        mNotificationBuilder.setContentIntent(newNotifIntent());
+    private RemoteViews getNotificationView(String text) {
+        RemoteViews view = new RemoteViews(mContext.getPackageName(), R.layout.notification);
+        view.setImageViewResource(R.id.icon, R.mipmap.ic_launcher);
+        view.setTextViewText(R.id.title, mExercise.mExerciseName);
+        view.setTextViewText(R.id.text, text);
 
-        mNotificationManager.notify(ACTIVE_WORKOUT_NOTIF_ID, mNotificationBuilder.build());
+        return view;
     }
 
     private PendingIntent newNotifIntent() {
@@ -428,7 +437,7 @@ public final class WorkoutFragment extends Fragment implements
         mClockView.setText(clockText);
         if (shouldShowNotification()) {
             String notifText = String.format(WORKOUT_NOTIF_STRING, getCurrentSet() + 1, clockText);
-            showWorkoutNotification(notifText);
+            showNotification(notifText);
         }
     }
 

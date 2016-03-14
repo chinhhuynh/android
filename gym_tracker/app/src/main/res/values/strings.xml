@@ -28,4 +28,9 @@
     <string name="stat_rest_duration_label">seconds</string>
     <string name="stat_weight_label">lbs</string>
     <string name="stat_sets_label">sets</string>
+
+    <!-- Notification -->
+    <string name="notif_rest">REST</string>
+    <string name="notif_next">NEXT</string>
+
 </resources>

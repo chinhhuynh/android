@@ -2,6 +2,7 @@ package com.chinhhuynh.gymtracker.fragments;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -388,22 +389,26 @@ public final class WorkoutFragment extends Fragment implements
     }
 
     private void showNotification(String text) {
+        Notification notification;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            mNotificationBuilder
-                    .setContent(getNotificationView(text))
-                    .setSmallIcon(R.mipmap.ic_launcher);
+            mNotificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+
+            notification = mNotificationBuilder.build();
+            notification.bigContentView = getNotificationView(text);
         } else {
             mNotificationBuilder
                     .setContentText(text)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(mExercise.mExerciseName);
+            notification = mNotificationBuilder.build();
         }
+
         mNotificationBuilder.setContentIntent(newNotifIntent());
-        mNotificationManager.notify(ACTIVE_WORKOUT_NOTIF_ID, mNotificationBuilder.build());
+        mNotificationManager.notify(ACTIVE_WORKOUT_NOTIF_ID, notification);
     }
 
     private RemoteViews getNotificationView(String text) {
-        RemoteViews view = new RemoteViews(mContext.getPackageName(), R.layout.notification);
+        RemoteViews view = new RemoteViews(mContext.getPackageName(), R.layout.notification_large);
         view.setImageViewResource(R.id.icon, R.mipmap.ic_launcher);
         view.setTextViewText(R.id.title, mExercise.mExerciseName);
         view.setTextViewText(R.id.text, text);

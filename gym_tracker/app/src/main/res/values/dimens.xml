@@ -43,5 +43,9 @@
     <!-- Notification -->
     <dimen name="notif_title_text_size">16sp</dimen>
     <dimen name="notif_text_size">14sp</dimen>
+    <dimen name="notif_horizontal_margin">8dp</dimen>
+    <dimen name="notif_button_size">40dp</dimen>
+    <dimen name="notif_layout_height">130dp</dimen>
+    <dimen name="notif_button_margin">4dp</dimen>
 
 </resources>

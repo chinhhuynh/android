@@ -5,8 +5,10 @@ import android.animation.PropertyValuesHolder;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -220,6 +222,9 @@ public final class WorkoutFragment extends Fragment implements
 
         initViews();
 
+        IntentFilter filter = new IntentFilter(NotifActionHandler.ACTION_KEY);
+        mContext.registerReceiver(new NotifActionHandler(), filter, null, null);
+
         return fragmentLayout;
     }
 
@@ -419,9 +424,19 @@ public final class WorkoutFragment extends Fragment implements
         if (mIsWorkingOut) {
             view.setImageViewResource(R.id.start_rest_button_icon, R.drawable.ic_pause_black_48dp);
             view.setTextViewText(R.id.start_rest_button_text, mResources.getString(R.string.notif_rest));
+
+            Intent intent = new Intent(NotifActionHandler.ACTION_KEY);
+            intent.putExtra(NotifActionHandler.ACTION_KEY, NotifActionHandler.ACTION_REST);
+            view.setOnClickPendingIntent(R.id.start_rest_button, PendingIntent.getBroadcast(mContext, 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT));
         } else if (mIsResting) {
             view.setImageViewResource(R.id.start_rest_button_icon, R.drawable.ic_play_arrow_black_48dp);
             view.setTextViewText(R.id.start_rest_button_text, mResources.getString(R.string.notif_start));
+
+            Intent intent = new Intent(NotifActionHandler.ACTION_KEY);
+            intent.putExtra(NotifActionHandler.ACTION_KEY, NotifActionHandler.ACTION_START);
+            view.setOnClickPendingIntent(R.id.start_rest_button, PendingIntent.getBroadcast(mContext, 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT));
         }
 
         return view;
@@ -469,5 +484,31 @@ public final class WorkoutFragment extends Fragment implements
                 onWorkoutCompleted();
             }
         });
+    }
+
+    public class NotifActionHandler extends BroadcastReceiver {
+
+        private static final String ACTION_KEY = "com.chinhhuynh.gymtracker.notif_action";
+
+        private static final String ACTION_REST = "rest";
+        private static final String ACTION_START = "start";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = (String) intent.getExtras().get(ACTION_KEY);
+            if (action == null) {
+                return;
+            }
+
+            switch (action) {
+                case ACTION_REST:
+                    rest();
+                    break;
+                case ACTION_START:
+                    increaseSet();
+                    startWorkout();
+                    break;
+            }
+        }
     }
 }

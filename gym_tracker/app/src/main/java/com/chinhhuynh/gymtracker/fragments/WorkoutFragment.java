@@ -502,10 +502,10 @@ public final class WorkoutFragment extends Fragment implements
 
             switch (action) {
                 case ACTION_REST:
+                    increaseSet();
                     rest();
                     break;
                 case ACTION_START:
-                    increaseSet();
                     startWorkout();
                     break;
             }

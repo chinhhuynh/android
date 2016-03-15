@@ -72,6 +72,7 @@ public final class WorkoutFragment extends Fragment implements
 
     private AppCompatActivity mActivity;
     private Context mContext;
+    private Resources mResources;
     private Handler mHandler;
     private Vibrator mVibrator;
     private TextView mClockView;
@@ -125,6 +126,7 @@ public final class WorkoutFragment extends Fragment implements
 
         mActivity = (AppCompatActivity) getActivity();
         mContext = mActivity;
+        mResources = mContext.getResources();
         mHandler = new Handler(Looper.getMainLooper());
         mVibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
         mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -339,6 +341,7 @@ public final class WorkoutFragment extends Fragment implements
     }
 
     private void rest() {
+        mIsWorkingOut = false;
         mIsResting = true;
         mHandler.removeCallbacks(mClockTimer);
         mRestCountdownView.countdown();
@@ -412,6 +415,14 @@ public final class WorkoutFragment extends Fragment implements
         view.setImageViewResource(R.id.icon, R.mipmap.ic_launcher);
         view.setTextViewText(R.id.title, mExercise.mExerciseName);
         view.setTextViewText(R.id.text, text);
+
+        if (mIsWorkingOut) {
+            view.setImageViewResource(R.id.start_rest_button_icon, R.drawable.ic_pause_black_48dp);
+            view.setTextViewText(R.id.start_rest_button_text, mResources.getString(R.string.notif_rest));
+        } else if (mIsResting) {
+            view.setImageViewResource(R.id.start_rest_button_icon, R.drawable.ic_play_arrow_black_48dp);
+            view.setTextViewText(R.id.start_rest_button_text, mResources.getString(R.string.notif_start));
+        }
 
         return view;
     }

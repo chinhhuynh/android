@@ -47,5 +47,6 @@
     <dimen name="notif_button_size">40dp</dimen>
     <dimen name="notif_layout_height">130dp</dimen>
     <dimen name="notif_button_margin">4dp</dimen>
+    <dimen name="notif_divider_height">50dp</dimen>
 
 </resources>

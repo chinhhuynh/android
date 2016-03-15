@@ -36,13 +36,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <ImageView
-            android:paddingTop="4dp"
-            android:src="@drawable/divider"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -59,7 +52,7 @@
                     android:id="@+id/start_rest_button_icon"
                     android:padding="@dimen/notif_button_margin"
                     android:src="@drawable/ic_pause_black_48dp"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -69,10 +62,16 @@
                     android:textSize="@dimen/notif_text_size"
                     android:textColor="@color/md_black_1000"
                     android:textStyle="bold"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
+
+            <ImageView
+                android:src="@drawable/vertical_divider"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/notif_divider_height"/>
 
             <LinearLayout
                 android:id="@+id/next_button"
@@ -85,7 +84,7 @@
                 <ImageView
                     android:padding="@dimen/notif_button_margin"
                     android:src="@drawable/ic_skip_next_black_48dp"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -94,7 +93,7 @@
                     android:textSize="@dimen/notif_text_size"
                     android:textColor="@color/md_black_1000"
                     android:textStyle="bold"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>

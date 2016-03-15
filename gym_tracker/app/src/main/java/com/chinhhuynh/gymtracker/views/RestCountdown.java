@@ -107,6 +107,8 @@ public final class RestCountdown extends View {
         mStartTime = System.currentTimeMillis();
         mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
         mIsActive = true;
+
+        notifyCountdownChanged(mRemaining);
     }
 
     public void stop() {

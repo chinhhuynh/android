@@ -49,6 +49,7 @@ public final class LockScreenService extends Service {
         NotificationManager notificationManager =
                 (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
+
         stopSelf();
     }
 

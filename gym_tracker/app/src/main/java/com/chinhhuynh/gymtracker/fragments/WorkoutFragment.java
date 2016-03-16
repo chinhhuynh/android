@@ -71,6 +71,7 @@ public final class WorkoutFragment extends Fragment implements
     private static final String WORKOUT_NOTIF_STRING = "Set %d | %s";
 
     private final float mMinimizeShiftDistance;
+    private final ExerciseList mExerciseList;
 
     private AppCompatActivity mActivity;
     private Context mContext;
@@ -115,7 +116,9 @@ public final class WorkoutFragment extends Fragment implements
         }
     };
 
-    public WorkoutFragment() {
+    public WorkoutFragment(ExerciseList exerciseList) {
+        mExerciseList = exerciseList;
+
         Resources resources = GymTrackerApplication.getAppContext().getResources();
         int buttonSize = resources.getDimensionPixelSize(R.dimen.button_size);
         mMinimizeShiftDistance = buttonSize / (2 * SQRT_2);
@@ -437,6 +440,14 @@ public final class WorkoutFragment extends Fragment implements
             intent.putExtra(NotifActionHandler.ACTION_KEY, NotifActionHandler.ACTION_START);
             view.setOnClickPendingIntent(R.id.start_rest_button, PendingIntent.getBroadcast(mContext, 0, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT));
+        }
+
+        if (mExerciseList.hasNext(mExercise)) {
+            view.setImageViewResource(R.id.next_stop_button_icon, R.drawable.ic_skip_next_black_48dp);
+            view.setTextViewText(R.id.next_stop_button_text, mResources.getString(R.string.notif_next));
+        } else {
+            view.setImageViewResource(R.id.next_stop_button_icon, R.drawable.ic_stop_black_48dp);
+            view.setTextViewText(R.id.next_stop_button_text, mResources.getString(R.string.notif_stop));
         }
 
         return view;

@@ -118,6 +118,14 @@ public class WorkoutSessionAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public Exercise getNext(Exercise exercise) {
+        int index = mExercises.indexOf(exercise);
+        if (index != -1 && index < mExercises.size() - 1) {
+            return mExercises.get(index + 1);
+        }
+        return null;
+    }
+
     public void setExerciseCompleted(ExerciseSummary summary) {
         mCompleted.add(summary.exercise);
         mSummaries.put(summary.exercise, summary);

@@ -15,6 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static android.support.v4.app.FragmentManager.POP_BACK_STACK_INCLUSIVE;
+
 import com.chinhhuynh.gymtracker.AnimatorEndListener;
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.WorkoutSessionAdapter;
@@ -24,19 +29,14 @@ import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import com.chinhhuynh.gymtracker.views.ExercisePickerDialog;
 import com.chinhhuynh.lifecycle.activity.OnBackPressed;
 import org.jetbrains.annotations.NotNull;
-import utils.Executors;
 import utils.ThreadUtils;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static android.support.v4.app.FragmentManager.*;
 
 /**
  * Fragment for creating a workout session.
  */
 public final class WorkoutSessionFragment extends Fragment implements
         OnBackPressed,
+        ExerciseList,
         ExercisePickerDialog.EventsListener,
         WorkoutSessionAdapter.EventListener,
         WorkoutFragment.WorkoutEventListener {
@@ -126,6 +126,19 @@ public final class WorkoutSessionFragment extends Fragment implements
     }
 
     @Override
+    public boolean hasNext(Exercise exercise) {
+        return mExercisesAdapter.getNext(exercise) != null;
+    }
+
+    @Override
+    public void startNext(Exercise exercise) {
+        Exercise next = mExercisesAdapter.getNext(exercise);
+        if (next != null) {
+            startExercise(next);
+        }
+    }
+
+    @Override
     public void onExerciseSelect(Exercise exercise) {
         mExercisesAdapter.addExercise(exercise);
         updateMenu();
@@ -146,16 +159,7 @@ public final class WorkoutSessionFragment extends Fragment implements
 
     @Override
     public void onItemClicked(Exercise exercise) {
-        WorkoutFragment workout = new WorkoutFragment();
-        workout.setExercise(exercise, mSummaries.get(exercise))
-                .setListener(this);
-        mActivity.getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-                .add(R.id.drawer_layout, workout, WorkoutFragment.TAG)
-                .addToBackStack(WorkoutFragment.TAG)
-                .commit();
-        hideFab();
+        startExercise(exercise);
     }
 
     @Override
@@ -165,6 +169,19 @@ public final class WorkoutSessionFragment extends Fragment implements
         if (!hasExercise()) {
             onFinishEditing();
         }
+    }
+
+    private void startExercise(Exercise exercise) {
+        WorkoutFragment workout = new WorkoutFragment(this);
+        workout.setExercise(exercise, mSummaries.get(exercise))
+                .setListener(this);
+        mActivity.getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                .add(R.id.drawer_layout, workout, WorkoutFragment.TAG)
+                .addToBackStack(WorkoutFragment.TAG)
+                .commit();
+        hideFab();
     }
 
     private void onFinishEditing() {

@@ -71,6 +71,7 @@ public final class WorkoutFragment extends Fragment implements
     private static final String WORKOUT_NOTIF_STRING = "Set %d | %s";
 
     private final float mMinimizeShiftDistance;
+    private final BroadcastReceiver mNotifActionHandler;
 
     private AppCompatActivity mActivity;
     private Context mContext;
@@ -119,6 +120,8 @@ public final class WorkoutFragment extends Fragment implements
         Resources resources = GymTrackerApplication.getAppContext().getResources();
         int buttonSize = resources.getDimensionPixelSize(R.dimen.button_size);
         mMinimizeShiftDistance = buttonSize / (2 * SQRT_2);
+
+        mNotifActionHandler = new NotifActionHandler();
     }
 
     @Nullable
@@ -223,7 +226,7 @@ public final class WorkoutFragment extends Fragment implements
         initViews();
 
         IntentFilter filter = new IntentFilter(NotifActionHandler.ACTION_KEY);
-        mContext.registerReceiver(new NotifActionHandler(), filter, null, null);
+        mContext.registerReceiver(mNotifActionHandler, filter, null, null);
 
         return fragmentLayout;
     }
@@ -245,6 +248,12 @@ public final class WorkoutFragment extends Fragment implements
         super.onResume();
         mWasPaused = false;
         mNotificationManager.cancelAll();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mContext.unregisterReceiver(mNotifActionHandler);
     }
 
     @Override

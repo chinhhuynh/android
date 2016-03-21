@@ -327,6 +327,7 @@ public final class WorkoutFragment extends Fragment implements
 
     private void stopWorkout() {
         setStopWorkoutState();
+        setStopRestCountdownState();
         changeToStartButton();
     }
 
@@ -506,6 +507,7 @@ public final class WorkoutFragment extends Fragment implements
                     rest();
                     break;
                 case ACTION_START:
+                    stopWorkout();
                     startWorkout();
                     break;
             }

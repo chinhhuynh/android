@@ -319,6 +319,7 @@ public final class WorkoutFragment extends Fragment implements
         mCurrentSetStartTime = now;
         mIsWorkingOut = true;
         mIsResting = false;
+        onClockTextChanged(0, 0);
         mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
         changeToStopButton();
     }

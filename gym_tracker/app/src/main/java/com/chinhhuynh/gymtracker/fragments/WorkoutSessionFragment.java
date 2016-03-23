@@ -55,6 +55,7 @@ public final class WorkoutSessionFragment extends Fragment implements
     private WorkoutSessionAdapter mExercisesAdapter;
 
     private boolean mIsEditing;
+    private boolean mIsPaused;
 
     @Nullable
     @Override
@@ -95,6 +96,18 @@ public final class WorkoutSessionFragment extends Fragment implements
     public void onStart() {
         super.onStart();
         setupActionBar();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mIsPaused = false;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mIsPaused = true;
     }
 
     @Override
@@ -149,15 +162,18 @@ public final class WorkoutSessionFragment extends Fragment implements
 
     @Override
     public void onExerciseCompleted(@NotNull ExerciseSummary summary) {
-        Fragment workout = mActivity.getSupportFragmentManager().findFragmentByTag(WorkoutFragment.TAG);
-        mActivity.getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-                .remove(workout)
-                .commit();
-        mActivity.getSupportFragmentManager().popBackStack(workout.getTag(), POP_BACK_STACK_INCLUSIVE);
         updateExercise(summary);
         showFab();
+
+        if (!mIsPaused) {
+            Fragment workout = mActivity.getSupportFragmentManager().findFragmentByTag(WorkoutFragment.TAG);
+            mActivity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                    .remove(workout)
+                    .commit();
+            mActivity.getSupportFragmentManager().popBackStack(workout.getTag(), POP_BACK_STACK_INCLUSIVE);
+        }
     }
 
     @Override
@@ -175,16 +191,24 @@ public final class WorkoutSessionFragment extends Fragment implements
     }
 
     private void startExercise(Exercise exercise) {
-        WorkoutFragment workout = new WorkoutFragment(this);
+        hideFab();
+
+        WorkoutFragment workout =
+                (WorkoutFragment) mActivity.getSupportFragmentManager().findFragmentByTag(WorkoutFragment.TAG);
+        if (workout == null) {
+            workout = new WorkoutFragment(this);
+        }
         workout.setExercise(exercise, mSummaries.get(exercise))
                 .setListener(this);
-        mActivity.getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-                .add(R.id.drawer_layout, workout, WorkoutFragment.TAG)
-                .addToBackStack(WorkoutFragment.TAG)
-                .commit();
-        hideFab();
+
+        if (!mIsPaused) {
+            mActivity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                    .add(R.id.drawer_layout, workout, WorkoutFragment.TAG)
+                    .addToBackStack(WorkoutFragment.TAG)
+                    .commit();
+        }
     }
 
     private void onFinishEditing() {

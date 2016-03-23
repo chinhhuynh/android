@@ -226,7 +226,7 @@ public final class WorkoutFragment extends Fragment implements
                     }
                 });
 
-        initViews();
+        updateViews();
 
         IntentFilter filter = new IntentFilter(NotifActionHandler.ACTION_KEY);
         mContext.registerReceiver(mNotifActionHandler, filter, null, null);
@@ -301,7 +301,8 @@ public final class WorkoutFragment extends Fragment implements
         return this;
     }
 
-    private void initViews() {
+    private void updateViews() {
+        mToolbar.setTitle(mExercise.mExerciseName);
         mSetView.setText(String.valueOf(mSummary.set));
         mWeightView.setText(String.valueOf(mSummary.weight));
         if (mSummary.restDurationSec != 0) {
@@ -445,6 +446,11 @@ public final class WorkoutFragment extends Fragment implements
         if (mExerciseList.hasNext(mExercise)) {
             notifView.setImageViewResource(R.id.next_stop_button_icon, R.drawable.ic_skip_next_black_48dp);
             notifView.setTextViewText(R.id.next_stop_button_text, mResources.getString(R.string.notif_next));
+
+            Intent intent = new Intent(NotifActionHandler.ACTION_KEY);
+            intent.putExtra(NotifActionHandler.ACTION_KEY, NotifActionHandler.ACTION_NEXT);
+            notifView.setOnClickPendingIntent(R.id.next_stop_button, PendingIntent.getBroadcast(mContext, 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT));
         } else {
             notifView.setImageViewResource(R.id.next_stop_button_icon, R.drawable.ic_stop_black_48dp);
             notifView.setTextViewText(R.id.next_stop_button_text, mResources.getString(R.string.notif_stop));
@@ -505,7 +511,6 @@ public final class WorkoutFragment extends Fragment implements
         if (mExercise == null) {
             return;
         }
-        mToolbar.setTitle(mExercise.mExerciseName);
         mToolbar.setNavigationIcon(ContextCompat.getDrawable(mContext, R.drawable.ic_arrow_back_white_24dp));
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -521,6 +526,8 @@ public final class WorkoutFragment extends Fragment implements
 
         private static final String ACTION_REST = "rest";
         private static final String ACTION_START = "start";
+        private static final String ACTION_NEXT = "next";
+        private static final String ACTION_STOP = "stop";
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -536,6 +543,20 @@ public final class WorkoutFragment extends Fragment implements
                     break;
                 case ACTION_START:
                     stopWorkout();
+                    startWorkout();
+                    break;
+                case ACTION_NEXT:
+                    if (mIsWorkingOut) {
+                        increaseSet();
+                        stopWorkout();
+                    }
+
+                    if (getCurrentSet() > 0) {
+                        onWorkoutCompleted();
+                    }
+
+                    mExerciseList.startNext(mExercise);
+                    updateViews();
                     startWorkout();
                     break;
             }

@@ -436,16 +436,19 @@ public final class WorkoutFragment extends Fragment implements
         view.setTextViewText(R.id.text, text);
 
         setNotifWorkoutIntent(view);
-
-        if (mExerciseList.hasNext(mExercise)) {
-            view.setImageViewResource(R.id.next_stop_button_icon, R.drawable.ic_skip_next_black_48dp);
-            view.setTextViewText(R.id.next_stop_button_text, mResources.getString(R.string.notif_next));
-        } else {
-            view.setImageViewResource(R.id.next_stop_button_icon, R.drawable.ic_stop_black_48dp);
-            view.setTextViewText(R.id.next_stop_button_text, mResources.getString(R.string.notif_stop));
-        }
+        setNotifNextWorkoutIntent(view);
 
         return view;
+    }
+
+    private void setNotifNextWorkoutIntent(RemoteViews notifView) {
+        if (mExerciseList.hasNext(mExercise)) {
+            notifView.setImageViewResource(R.id.next_stop_button_icon, R.drawable.ic_skip_next_black_48dp);
+            notifView.setTextViewText(R.id.next_stop_button_text, mResources.getString(R.string.notif_next));
+        } else {
+            notifView.setImageViewResource(R.id.next_stop_button_icon, R.drawable.ic_stop_black_48dp);
+            notifView.setTextViewText(R.id.next_stop_button_text, mResources.getString(R.string.notif_stop));
+        }
     }
 
     private void setNotifWorkoutIntent(RemoteViews notifView) {

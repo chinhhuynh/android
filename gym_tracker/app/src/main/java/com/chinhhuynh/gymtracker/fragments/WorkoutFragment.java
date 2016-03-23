@@ -435,23 +435,7 @@ public final class WorkoutFragment extends Fragment implements
         view.setTextViewText(R.id.title, mExercise.mExerciseName);
         view.setTextViewText(R.id.text, text);
 
-        if (mIsWorkingOut) {
-            view.setImageViewResource(R.id.start_rest_button_icon, R.drawable.ic_pause_black_48dp);
-            view.setTextViewText(R.id.start_rest_button_text, mResources.getString(R.string.notif_rest));
-
-            Intent intent = new Intent(NotifActionHandler.ACTION_KEY);
-            intent.putExtra(NotifActionHandler.ACTION_KEY, NotifActionHandler.ACTION_REST);
-            view.setOnClickPendingIntent(R.id.start_rest_button, PendingIntent.getBroadcast(mContext, 0, intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT));
-        } else if (mIsResting) {
-            view.setImageViewResource(R.id.start_rest_button_icon, R.drawable.ic_play_arrow_black_48dp);
-            view.setTextViewText(R.id.start_rest_button_text, mResources.getString(R.string.notif_start));
-
-            Intent intent = new Intent(NotifActionHandler.ACTION_KEY);
-            intent.putExtra(NotifActionHandler.ACTION_KEY, NotifActionHandler.ACTION_START);
-            view.setOnClickPendingIntent(R.id.start_rest_button, PendingIntent.getBroadcast(mContext, 0, intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT));
-        }
+        setNotifWorkoutIntent(view);
 
         if (mExerciseList.hasNext(mExercise)) {
             view.setImageViewResource(R.id.next_stop_button_icon, R.drawable.ic_skip_next_black_48dp);
@@ -462,6 +446,26 @@ public final class WorkoutFragment extends Fragment implements
         }
 
         return view;
+    }
+
+    private void setNotifWorkoutIntent(RemoteViews notifView) {
+        if (mIsWorkingOut) {
+            notifView.setImageViewResource(R.id.start_rest_button_icon, R.drawable.ic_pause_black_48dp);
+            notifView.setTextViewText(R.id.start_rest_button_text, mResources.getString(R.string.notif_rest));
+
+            Intent intent = new Intent(NotifActionHandler.ACTION_KEY);
+            intent.putExtra(NotifActionHandler.ACTION_KEY, NotifActionHandler.ACTION_REST);
+            notifView.setOnClickPendingIntent(R.id.start_rest_button, PendingIntent.getBroadcast(mContext, 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT));
+        } else if (mIsResting) {
+            notifView.setImageViewResource(R.id.start_rest_button_icon, R.drawable.ic_play_arrow_black_48dp);
+            notifView.setTextViewText(R.id.start_rest_button_text, mResources.getString(R.string.notif_start));
+
+            Intent intent = new Intent(NotifActionHandler.ACTION_KEY);
+            intent.putExtra(NotifActionHandler.ACTION_KEY, NotifActionHandler.ACTION_START);
+            notifView.setOnClickPendingIntent(R.id.start_rest_button, PendingIntent.getBroadcast(mContext, 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT));
+        }
     }
 
     private PendingIntent newNotifIntent() {

@@ -72,6 +72,7 @@ public final class WorkoutFragment extends Fragment implements
 
     private final float mMinimizeShiftDistance;
     private final ExerciseList mExerciseList;
+    private final BroadcastReceiver mNotifActionHandler;
 
     private AppCompatActivity mActivity;
     private Context mContext;
@@ -122,6 +123,8 @@ public final class WorkoutFragment extends Fragment implements
         Resources resources = GymTrackerApplication.getAppContext().getResources();
         int buttonSize = resources.getDimensionPixelSize(R.dimen.button_size);
         mMinimizeShiftDistance = buttonSize / (2 * SQRT_2);
+
+        mNotifActionHandler = new NotifActionHandler();
     }
 
     @Nullable
@@ -226,7 +229,7 @@ public final class WorkoutFragment extends Fragment implements
         initViews();
 
         IntentFilter filter = new IntentFilter(NotifActionHandler.ACTION_KEY);
-        mContext.registerReceiver(new NotifActionHandler(), filter, null, null);
+        mContext.registerReceiver(mNotifActionHandler, filter, null, null);
 
         return fragmentLayout;
     }
@@ -248,6 +251,12 @@ public final class WorkoutFragment extends Fragment implements
         super.onResume();
         mWasPaused = false;
         mNotificationManager.cancelAll();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mContext.unregisterReceiver(mNotifActionHandler);
     }
 
     @Override
@@ -313,6 +322,7 @@ public final class WorkoutFragment extends Fragment implements
         mCurrentSetStartTime = now;
         mIsWorkingOut = true;
         mIsResting = false;
+        onClockTextChanged(0, 0);
         mHandler.postDelayed(mClockTimer, ONE_TENTH_SECOND);
         changeToStopButton();
     }
@@ -330,6 +340,7 @@ public final class WorkoutFragment extends Fragment implements
 
     private void stopWorkout() {
         setStopWorkoutState();
+        setStopRestCountdownState();
         changeToStartButton();
     }
 
@@ -517,6 +528,7 @@ public final class WorkoutFragment extends Fragment implements
                     rest();
                     break;
                 case ACTION_START:
+                    stopWorkout();
                     startWorkout();
                     break;
             }

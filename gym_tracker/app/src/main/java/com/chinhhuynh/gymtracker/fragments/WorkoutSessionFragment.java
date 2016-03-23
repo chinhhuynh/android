@@ -64,10 +64,13 @@ public final class WorkoutSessionFragment extends Fragment implements
 
         mContext = getContext();
         mActivity = (AppCompatActivity) getActivity();
-        mSummaries = new HashMap<>();
 
         mExercisePicker = new ExercisePickerDialog(mContext, R.layout.exercise_picker, getLoaderManager())
                 .listener(this);
+
+        if (mSummaries == null) {
+            mSummaries = new HashMap<>();
+        }
 
         if (mExercisesAdapter == null) {
             mExercisesAdapter = new WorkoutSessionAdapter(mContext);

@@ -228,8 +228,10 @@ public final class WorkoutFragment extends Fragment implements
 
         updateViews();
 
-        IntentFilter filter = new IntentFilter(NotifActionHandler.ACTION_KEY);
-        mContext.registerReceiver(mNotifActionHandler, filter, null, null);
+        mContext.registerReceiver(mNotifActionHandler, new IntentFilter(NotifActionHandler.ACTION_NEXT), null, null);
+        mContext.registerReceiver(mNotifActionHandler, new IntentFilter(NotifActionHandler.ACTION_REST), null, null);
+        mContext.registerReceiver(mNotifActionHandler, new IntentFilter(NotifActionHandler.ACTION_START), null, null);
+        mContext.registerReceiver(mNotifActionHandler, new IntentFilter(NotifActionHandler.ACTION_STOP), null, null);
 
         return fragmentLayout;
     }
@@ -447,13 +449,16 @@ public final class WorkoutFragment extends Fragment implements
             notifView.setImageViewResource(R.id.next_stop_button_icon, R.drawable.ic_skip_next_black_48dp);
             notifView.setTextViewText(R.id.next_stop_button_text, mResources.getString(R.string.notif_next));
 
-            Intent intent = new Intent(NotifActionHandler.ACTION_KEY);
-            intent.putExtra(NotifActionHandler.ACTION_KEY, NotifActionHandler.ACTION_NEXT);
+            Intent intent = new Intent(NotifActionHandler.ACTION_NEXT);
             notifView.setOnClickPendingIntent(R.id.next_stop_button, PendingIntent.getBroadcast(mContext, 0, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT));
         } else {
             notifView.setImageViewResource(R.id.next_stop_button_icon, R.drawable.ic_stop_black_48dp);
             notifView.setTextViewText(R.id.next_stop_button_text, mResources.getString(R.string.notif_stop));
+
+            Intent intent = new Intent(NotifActionHandler.ACTION_STOP);
+            notifView.setOnClickPendingIntent(R.id.next_stop_button, PendingIntent.getBroadcast(mContext, 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT));
         }
     }
 
@@ -462,16 +467,14 @@ public final class WorkoutFragment extends Fragment implements
             notifView.setImageViewResource(R.id.start_rest_button_icon, R.drawable.ic_pause_black_48dp);
             notifView.setTextViewText(R.id.start_rest_button_text, mResources.getString(R.string.notif_rest));
 
-            Intent intent = new Intent(NotifActionHandler.ACTION_KEY);
-            intent.putExtra(NotifActionHandler.ACTION_KEY, NotifActionHandler.ACTION_REST);
+            Intent intent = new Intent(NotifActionHandler.ACTION_REST);
             notifView.setOnClickPendingIntent(R.id.start_rest_button, PendingIntent.getBroadcast(mContext, 0, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT));
         } else if (mIsResting) {
             notifView.setImageViewResource(R.id.start_rest_button_icon, R.drawable.ic_play_arrow_black_48dp);
             notifView.setTextViewText(R.id.start_rest_button_text, mResources.getString(R.string.notif_start));
 
-            Intent intent = new Intent(NotifActionHandler.ACTION_KEY);
-            intent.putExtra(NotifActionHandler.ACTION_KEY, NotifActionHandler.ACTION_START);
+            Intent intent = new Intent(NotifActionHandler.ACTION_START);
             notifView.setOnClickPendingIntent(R.id.start_rest_button, PendingIntent.getBroadcast(mContext, 0, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT));
         }
@@ -522,19 +525,14 @@ public final class WorkoutFragment extends Fragment implements
 
     public class NotifActionHandler extends BroadcastReceiver {
 
-        private static final String ACTION_KEY = "com.chinhhuynh.gymtracker.notif_action";
-
-        private static final String ACTION_REST = "rest";
-        private static final String ACTION_START = "start";
-        private static final String ACTION_NEXT = "next";
-        private static final String ACTION_STOP = "stop";
+        private static final String ACTION_REST = "com.chinhhuynh.gymtracker.rest";
+        private static final String ACTION_START = "com.chinhhuynh.gymtracker.start";
+        private static final String ACTION_NEXT = "com.chinhhuynh.gymtracker.next";
+        private static final String ACTION_STOP = "com.chinhhuynh.gymtracker.stop";
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = (String) intent.getExtras().get(ACTION_KEY);
-            if (action == null) {
-                return;
-            }
+            String action = intent.getAction();
 
             switch (action) {
                 case ACTION_REST:

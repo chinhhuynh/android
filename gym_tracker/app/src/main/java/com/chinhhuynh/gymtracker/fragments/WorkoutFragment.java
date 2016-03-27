@@ -462,6 +462,8 @@ public final class WorkoutFragment extends Fragment implements
             notifView.setTextViewText(R.id.next_stop_button_text, mResources.getString(R.string.notif_stop));
 
             Intent intent = new Intent(NotifActionHandler.ACTION_STOP);
+            PendingIntent resumeActivity = newNotifIntent();
+            intent.putExtra(NotifActionHandler.RESUME_ACTIVITY_INTENT_EXTRA, resumeActivity);
             notifView.setOnClickPendingIntent(R.id.next_stop_button, PendingIntent.getBroadcast(mContext, 0, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT));
         }
@@ -535,6 +537,8 @@ public final class WorkoutFragment extends Fragment implements
         private static final String ACTION_NEXT = "com.chinhhuynh.gymtracker.next";
         private static final String ACTION_STOP = "com.chinhhuynh.gymtracker.stop";
 
+        private static final String RESUME_ACTIVITY_INTENT_EXTRA = "com.chinhhuynh.gymtracker.resume_activity_intent";
+
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -561,6 +565,20 @@ public final class WorkoutFragment extends Fragment implements
                     mExerciseList.startNext(mExercise);
                     updateViews();
                     startWorkout();
+                    break;
+                case ACTION_STOP:
+                    stopWorkout();
+                    onWorkoutCompleted();
+
+                    PendingIntent resumeActivityIntent =
+                            intent.getParcelableExtra(RESUME_ACTIVITY_INTENT_EXTRA);
+
+                    try {
+                        resumeActivityIntent.send();
+                    } catch (PendingIntent.CanceledException ignored) {}
+
+                    // close notification drawer.
+                    context.sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
                     break;
             }
         }

@@ -2,6 +2,7 @@ package com.chinhhuynh.gymtracker.fragments;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -16,6 +17,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -87,6 +89,7 @@ public final class WorkoutFragment extends Fragment implements
     private NotificationManager mNotificationManager;
     private NotificationCompat.Builder mNotificationBuilder;
 
+    private CollapsingToolbarLayout mToolbarLayout;
     private Toolbar mToolbar;
     private TextView mSetView;
     private TextView mWeightView;
@@ -117,6 +120,7 @@ public final class WorkoutFragment extends Fragment implements
         }
     };
 
+    @SuppressLint("ValidFragment")
     public WorkoutFragment(ExerciseList exerciseList) {
         mExerciseList = exerciseList;
 
@@ -143,6 +147,7 @@ public final class WorkoutFragment extends Fragment implements
         mStartButton = (StartButton) fragmentLayout.findViewById(R.id.start_button);
         mRestCountdownView = (RestCountdown) fragmentLayout.findViewById(R.id.rest_countdown);
         mToolbar = (Toolbar) fragmentLayout.findViewById(R.id.toolbar);
+        mToolbarLayout = (CollapsingToolbarLayout) fragmentLayout.findViewById(R.id.toolbar_layout);
         mSetView = (TextView) fragmentLayout.findViewById(R.id.workout_set);
         mWeightView = (TextView) fragmentLayout.findViewById(R.id.workout_weight);
         mRestDurationView = (TextView) fragmentLayout.findViewById(R.id.workout_rest_duration);
@@ -304,7 +309,7 @@ public final class WorkoutFragment extends Fragment implements
     }
 
     private void updateViews() {
-        mToolbar.setTitle(mExercise.mExerciseName);
+        mToolbarLayout.setTitle(mExercise.mExerciseName);
         mSetView.setText(String.valueOf(mSummary.set));
         mWeightView.setText(String.valueOf(mSummary.weight));
         if (mSummary.restDurationSec != 0) {

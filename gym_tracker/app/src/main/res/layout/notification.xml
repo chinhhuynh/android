@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="false"
+        android:layout_toLeftOf="@+id/start_rest_button"
         android:layout_toRightOf="@id/icon"
         android:gravity="center_vertical"
         android:orientation="vertical">
@@ -21,6 +22,8 @@
         <TextView
             android:id="@+id/title"
             android:fontFamily="sans-serif"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:textSize="@dimen/notif_title_text_size"
             android:textColor="@color/md_black_1000"
             android:layout_width="wrap_content"
@@ -36,7 +39,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/start_rest_button"
+        android:id="@id/start_rest_button"
         android:orientation="horizontal"
         android:padding="@dimen/notif_horizontal_margin"
         android:layout_toLeftOf="@+id/next_stop_button"

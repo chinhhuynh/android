@@ -142,7 +142,7 @@ public final class WorkoutFragment extends Fragment implements
         mHandler = new Handler(Looper.getMainLooper());
         mVibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
         mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-
+        
         mClockView = (TextView) fragmentLayout.findViewById(R.id.clock);
         mStartButton = (StartButton) fragmentLayout.findViewById(R.id.start_button);
         mRestCountdownView = (RestCountdown) fragmentLayout.findViewById(R.id.rest_countdown);
@@ -424,7 +424,8 @@ public final class WorkoutFragment extends Fragment implements
             mNotificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
 
             notification = mNotificationBuilder.build();
-            notification.bigContentView = getNotificationView(text);
+            notification.bigContentView = getBigNotificationView(text);
+            notification.contentView = getNotificationView(text);
         } else {
             mNotificationBuilder
                     .setContentText(text)
@@ -437,8 +438,20 @@ public final class WorkoutFragment extends Fragment implements
         mNotificationManager.notify(ACTIVE_WORKOUT_NOTIF_ID, notification);
     }
 
+    private RemoteViews getBigNotificationView(String text) {
+        RemoteViews view = new RemoteViews(mContext.getPackageName(), R.layout.notification_big);
+        view.setImageViewResource(R.id.icon, R.mipmap.ic_launcher);
+        view.setTextViewText(R.id.title, mExercise.mExerciseName);
+        view.setTextViewText(R.id.text, text);
+
+        setNotifWorkoutIntent(view);
+        setNotifNextWorkoutIntent(view);
+
+        return view;
+    }
+
     private RemoteViews getNotificationView(String text) {
-        RemoteViews view = new RemoteViews(mContext.getPackageName(), R.layout.notification_large);
+        RemoteViews view = new RemoteViews(mContext.getPackageName(), R.layout.notification);
         view.setImageViewResource(R.id.icon, R.mipmap.ic_launcher);
         view.setTextViewText(R.id.title, mExercise.mExerciseName);
         view.setTextViewText(R.id.text, text);

@@ -142,7 +142,7 @@ public final class WorkoutFragment extends Fragment implements
         mHandler = new Handler(Looper.getMainLooper());
         mVibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
         mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        
+
         mClockView = (TextView) fragmentLayout.findViewById(R.id.clock);
         mStartButton = (StartButton) fragmentLayout.findViewById(R.id.start_button);
         mRestCountdownView = (RestCountdown) fragmentLayout.findViewById(R.id.rest_countdown);

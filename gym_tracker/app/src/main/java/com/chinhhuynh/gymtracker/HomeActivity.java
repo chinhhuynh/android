@@ -18,6 +18,9 @@ import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.view.MenuItem;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.chinhhuynh.gymtracker.database.table.WorkoutTable;
 import com.chinhhuynh.gymtracker.fragments.WorkoutHistoryFragment;
 import com.chinhhuynh.gymtracker.fragments.WorkoutSessionFragment;
@@ -34,10 +37,16 @@ public class HomeActivity extends AppCompatActivity implements
     private Fragment mWorkoutSessionFragment;
     private Fragment mWorkoutHistoryFragment;
 
+    private Map<Integer, String> mMenuIdFragmentNamesMapping;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        mMenuIdFragmentNamesMapping = new HashMap<>();
+        mMenuIdFragmentNamesMapping.put(R.id.workout_session, WorkoutSessionFragment.TAG);
+        mMenuIdFragmentNamesMapping.put(R.id.history, WorkoutHistoryFragment.TAG);
 
         initializeToolbar();
 
@@ -48,7 +57,6 @@ public class HomeActivity extends AppCompatActivity implements
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.content, mWorkoutHistoryFragment, WorkoutHistoryFragment.class.getSimpleName())
-                    .addToBackStack(WorkoutHistoryFragment.class.getSimpleName())
                     .commit();
         }
 
@@ -76,14 +84,26 @@ public class HomeActivity extends AppCompatActivity implements
     @Override
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
-        if (fm.getBackStackEntryCount() == 0) {
+        int entryCount = fm.getBackStackEntryCount();
+        if (entryCount == 0) {
+            finish();
             return;
         }
-        BackStackEntry top = fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1);
+
+        BackStackEntry top = fm.getBackStackEntryAt(entryCount - 1);
         Fragment fragment = fm.findFragmentByTag(top.getName());
+
+        boolean consumed = false;
         if (fragment instanceof OnBackPressed) {
-            ((OnBackPressed) fragment).onBackPressed();
+            consumed = ((OnBackPressed) fragment).onBackPressed();
         }
+
+        if (consumed) {
+            // if the fragment handled the back pressed, do nothing.
+            return;
+        }
+
+        fm.popBackStackImmediate();
     }
 
     @Override
@@ -139,14 +159,8 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
     private void selectDrawerItem(MenuItem menuItem) {
-        Fragment fragment = getFragment(menuItem.getItemId());
-
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content, fragment)
-                .addToBackStack(fragment.getClass().getSimpleName())
-                .commit();
+        String fragmentName = mMenuIdFragmentNamesMapping.get(menuItem.getItemId());
+        switchToFragment(fragmentName);
 
         // Highlight the selected item, update the title, and close the drawer
         menuItem.setChecked(true);
@@ -154,17 +168,30 @@ public class HomeActivity extends AppCompatActivity implements
         mDrawerLayout.closeDrawers();
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private Fragment getFragment(int menuItemId) {
-        try {
-            switch (menuItemId) {
-                case R.id.workout_session:
-                    return mWorkoutSessionFragment;
+    private void switchToFragment(String fragmentName) {
+        Fragment fragment = getFragment(fragmentName);
 
-                case R.id.history:
-                    return WorkoutHistoryFragment.class.newInstance();
-            }
-        } catch (InstantiationException|IllegalAccessException ignored) {}
+        if (fragment == null) {
+            return;
+        }
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content, fragment, fragmentName)
+                .addToBackStack(fragmentName)
+                .commit();
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private Fragment getFragment(String fragmentName) {
+        switch (fragmentName) {
+            case "WorkoutSessionFragment":
+                return mWorkoutSessionFragment;
+
+            case "WorkoutHistoryFragment":
+                return mWorkoutHistoryFragment;
+        }
 
         return null;
     }

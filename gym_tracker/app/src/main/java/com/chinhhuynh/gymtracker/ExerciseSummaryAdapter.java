@@ -40,7 +40,8 @@ public final class ExerciseSummaryAdapter extends RecyclerView.Adapter<ExerciseS
     @Override
     public void onBindViewHolder(ExerciseSummaryViewHolder holder, int position) {
         ExerciseSummary exercise = mExercises.get(position);
-        holder.bind(exercise);
+        boolean isLastItem = position == mExercises.size() - 1;
+        holder.bind(exercise, isLastItem);
     }
 
     @Override

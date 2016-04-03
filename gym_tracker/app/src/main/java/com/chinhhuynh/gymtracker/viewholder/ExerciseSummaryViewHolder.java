@@ -22,6 +22,7 @@ public final class ExerciseSummaryViewHolder extends RecyclerView.ViewHolder {
     private final ImageView mIconView;
     private final TextView mTitleView;
     private final TextView mSubTextView;
+    private final View mBottomDividerView;
 
     private ExerciseSummary mSummary;
     private BitmapImageViewTarget mViewTarget;
@@ -34,17 +35,19 @@ public final class ExerciseSummaryViewHolder extends RecyclerView.ViewHolder {
         mIconView = (ImageView) itemView.findViewById(R.id.exercise_icon);
         mTitleView = (TextView) itemView.findViewById(R.id.exercise_title);
         mSubTextView = (TextView) itemView.findViewById(R.id.exercise_subtext);
+        mBottomDividerView = itemView.findViewById(R.id.bottom_divider);
 
         mViewTarget = new BitmapImageViewTarget(mIconView);
     }
 
-    public void bind(ExerciseSummary summary) {
-
+    public void bind(ExerciseSummary summary, boolean isLastItem) {
         mSummary = summary;
 
         mTitleView.setText(String.valueOf(mSummary.exercise.mExerciseName));
         mSubTextView.setText(getExerciseSubText(mSummary.exercise));
         Glide.clear(mViewTarget);
+
+        mBottomDividerView.setVisibility(isLastItem ? View.GONE : View.VISIBLE);
     }
 
     public void onViewAttachedToWindow() {

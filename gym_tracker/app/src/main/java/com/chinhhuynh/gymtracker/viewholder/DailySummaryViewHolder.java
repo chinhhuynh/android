@@ -54,8 +54,9 @@ public final class DailySummaryViewHolder extends RecyclerView.ViewHolder {
             View exerciseView = mExercisesView.getChildAt(i);
             ExerciseSummaryViewHolder viewHolder = (ExerciseSummaryViewHolder) exerciseView.getTag();
             if (i < mExercises.size()) {
+                boolean isLastItem = i == mExercises.size() - 1;
                 exerciseView.setVisibility(View.VISIBLE);
-                viewHolder.bind(mExercises.get(i));
+                viewHolder.bind(mExercises.get(i), isLastItem);
             } else {
                 exerciseView.setVisibility(View.GONE);
                 mExercisesView.removeViewAt(i);
@@ -63,10 +64,11 @@ public final class DailySummaryViewHolder extends RecyclerView.ViewHolder {
             }
         }
         for (int i = viewCount; i < mExercises.size(); i++) {
+            boolean isLastItem = i == mExercises.size() - 1;
             ExerciseSummaryViewHolder viewHolder = getExerciseSummaryViewHolder();
             View exerciseView = viewHolder.itemView;
             exerciseView.setVisibility(View.VISIBLE);
-            viewHolder.bind(mExercises.get(i));
+            viewHolder.bind(mExercises.get(i), isLastItem);
             mExercisesView.addView(exerciseView);
         }
     }

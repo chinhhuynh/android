@@ -36,6 +36,7 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/bottom_divider"
         android:src="@drawable/divider"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@id/exercise_icon"

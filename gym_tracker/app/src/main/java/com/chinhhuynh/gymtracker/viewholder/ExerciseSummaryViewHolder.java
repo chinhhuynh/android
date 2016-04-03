@@ -10,8 +10,8 @@ import java.io.File;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.chinhhuynh.gymtracker.ExerciseUtils;
 import com.chinhhuynh.gymtracker.R;
-import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
 
@@ -44,7 +44,7 @@ public final class ExerciseSummaryViewHolder extends RecyclerView.ViewHolder {
         mSummary = summary;
 
         mTitleView.setText(String.valueOf(mSummary.exercise.mExerciseName));
-        mSubTextView.setText(getExerciseSubText(mSummary.exercise));
+        mSubTextView.setText(ExerciseUtils.getExerciseSubText(mSummary));
         Glide.clear(mViewTarget);
 
         mBottomDividerView.setVisibility(isLastItem ? View.GONE : View.VISIBLE);
@@ -57,13 +57,5 @@ public final class ExerciseSummaryViewHolder extends RecyclerView.ViewHolder {
                 .load(icon)
                 .asBitmap()
                 .into(mViewTarget);
-    }
-
-    private String getExerciseSubText(Exercise exercise) {
-        if (mSummary != null) {
-            int durationMin = mSummary.durationSec < 60 ? 1 : mSummary.durationSec / 60;
-            return String.format("%d mins | %d sets | %s lbs", durationMin, mSummary.set, mSummary.weight);
-        }
-        return null;
     }
 }

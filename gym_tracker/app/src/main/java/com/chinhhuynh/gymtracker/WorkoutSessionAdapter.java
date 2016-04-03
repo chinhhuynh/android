@@ -161,10 +161,7 @@ public class WorkoutSessionAdapter extends BaseAdapter {
 
     private String getExerciseSubText(Exercise exercise) {
         ExerciseSummary summary = mSummaries.get(exercise);
-        if (summary != null) {
-            return String.format("%d seconds | %d sets | %s lbs", summary.durationSec, summary.set, summary.weight);
-        }
-        return null;
+        return ExerciseUtils.getExerciseSubText(summary);
     }
 
     private void notifyItemClicked(Exercise exercise) {

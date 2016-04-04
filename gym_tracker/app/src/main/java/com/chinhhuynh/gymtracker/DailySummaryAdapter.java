@@ -8,13 +8,30 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.chinhhuynh.gymtracker.model.DailySummary;
+import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import com.chinhhuynh.gymtracker.viewholder.DailySummaryViewHolder;
 import com.chinhhuynh.gymtracker.viewholder.ViewType;
+import utils.DateUtils;
 
 public final class DailySummaryAdapter extends RecyclerView.Adapter<DailySummaryViewHolder> {
+
+    private static final Comparator<ExerciseSummary> EXERCISE_TIME_COMPARATOR = new Comparator<ExerciseSummary>() {
+        @Override
+        public int compare(ExerciseSummary lhs, ExerciseSummary rhs) {
+            return (int) (lhs.startTime - rhs.startTime);
+        }
+    };
+    private static final Comparator<DailySummary> DAILY_SUMMARY_DATE_COMPARATOR = new Comparator<DailySummary>() {
+        @Override
+        public int compare(DailySummary lhs, DailySummary rhs) {
+            return lhs.mDate.compareTo(rhs.mDate);
+        }
+    };
 
     private final LayoutInflater mInflater;
     private final RecyclerView.RecycledViewPool mRecycledViewPool;
@@ -59,8 +76,44 @@ public final class DailySummaryAdapter extends RecyclerView.Adapter<DailySummary
     }
 
     public void addSummaries(List<DailySummary> summaries) {
-        mSummaries.addAll(summaries);
+        for (DailySummary summary: summaries) {
+            mergeDailySummary(summary);
+        }
+        Collections.sort(mSummaries, DAILY_SUMMARY_DATE_COMPARATOR);
+
         notifyDataSetChanged();
+    }
+
+    private void mergeDailySummary(DailySummary newSummary) {
+        for (DailySummary summary : mSummaries) {
+            if (DateUtils.isSameDay(summary.mDate, newSummary.mDate)) {
+                // Summary for the same date exists; merges exercises list.
+                mergeExerciseSummaries(summary.mExercises, newSummary.mExercises);
+                Collections.sort(summary.mExercises, EXERCISE_TIME_COMPARATOR);
+                return;
+            }
+        }
+        // Summary for a new date.
+        mSummaries.add(newSummary);
+    }
+
+    private void mergeExerciseSummaries(List<ExerciseSummary> lhs, List<ExerciseSummary> rhs) {
+        if (lhs == null || rhs == null) {
+            return;
+        }
+
+        for (ExerciseSummary summary : rhs) {
+            mergeExerciseSummary(lhs, summary);
+        }
+    }
+
+    private void mergeExerciseSummary(List<ExerciseSummary> summaries, ExerciseSummary newSummary) {
+        for (ExerciseSummary summary : summaries) {
+            if (summary.startTime == newSummary.startTime) {
+                return;
+            }
+        }
+        summaries.add(newSummary);
     }
 
     private View newView(ViewGroup parent, int viewType) {

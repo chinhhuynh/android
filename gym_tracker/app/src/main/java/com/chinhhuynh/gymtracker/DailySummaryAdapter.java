@@ -110,10 +110,19 @@ public final class DailySummaryAdapter extends RecyclerView.Adapter<DailySummary
     private void mergeExerciseSummary(List<ExerciseSummary> summaries, ExerciseSummary newSummary) {
         for (ExerciseSummary summary : summaries) {
             if (summary.startTime == newSummary.startTime) {
+                update(summary, newSummary);
                 return;
             }
         }
         summaries.add(newSummary);
+    }
+
+    private void update(ExerciseSummary oldSummary, ExerciseSummary newSummary) {
+        oldSummary.durationSec = newSummary.durationSec;
+        oldSummary.weight = newSummary.weight;
+        oldSummary.set = newSummary.set;
+        oldSummary.restDurationSec = newSummary.restDurationSec;
+        oldSummary.rep = newSummary.rep;
     }
 
     private View newView(ViewGroup parent, int viewType) {

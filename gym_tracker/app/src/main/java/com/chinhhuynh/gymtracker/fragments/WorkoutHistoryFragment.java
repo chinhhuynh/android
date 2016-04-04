@@ -74,6 +74,7 @@ public final class WorkoutHistoryFragment extends Fragment implements
 
     @Override
     public void onExerciseChanged() {
+        mQueryTimestamp = System.currentTimeMillis() - QUERY_RANGE_MS;
         loadDailySummaries(mQueryTimestamp, mQueryTimestamp + QUERY_RANGE_MS);
     }
 

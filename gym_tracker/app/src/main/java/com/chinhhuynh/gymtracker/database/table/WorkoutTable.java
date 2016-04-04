@@ -114,7 +114,13 @@ public final class WorkoutTable extends DbTable<ExerciseSummary> {
     public void saveWorkout(ExerciseSummary summary) {
         ThreadUtils.assertBackgroundThread();
         SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
-        db.insert(TABLE_NAME, null, getContentValues(summary));
+        try {
+            db.beginTransaction();
+            db.insert(TABLE_NAME, null, getContentValues(summary));
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
     }
 
     @WorkerThread

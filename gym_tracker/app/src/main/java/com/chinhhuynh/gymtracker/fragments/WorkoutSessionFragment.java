@@ -8,11 +8,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.HashMap;
@@ -50,7 +48,7 @@ public final class WorkoutSessionFragment extends Fragment implements
 
     private FloatingActionButton mFab;
     private ExercisePickerDialog mExercisePicker;
-    private MenuItem mEditMenu, mDoneMenu;
+    private Button mEditButton;
     private ListView mExercises;
     private WorkoutSessionAdapter mExercisesAdapter;
 
@@ -65,6 +63,18 @@ public final class WorkoutSessionFragment extends Fragment implements
 
         mContext = getContext();
         mActivity = (AppCompatActivity) getActivity();
+
+        mEditButton = (Button) fragmentLayout.findViewById(R.id.edit_button);
+        mEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mIsEditing) {
+                    onFinishEditing();
+                } else {
+                    onEditing();
+                }
+            }
+        });
 
         mExercisePicker = new ExercisePickerDialog(mContext, R.layout.exercise_picker, getLoaderManager())
                 .listener(this);
@@ -93,12 +103,6 @@ public final class WorkoutSessionFragment extends Fragment implements
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        setupActionBar();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         mIsPaused = false;
@@ -120,28 +124,6 @@ public final class WorkoutSessionFragment extends Fragment implements
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.workout_session_action_bar, menu);
-        mEditMenu = menu.findItem(R.id.action_edit);
-        mDoneMenu = menu.findItem(R.id.action_done);
-        updateMenu();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_edit:
-                onEditing();
-                return true;
-            case R.id.action_done:
-                onFinishEditing();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
     public boolean hasNext(Exercise exercise) {
         return mExercisesAdapter.getNext(exercise) != null;
     }
@@ -157,7 +139,7 @@ public final class WorkoutSessionFragment extends Fragment implements
     @Override
     public void onExerciseSelect(Exercise exercise) {
         mExercisesAdapter.addExercise(exercise);
-        updateMenu();
+        updateEditButton();
     }
 
     @Override
@@ -184,7 +166,7 @@ public final class WorkoutSessionFragment extends Fragment implements
     @Override
     public void onItemRemoved(Exercise exercise) {
         mSummaries.remove(exercise);
-        updateMenu();
+        updateEditButton();
         if (!hasExercise()) {
             onFinishEditing();
         }
@@ -205,7 +187,7 @@ public final class WorkoutSessionFragment extends Fragment implements
             mActivity.getSupportFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-                    .add(R.id.drawer_layout, workout, WorkoutFragment.TAG)
+                    .add(R.id.home_layout, workout, WorkoutFragment.TAG)
                     .addToBackStack(WorkoutFragment.TAG)
                     .commit();
         }
@@ -214,14 +196,14 @@ public final class WorkoutSessionFragment extends Fragment implements
     private void onFinishEditing() {
         mIsEditing = false;
         mExercisesAdapter.setEditMode(false /*isEditMode*/);
-        updateMenu();
+        updateEditButton();
         showFab();
     }
 
     private void onEditing() {
         mIsEditing = true;
         mExercisesAdapter.setEditMode(true /*isEditMode*/);
-        updateMenu();
+        updateEditButton();
         hideFab();
     }
 
@@ -250,15 +232,12 @@ public final class WorkoutSessionFragment extends Fragment implements
                 }).start();
     }
 
-    private void updateMenu() {
-        boolean hasExercise = hasExercise();
-        if (mIsEditing) {
-            mEditMenu.setVisible(false);
-            mDoneMenu.setVisible(hasExercise);
-        } else {
-            mEditMenu.setVisible(hasExercise);
-            mDoneMenu.setVisible(false);
-        }
+    private void updateEditButton() {
+        String text = mIsEditing
+                ? getString(R.string.workout_session_done_action)
+                : getString(R.string.workout_session_edit_action);
+        mEditButton.setVisibility(hasExercise() ? View.VISIBLE : View.GONE);
+        mEditButton.setText(text);
     }
 
     private void updateExercise(final ExerciseSummary summary) {
@@ -276,9 +255,5 @@ public final class WorkoutSessionFragment extends Fragment implements
 
     private boolean hasExercise() {
         return mExercisesAdapter.getCount() > 0;
-    }
-
-    private void setupActionBar() {
-        mActivity.getSupportActionBar().setTitle(R.string.workout_session_title);
     }
 }

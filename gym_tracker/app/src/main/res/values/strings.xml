@@ -12,14 +12,14 @@
     <string name="select_rest_duration_title">Select rest duration</string>
 
     <!-- WorkoutHistoryFragment -->
-    <string name="history_title">History</string>
+    <string name="history_title">HISTORY</string>
     <string name="start_workout_session">Start a workout session</string>
     <string name="create_workout_set">Create a workout set</string>
 
     <!-- WorkoutSessionFragment -->
-    <string name="workout_session_title">Workout Session</string>
-    <string name="workout_session_edit_action">Edit</string>
-    <string name="workout_session_done_action">Done</string>
+    <string name="workout_session_title">WORKOUT</string>
+    <string name="workout_session_edit_action">EDIT</string>
+    <string name="workout_session_done_action">DONE</string>
 
     <!-- ExercisePickerDialog -->
     <string name="select_exercise_title">Select exercise</string>

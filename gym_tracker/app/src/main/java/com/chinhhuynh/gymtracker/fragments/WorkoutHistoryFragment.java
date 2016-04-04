@@ -66,19 +66,9 @@ public final class WorkoutHistoryFragment extends Fragment implements
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        setupActionBar();
-    }
-
-    @Override
     public void onLoadComplete(Loader<Cursor> loader, Cursor data) {
         List<DailySummary> dailySummaries = getDailySummaries(data);
         mAdapter.addSummaries(dailySummaries);
-    }
-
-    private void setupActionBar() {
-        mActivity.getSupportActionBar().setTitle(R.string.history_title);
     }
 
     private List<DailySummary> getDailySummaries(Cursor cursor) {

@@ -31,6 +31,7 @@ import com.chinhhuynh.gymtracker.model.ExerciseSummary;
  * Fragment for creating new workout set.
  */
 public final class WorkoutHistoryFragment extends Fragment implements
+        WorkoutSessionFragment.WorkoutSessionEventListener,
         Loader.OnLoadCompleteListener<Cursor> {
 
     public static final String TAG = WorkoutHistoryFragment.class.getSimpleName();
@@ -42,6 +43,7 @@ public final class WorkoutHistoryFragment extends Fragment implements
     private RecyclerView mSummariesView;
     private DailySummaryAdapter mAdapter;
 
+    private SummaryLoader mSummaryLoader;
     private long mQueryTimestamp;
 
     @Nullable
@@ -53,9 +55,7 @@ public final class WorkoutHistoryFragment extends Fragment implements
         mActivity = (AppCompatActivity) getActivity();
 
         mQueryTimestamp = System.currentTimeMillis() - QUERY_RANGE_MS;
-        SummaryLoader loader = new SummaryLoader(mContext, mQueryTimestamp, mQueryTimestamp + QUERY_RANGE_MS);
-        loader.registerListener(0 /*id*/, this);
-        loader.startLoading();
+        loadDailySummaries(mQueryTimestamp, mQueryTimestamp + QUERY_RANGE_MS);
 
         mSummariesView = (RecyclerView) fragmentLayout.findViewById(R.id.daily_summaries);
         mAdapter = new DailySummaryAdapter(mContext);
@@ -69,6 +69,20 @@ public final class WorkoutHistoryFragment extends Fragment implements
     public void onLoadComplete(Loader<Cursor> loader, Cursor data) {
         List<DailySummary> dailySummaries = getDailySummaries(data);
         mAdapter.addSummaries(dailySummaries);
+    }
+
+    @Override
+    public void onExerciseChanged() {
+        loadDailySummaries(mQueryTimestamp, mQueryTimestamp + QUERY_RANGE_MS);
+    }
+
+    private void loadDailySummaries(long start, long end) {
+        if (mSummaryLoader!= null && mSummaryLoader.isStarted()) {
+            return;
+        }
+        mSummaryLoader = new SummaryLoader(mContext, mQueryTimestamp, mQueryTimestamp + QUERY_RANGE_MS);
+        mSummaryLoader.registerListener(0 /*id*/, this);
+        mSummaryLoader.startLoading();
     }
 
     private List<DailySummary> getDailySummaries(Cursor cursor) {

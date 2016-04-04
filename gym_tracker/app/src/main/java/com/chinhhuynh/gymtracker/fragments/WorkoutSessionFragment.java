@@ -42,6 +42,10 @@ public final class WorkoutSessionFragment extends Fragment implements
     public static final String TAG = WorkoutSessionFragment.class.getSimpleName();
     private static final int ANIMATION_DURATION_MS = 100;
 
+    public interface WorkoutSessionEventListener {
+        void onExerciseChanged();
+    }
+
     private AppCompatActivity mActivity;
     private Context mContext;
     private Map<Exercise, ExerciseSummary> mSummaries;
@@ -51,6 +55,7 @@ public final class WorkoutSessionFragment extends Fragment implements
     private Button mEditButton;
     private ListView mExercises;
     private WorkoutSessionAdapter mExercisesAdapter;
+    private WorkoutSessionEventListener mListener;
 
     private boolean mIsEditing;
     private boolean mIsPaused;
@@ -172,6 +177,10 @@ public final class WorkoutSessionFragment extends Fragment implements
         }
     }
 
+    public void setListener(WorkoutSessionEventListener listener) {
+        mListener = listener;
+    }
+
     private void startExercise(Exercise exercise) {
         hideFab();
 
@@ -248,8 +257,21 @@ public final class WorkoutSessionFragment extends Fragment implements
                 @Override
                 public void run() {
                     WorkoutTable.getInstance().saveWorkout(summary);
+                    ThreadUtils.runOnMainThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            notifyExerciseChanged();
+                        }
+                    });
                 }
             });
+        }
+    }
+
+    private void notifyExerciseChanged() {
+        ThreadUtils.assertMainThread();
+        if (mListener != null) {
+            mListener.onExerciseChanged();
         }
     }
 

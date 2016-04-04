@@ -26,8 +26,8 @@ import com.chinhhuynh.lifecycle.activity.OnBackPressed;
 public class HomeActivity extends AppCompatActivity implements
         Loader.OnLoadCompleteListener<Cursor> {
 
-    private Fragment mWorkoutSessionFragment;
-    private Fragment mWorkoutHistoryFragment;
+    private WorkoutSessionFragment mWorkoutSessionFragment;
+    private WorkoutHistoryFragment mWorkoutHistoryFragment;
 
     private ViewPager mViewPager;
     private PagerAdapter mPagerAdapter;
@@ -45,6 +45,8 @@ public class HomeActivity extends AppCompatActivity implements
 
         mWorkoutSessionFragment = new WorkoutSessionFragment();
         mWorkoutHistoryFragment = new WorkoutHistoryFragment();
+
+        mWorkoutSessionFragment.setListener(mWorkoutHistoryFragment);
 
         mPagerAdapter = new AppPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.view_pager);

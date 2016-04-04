@@ -49,4 +49,9 @@
     <dimen name="notif_button_margin">4dp</dimen>
     <dimen name="notif_divider_height">50dp</dimen>
 
+    <!-- Main Layout -->
+    <dimen name="pager_tab_strip_padding">8dp</dimen>
+    <dimen name="header_footer_elevation">2dp</dimen>
+    <dimen name="header_footer_height">48dp</dimen>
+
 </resources>

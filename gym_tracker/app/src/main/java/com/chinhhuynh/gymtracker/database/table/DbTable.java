@@ -36,6 +36,8 @@ public abstract class DbTable<T> implements BaseColumns {
      */
     protected abstract ContentValues getContentValues(T objectToSave);
 
+    protected abstract String getUniqueString();
+
     public String getCreateTableQuery() {
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE TABLE ").append(getName()).append("(");
@@ -46,6 +48,12 @@ public abstract class DbTable<T> implements BaseColumns {
                 sb.append(", ");
             }
             sb.append(columns[i][0]).append(" ").append(columns[i][1]);
+        }
+
+        String uniqueString = getUniqueString();
+        if (uniqueString != null) {
+            sb.append(", ");
+            sb.append(getUniqueString());
         }
 
         sb.append(");");

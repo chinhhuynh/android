@@ -111,6 +111,11 @@ public final class ExerciseTable extends DbTable<Exercise> {
         return contentValues;
     }
 
+    @Override
+    protected String getUniqueString() {
+        return null;
+    }
+
     @WorkerThread
     public static Cursor queryByMuscleGroup(String muscleGroup) {
         SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();

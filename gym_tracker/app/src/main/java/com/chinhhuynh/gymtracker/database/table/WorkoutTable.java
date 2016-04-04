@@ -105,6 +105,11 @@ public final class WorkoutTable extends DbTable<ExerciseSummary> {
         return contentValues;
     }
 
+    @Override
+    protected String getUniqueString() {
+        return "UNIQUE(" + COL_START_TIME + ") ON CONFLICT REPLACE";
+    }
+
     @WorkerThread
     public void saveWorkout(ExerciseSummary summary) {
         ThreadUtils.assertBackgroundThread();

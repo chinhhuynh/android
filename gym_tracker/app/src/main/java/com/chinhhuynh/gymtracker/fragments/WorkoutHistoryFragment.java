@@ -44,6 +44,7 @@ public final class WorkoutHistoryFragment extends Fragment implements
     private DailySummaryAdapter mAdapter;
 
     private SummaryLoader mSummaryLoader;
+    private boolean mIsLoading;
     private long mQueryTimestamp;
 
     @Nullable
@@ -67,6 +68,7 @@ public final class WorkoutHistoryFragment extends Fragment implements
 
     @Override
     public void onLoadComplete(Loader<Cursor> loader, Cursor data) {
+        mIsLoading = false;
         List<DailySummary> dailySummaries = getDailySummaries(data);
         mAdapter.addSummaries(dailySummaries);
     }
@@ -77,10 +79,11 @@ public final class WorkoutHistoryFragment extends Fragment implements
     }
 
     private void loadDailySummaries(long start, long end) {
-        if (mSummaryLoader!= null && mSummaryLoader.isStarted()) {
+        if (mIsLoading) {
             return;
         }
-        mSummaryLoader = new SummaryLoader(mContext, mQueryTimestamp, mQueryTimestamp + QUERY_RANGE_MS);
+        mIsLoading = true;
+        mSummaryLoader = new SummaryLoader(mContext, start, end);
         mSummaryLoader.registerListener(0 /*id*/, this);
         mSummaryLoader.startLoading();
     }

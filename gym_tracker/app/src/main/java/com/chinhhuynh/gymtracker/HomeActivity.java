@@ -132,9 +132,9 @@ public class HomeActivity extends AppCompatActivity implements
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return mWorkoutHistoryFragment;
-                case 1:
                     return mWorkoutSessionFragment;
+                case 1:
+                    return mWorkoutHistoryFragment;
             }
             return null;
         }
@@ -143,9 +143,9 @@ public class HomeActivity extends AppCompatActivity implements
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return getResources().getString(R.string.history_title);
-                case 1:
                     return getResources().getString(R.string.workout_session_title);
+                case 1:
+                    return getResources().getString(R.string.history_title);
             }
             return null;
         }

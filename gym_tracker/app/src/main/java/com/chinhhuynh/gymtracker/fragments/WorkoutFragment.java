@@ -164,7 +164,9 @@ public final class WorkoutFragment extends Fragment implements
                         startWorkout();
                         break;
                     case StartButton.STATE_STOP:
-                        increaseSet();
+                        if (!mIsResting) {
+                            increaseSet();
+                        }
                         stopWorkout();
                         break;
                 }
@@ -566,8 +568,11 @@ public final class WorkoutFragment extends Fragment implements
                     startWorkout();
                     break;
                 case ACTION_NEXT:
-                    if (mIsWorkingOut) {
+                    if (!mIsResting) {
                         increaseSet();
+                    }
+
+                    if (mIsWorkingOut) {
                         stopWorkout();
                     }
 

@@ -51,7 +51,8 @@
 
     <!-- Main Layout -->
     <dimen name="pager_tab_strip_padding">8dp</dimen>
-    <dimen name="header_footer_elevation">2dp</dimen>
+    <dimen name="header_elevation">4dp</dimen>
+    <dimen name="footer_elevation">8dp</dimen>
     <dimen name="header_footer_height">48dp</dimen>
 
 </resources>

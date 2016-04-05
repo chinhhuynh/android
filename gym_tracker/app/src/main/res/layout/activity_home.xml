@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <android.support.v4.view.PagerTabStrip
-            android:elevation="@dimen/header_footer_elevation"
+            android:elevation="@dimen/header_elevation"
             android:background="@color/md_white_1000"
             android:textAlignment="center"
             android:textAppearance="@style/PagerTabStripText"

@@ -32,7 +32,7 @@
         <RelativeLayout
             android:id="@+id/footer"
             android:visibility="gone"
-            android:elevation="@dimen/header_footer_elevation"
+            android:elevation="@dimen/footer_elevation"
             android:background="@color/md_white_1000"
             android:layout_gravity="bottom|end"
             android:layout_width="match_parent"

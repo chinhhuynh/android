@@ -7,7 +7,6 @@
     android:layout_height="match_parent">
 
     <android.support.design.widget.CoordinatorLayout
-        android:layout_above="@+id/footer"
         android:background="@color/md_white_1000"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/activity_home"
@@ -29,24 +28,23 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/plus"/>
-    </android.support.design.widget.CoordinatorLayout>
 
-    <RelativeLayout
-        android:id="@id/footer"
-        android:visibility="gone"
-        android:elevation="@dimen/header_footer_elevation"
-        android:background="@color/md_white_1000"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/header_footer_height">
-
-        <Button
-            android:id="@+id/edit_button"
+        <RelativeLayout
+            android:id="@+id/footer"
             android:visibility="gone"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:text="@string/workout_session_edit_action"
+            android:elevation="@dimen/header_footer_elevation"
             android:background="@color/md_white_1000"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
+            android:layout_gravity="bottom|end"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/header_footer_height">
+
+            <Button
+                android:id="@+id/edit_button"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:text="@string/workout_session_edit_action"
+                android:background="@color/md_white_1000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </RelativeLayout>

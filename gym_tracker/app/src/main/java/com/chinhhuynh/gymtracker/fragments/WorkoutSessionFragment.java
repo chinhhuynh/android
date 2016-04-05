@@ -1,6 +1,8 @@
 package com.chinhhuynh.gymtracker.fragments;
 
 import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -40,7 +44,8 @@ public final class WorkoutSessionFragment extends Fragment implements
         WorkoutFragment.WorkoutEventListener {
 
     public static final String TAG = WorkoutSessionFragment.class.getSimpleName();
-    private static final int ANIMATION_DURATION_MS = 100;
+    private static final int FAB_ANIMATION_DURATION_MS = 100;
+    private static final int FOOTER_ANIMATION_DURATION_MS = 100;
 
     public interface WorkoutSessionEventListener {
         void onExerciseChanged();
@@ -54,11 +59,13 @@ public final class WorkoutSessionFragment extends Fragment implements
     private ExercisePickerDialog mExercisePicker;
     private Button mEditButton;
     private ListView mExercises;
+    private View mFooter;
     private WorkoutSessionAdapter mExercisesAdapter;
     private WorkoutSessionEventListener mListener;
 
     private boolean mIsEditing;
     private boolean mIsPaused;
+    private boolean mIsFooterVisible;
 
     @Nullable
     @Override
@@ -80,6 +87,8 @@ public final class WorkoutSessionFragment extends Fragment implements
                 }
             }
         });
+
+        mFooter = fragmentLayout.findViewById(R.id.footer);
 
         mExercisePicker = new ExercisePickerDialog(mContext, R.layout.exercise_picker, getLoaderManager())
                 .listener(this);
@@ -171,7 +180,6 @@ public final class WorkoutSessionFragment extends Fragment implements
     @Override
     public void onItemRemoved(Exercise exercise) {
         mSummaries.remove(exercise);
-        updateEditButton();
         if (!hasExercise()) {
             onFinishEditing();
         }
@@ -222,7 +230,7 @@ public final class WorkoutSessionFragment extends Fragment implements
                 .animate()
                 .scaleX(1f)
                 .scaleY(1f)
-                .setDuration(ANIMATION_DURATION_MS)
+                .setDuration(FAB_ANIMATION_DURATION_MS)
                 .setListener(null)
                 .start();
     }
@@ -232,7 +240,7 @@ public final class WorkoutSessionFragment extends Fragment implements
                 .animate()
                 .scaleX(0f)
                 .scaleY(0f)
-                .setDuration(ANIMATION_DURATION_MS)
+                .setDuration(FAB_ANIMATION_DURATION_MS)
                 .setListener(new AnimatorEndListener() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -242,11 +250,63 @@ public final class WorkoutSessionFragment extends Fragment implements
     }
 
     private void updateEditButton() {
-        String text = mIsEditing
+        if (hasExercise() && !mIsFooterVisible) {
+            showFooter();
+            return;
+        }
+
+        if (!hasExercise() && mIsFooterVisible) {
+            hideFooter();
+            return;
+        }
+
+        String buttonText = mIsEditing
                 ? getString(R.string.workout_session_done_action)
                 : getString(R.string.workout_session_edit_action);
-        mEditButton.setVisibility(hasExercise() ? View.VISIBLE : View.GONE);
-        mEditButton.setText(text);
+        mEditButton.setText(buttonText);
+    }
+
+    private void showFooter() {
+        int footerHeight = mFooter.getHeight();
+        mIsFooterVisible = true;
+
+        mExercises.setPadding(0, 0, 0, footerHeight);
+        mEditButton.setText(getString(R.string.workout_session_edit_action));
+        mFooter.setVisibility(View.VISIBLE);
+        mFooter.setTranslationY(footerHeight);
+
+        ObjectAnimator fabAnimator = ObjectAnimator
+                .ofFloat(mFab, "translationY", -footerHeight)
+                .setDuration(FOOTER_ANIMATION_DURATION_MS);
+        ObjectAnimator footerAnimator = ObjectAnimator
+                .ofFloat(mFooter, "translationY", 0)
+                .setDuration(FOOTER_ANIMATION_DURATION_MS);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(footerAnimator, fabAnimator);
+        animatorSet.setInterpolator(new DecelerateInterpolator());
+        animatorSet.setStartDelay(100);
+        animatorSet.start();
+    }
+
+    private void hideFooter() {
+        mIsFooterVisible = false;
+
+        mExercises.setPadding(0, 0, 0, 0);
+        mFooter.setVisibility(View.VISIBLE);
+        mFooter.setTranslationY(0);
+
+        ObjectAnimator fabAnimator = ObjectAnimator
+                .ofFloat(mFab, "translationY", 0)
+                .setDuration(FOOTER_ANIMATION_DURATION_MS);
+        ObjectAnimator footerAnimator = ObjectAnimator
+                .ofFloat(mFooter, "translationY", mFooter.getHeight())
+                .setDuration(FOOTER_ANIMATION_DURATION_MS);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(footerAnimator, fabAnimator);
+        animatorSet.setInterpolator(new AccelerateInterpolator());
+        animatorSet.start();
     }
 
     private void updateExercise(final ExerciseSummary summary) {

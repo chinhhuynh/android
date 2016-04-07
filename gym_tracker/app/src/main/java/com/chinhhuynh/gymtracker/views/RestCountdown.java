@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.format.DateUtils;
@@ -28,6 +29,7 @@ public final class RestCountdown extends View {
 
     private static final float SQRT_2 = (float) Math.sqrt(2);
     private static final long ONE_TENTH_SECOND = DateUtils.SECOND_IN_MILLIS / 10;
+    private static final float STROKE_WIDTH = 27f;
 
     private Paint mBackgroundPaint;
     private Paint mTextPaint;
@@ -124,21 +126,23 @@ public final class RestCountdown extends View {
 
         mBackgroundPaint = new Paint();
         mBackgroundPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        mBackgroundPaint.setStyle(Paint.Style.FILL);
-        mBackgroundPaint.setColor(resources.getColor(R.color.md_green_500));
+        mBackgroundPaint.setStyle(Paint.Style.STROKE);
+        mBackgroundPaint.setStrokeWidth(STROKE_WIDTH);
+        mBackgroundPaint.setColor(resources.getColor(R.color.md_black_1000));
 
         mTextPaint = new Paint();
         mTextPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setStyle(Paint.Style.FILL);
-        mTextPaint.setColor(Color.WHITE);
+        mTextPaint.setColor(resources.getColor(R.color.md_black_1000));
         mTextPaint.setTextSize(textSize);
+        mTextPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
     }
 
     private void drawCircle(Canvas canvas) {
         float x = getWidth() / 2;
         float y = getHeight() / 2;
         float radius = Math.min(x, y);
-        canvas.drawCircle(x, y, radius, mBackgroundPaint);
+        canvas.drawCircle(x, y, radius - STROKE_WIDTH, mBackgroundPaint);
     }
 
     private void drawNumber(Canvas canvas, int number) {

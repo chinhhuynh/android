@@ -66,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
-            
+
             <LinearLayout
                 android:id="@+id/next_stop_button"
                 android:orientation="horizontal"

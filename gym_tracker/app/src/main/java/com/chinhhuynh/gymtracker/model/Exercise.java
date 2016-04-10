@@ -97,4 +97,17 @@ public final class Exercise {
     public static final String EXERCISE_TRICEPS_DIP = "Triceps Dip";
     public static final String EXERCISE_DUMBBELL_TRICEPS_EXTENSION = "Dumbbell Triceps Extension";
     public static final String EXERCISE_CABLE_TRICEPS_EXTENSION = "Cable Triceps Extension";
+
+    // Legs
+    public static final String EXERCISE_BARBELL_BACK_SQUAT = "Barbell Back Squat";
+    public static final String EXERCISE_BARBELL_FRONT_SQUAT = "Barbell Front Squat";
+    public static final String EXERCISE_DEADLIFT = "Deadlift";
+    public static final String EXERCISE_LEG_PRESS = "Leg Press";
+    public static final String EXERCISE_LEG_EXTENSION = "Leg Extension";
+    public static final String EXERCISE_LEG_CURL = "Leg Curl";
+    public static final String EXERCISE_CALF_RAISE = "Calf Raise";
+    public static final String EXERCISE_LUNGE = "Lunge";
+    public static final String EXERCISE_LATERAL_LUNGE = "Lateral Lunge";
+    public static final String EXERCISE_REVERSE_LUNGE = "Reverse Lunge";
+    public static final String EXERCISE_BOX_JUMP = "Box Jump";
 }

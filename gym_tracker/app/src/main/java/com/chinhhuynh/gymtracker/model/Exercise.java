@@ -52,8 +52,8 @@ public final class Exercise {
     }
 
     public static final String MUSCLE_GROUP_CHEST = "Chest";
-    public static final String MUSCLE_GROUP_ARM = "Arm";
-    public static final String MUSCLE_GROUP_LEG = "Leg";
+    public static final String MUSCLE_GROUP_ARMS = "Arms";
+    public static final String MUSCLE_GROUP_LEGS = "Legs";
     public static final String MUSCLE_GROUP_ABS = "Abs";
     public static final String MUSCLE_GROUP_BACK = "Back";
     public static final String MUSCLE_GROUP_SHOULDER = "Shoulder";
@@ -80,4 +80,21 @@ public final class Exercise {
     public static final String EXERCISE_LOW_CABLE_CROSSOVER = "Low Cable Crossover";
     public static final String EXERCISE_DUMBBELL_FLY = "Dumbbell Fly";
     public static final String EXERCISE_DUMBBELL_PULL_OVER = "Dumbbell Pull Over";
+
+    // Arms
+        // Biceps
+    public static final String EXERCISE_CURL = "Curl";
+    public static final String EXERCISE_PREACHER_CURL = "Preacher Curl";
+    public static final String EXERCISE_HAMMER_CURL = "Hammer Curl";
+    public static final String EXERCISE_CONCENTRATION_CURL = "Concentration Curl";
+    public static final String EXERCISE_REVERSE_CURL = "Reverse Curl";
+    public static final String EXERCISE_BARBELL_ROW = "Barbell Row";
+
+        // Triceps
+    public static final String EXERCISE_SKULL_CRUSHER = "Skull Crusher";
+    public static final String EXERCISE_DUMBBELL_KICK_BACK = "Dumbbell Kickback";
+    public static final String EXERCISE_TRICEPS_PUSH_DOWN = "Triceps Push Down";
+    public static final String EXERCISE_TRICEPS_DIP = "Triceps Dip";
+    public static final String EXERCISE_DUMBBELL_TRICEPS_EXTENSION = "Dumbbell Triceps Extension";
+    public static final String EXERCISE_CABLE_TRICEPS_EXTENSION = "Cable Triceps Extension";
 }

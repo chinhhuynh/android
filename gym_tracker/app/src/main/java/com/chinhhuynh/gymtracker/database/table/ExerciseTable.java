@@ -62,11 +62,28 @@ public final class ExerciseTable extends DbTable<Exercise> {
             new Exercise(Exercise.EXERCISE_DUMBBELL_PULL_OVER, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_SIT_UP_ICON),
     };
 
+    private static Exercise[] ARMS_EXERCISES = {
+            new Exercise(Exercise.EXERCISE_CURL, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_PREACHER_CURL, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_HAMMER_CURL, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_CONCENTRATION_CURL, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_REVERSE_CURL, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_BARBELL_ROW, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
+
+            new Exercise(Exercise.EXERCISE_SKULL_CRUSHER, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_DUMBBELL_KICK_BACK, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_TRICEPS_PUSH_DOWN, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_TRICEPS_DIP, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_DUMBBELL_TRICEPS_EXTENSION, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_CABLE_TRICEPS_EXTENSION, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
+    };
+
     private static Map<String, Exercise[]> EXERCISES;
     static {
         EXERCISES = new HashMap<>();
         EXERCISES.put(Exercise.MUSCLE_GROUP_ABS, ABS_EXERCISES);
         EXERCISES.put(Exercise.MUSCLE_GROUP_CHEST, CHEST_EXERCISES);
+        EXERCISES.put(Exercise.MUSCLE_GROUP_ARMS, ARMS_EXERCISES);
     }
 
     private static ExerciseTable INSTANCE;

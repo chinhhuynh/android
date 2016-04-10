@@ -5,8 +5,6 @@ import android.content.Context;
 import com.chinhhuynh.gymtracker.GymTrackerApplication;
 import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
 
-import java.io.FileDescriptor;
-
 public final class Exercise {
 
     public final String mExerciseName;
@@ -53,24 +51,15 @@ public final class Exercise {
         return mExerciseFolderPath.concat("/").concat(mIconFileName);
     }
 
-    public static final String MUSCLE_GROUP_ABS = "Abdominals";
     public static final String MUSCLE_GROUP_CHEST = "Chest";
-    public static final String MUSCLE_GROUP_LOWER_BACK = "Lower Back";
-    public static final String MUSCLE_GROUP_TRAPS = "Traps";
-    public static final String MUSCLE_GROUP_ABDUCTORS = "Abductors";
-    public static final String MUSCLE_GROUP_FOREARMS = "Forearms";
-    public static final String MUSCLE_GROUP_MIDDLE_BACK = "Middle Back";
-    public static final String MUSCLE_GROUP_TRICEPS = "Triceps";
-    public static final String MUSCLE_GROUP_ADDUCTORS = "Adductors";
-    public static final String MUSCLE_GROUP_GLUTES = "Glutes";
-    public static final String MUSCLE_GROUP_NECK = "Neck";
-    public static final String MUSCLE_GROUP_BICEPS = "Biceps";
-    public static final String MUSCLE_GROUP_HAMSTRINGS = "Hamstrings";
-    public static final String MUSCLE_GROUP_QUADRICEPS = "Quadriceps";
-    public static final String MUSCLE_GROUP_CALVES = "Calves";
-    public static final String MUSCLE_GROUP_SHOULDERS = "Shoulders";
+    public static final String MUSCLE_GROUP_ARM = "Arm";
+    public static final String MUSCLE_GROUP_LEG = "Leg";
+    public static final String MUSCLE_GROUP_ABS = "Abs";
+    public static final String MUSCLE_GROUP_BACK = "Back";
+    public static final String MUSCLE_GROUP_SHOULDER = "Shoulder";
+    public static final String MUSCLE_GROUP_GLUTE = "Glute";
 
-    // Abdominals
+    // Abs
     public static final String EXERCISE_RUSSIAN_TWIST = "Russian Twist";
     public static final String EXERCISE_WEIGHTED_SUITCASE_CRUNCH = "Weighted Suitcase Crunch";
     public static final String EXERCISE_BOTTOMS_UP = "Bottoms Up";
@@ -81,7 +70,7 @@ public final class Exercise {
     public static final String EXERCISE_HANGING_LEG_RAISE = "Hanging Leg Raise";
     public static final String EXERCISE_ROPE_CRUNCH = "Rope Crunch";
 
-    // Chests
+    // Chest
     public static final String EXERCISE_PUSH_UP = "Push up";
     public static final String EXERCISE_DUMBBELL_BENCH_PRESS = "Dumbbell Bench Press";
     public static final String EXERCISE_BARBELL_BENCH_PRESS = "Barbell Bench Press";

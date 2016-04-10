@@ -72,9 +72,12 @@ public final class Exercise {
 
     // Chest
     public static final String EXERCISE_PUSH_UP = "Push up";
-    public static final String EXERCISE_DUMBBELL_BENCH_PRESS = "Dumbbell Bench Press";
-    public static final String EXERCISE_BARBELL_BENCH_PRESS = "Barbell Bench Press";
-    public static final String EXERCISE_INCLINE_BARBELL_PRESS = "Incline Barbell Press";
+    public static final String EXERCISE_CHEST_PRESS = "Chest Press";
+    public static final String EXERCISE_INCLINE_CHEST_PRESS = "Incline Chest Press";
+    public static final String EXERCISE_DECLINE_CHEST_PRESS = "Decline Chest Press";
+    public static final String EXERCISE_DIP = "Dip";
+    public static final String EXERCISE_CABLE_CROSSOVER = "Cable Crossover";
     public static final String EXERCISE_LOW_CABLE_CROSSOVER = "Low Cable Crossover";
-    public static final String EXERCISE_BUTTERFLY = "Butterfly";
+    public static final String EXERCISE_DUMBBELL_FLY = "Dumbbell Fly";
+    public static final String EXERCISE_DUMBBELL_PULL_OVER = "Dumbbell Pull Over";
 }

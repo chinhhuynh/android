@@ -38,22 +38,6 @@ public final class ExerciseTable extends DbTable<Exercise> {
             COL_ICON_FILE_NAME,
     };
 
-    private static Exercise[] ABS_EXERCISES = {
-            new Exercise(Exercise.EXERCISE_BOTTOMS_UP, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_CABLE_WOOD_CHOP, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_HANGING_KNEE_RAISE, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_HANGING_LEG_RAISE, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_PLANK, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_CABLE_CRUNCH, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_REVERSE_CRUNCH, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_WEIGHTED_SUITCASE_CRUNCH, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_ELBOW_TO_KNEE_TWIST, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_RUSSIAN_TWIST, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_SPIDER_CRAWL, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_MOUNTAIN_CLIMBER, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_SIT_UP, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-    };
-
     private static Exercise[] CHEST_EXERCISES = {
             new Exercise(Exercise.EXERCISE_PUSH_UP, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_SIT_UP_ICON),
             new Exercise(Exercise.EXERCISE_CHEST_PRESS, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_SIT_UP_ICON),
@@ -73,7 +57,6 @@ public final class ExerciseTable extends DbTable<Exercise> {
             new Exercise(Exercise.EXERCISE_HAMMER_CURL, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
             new Exercise(Exercise.EXERCISE_CONCENTRATION_CURL, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
             new Exercise(Exercise.EXERCISE_REVERSE_CURL, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_BARBELL_ROW, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
 
             new Exercise(Exercise.EXERCISE_SKULL_CRUSHER, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
             new Exercise(Exercise.EXERCISE_DUMBBELL_KICK_BACK, Exercise.MUSCLE_GROUP_ARMS, Exercise.EXERCISE_SIT_UP_ICON),
@@ -97,13 +80,41 @@ public final class ExerciseTable extends DbTable<Exercise> {
             new Exercise(Exercise.EXERCISE_BOX_JUMP, Exercise.MUSCLE_GROUP_LEGS, Exercise.EXERCISE_SIT_UP_ICON),
     };
 
+    private static Exercise[] ABS_EXERCISES = {
+            new Exercise(Exercise.EXERCISE_BOTTOMS_UP, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_CABLE_WOOD_CHOP, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_HANGING_KNEE_RAISE, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_HANGING_LEG_RAISE, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_PLANK, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_CABLE_CRUNCH, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_REVERSE_CRUNCH, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_WEIGHTED_SUITCASE_CRUNCH, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_ELBOW_TO_KNEE_TWIST, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_RUSSIAN_TWIST, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_SPIDER_CRAWL, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_MOUNTAIN_CLIMBER, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_SIT_UP, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+    };
+
+    private static Exercise[] BACK_EXERCISES = {
+            new Exercise(Exercise.EXERCISE_PULL_UP, Exercise.MUSCLE_GROUP_BACK, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_CABLE_ROW, Exercise.MUSCLE_GROUP_BACK, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_BARBELL_ROW, Exercise.MUSCLE_GROUP_BACK, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_SINGLE_ARM_DUMBBELL_ROW, Exercise.MUSCLE_GROUP_BACK, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_LAT_PULL_DOWN, Exercise.MUSCLE_GROUP_BACK, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_BEHIND_NECK_LAT_PULL_DOWN, Exercise.MUSCLE_GROUP_BACK, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_DUMBBELL_PULL_OVER, Exercise.MUSCLE_GROUP_BACK, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_CABLE_PULL_OVER, Exercise.MUSCLE_GROUP_BACK, Exercise.EXERCISE_SIT_UP_ICON),
+    };
+
     private static Map<String, Exercise[]> EXERCISES;
     static {
         EXERCISES = new HashMap<>();
-        EXERCISES.put(Exercise.MUSCLE_GROUP_ABS, ABS_EXERCISES);
         EXERCISES.put(Exercise.MUSCLE_GROUP_CHEST, CHEST_EXERCISES);
         EXERCISES.put(Exercise.MUSCLE_GROUP_ARMS, ARMS_EXERCISES);
         EXERCISES.put(Exercise.MUSCLE_GROUP_LEGS, LEGS_EXERCISES);
+        EXERCISES.put(Exercise.MUSCLE_GROUP_ABS, ABS_EXERCISES);
+        EXERCISES.put(Exercise.MUSCLE_GROUP_BACK, BACK_EXERCISES);
     }
 
     private static ExerciseTable INSTANCE;

@@ -59,22 +59,6 @@ public final class Exercise {
     public static final String MUSCLE_GROUP_SHOULDER = "Shoulder";
     public static final String MUSCLE_GROUP_GLUTE = "Glute";
 
-    // Abs
-    public static final String EXERCISE_BOTTOMS_UP = "Bottoms Up";
-    public static final String EXERCISE_CABLE_WOOD_CHOP = "Cable Wood Chop";
-    public static final String EXERCISE_HANGING_KNEE_RAISE = "Hanging Knee Raise";
-    public static final String EXERCISE_HANGING_LEG_RAISE = "Hanging Leg Raise";
-    public static final String EXERCISE_PLANK = "Plank";
-    public static final String EXERCISE_CABLE_CRUNCH = "Cable Crunch";
-    public static final String EXERCISE_REVERSE_CRUNCH = "Reverse Crunch";
-    public static final String EXERCISE_WEIGHTED_SUITCASE_CRUNCH = "Weighted Suitcase Crunch";
-    public static final String EXERCISE_ELBOW_TO_KNEE_TWIST = "Elbow To Knee Twist";
-    public static final String EXERCISE_RUSSIAN_TWIST = "Russian Twist";
-    public static final String EXERCISE_SPIDER_CRAWL = "Spider Crawl";
-    public static final String EXERCISE_MOUNTAIN_CLIMBER = "Mountain Climber";
-    public static final String EXERCISE_SIT_UP = "Sit Up";
-    public static final String EXERCISE_SIT_UP_ICON = "sit_up.png";
-
     // Chest
     public static final String EXERCISE_PUSH_UP = "Push up";
     public static final String EXERCISE_CHEST_PRESS = "Chest Press";
@@ -93,7 +77,6 @@ public final class Exercise {
     public static final String EXERCISE_HAMMER_CURL = "Hammer Curl";
     public static final String EXERCISE_CONCENTRATION_CURL = "Concentration Curl";
     public static final String EXERCISE_REVERSE_CURL = "Reverse Curl";
-    public static final String EXERCISE_BARBELL_ROW = "Barbell Row";
 
         // Triceps
     public static final String EXERCISE_SKULL_CRUSHER = "Skull Crusher";
@@ -115,4 +98,30 @@ public final class Exercise {
     public static final String EXERCISE_LATERAL_LUNGE = "Lateral Lunge";
     public static final String EXERCISE_REVERSE_LUNGE = "Reverse Lunge";
     public static final String EXERCISE_BOX_JUMP = "Box Jump";
+
+    // Abs
+    public static final String EXERCISE_BOTTOMS_UP = "Bottoms Up";
+    public static final String EXERCISE_CABLE_WOOD_CHOP = "Cable Wood Chop";
+    public static final String EXERCISE_HANGING_KNEE_RAISE = "Hanging Knee Raise";
+    public static final String EXERCISE_HANGING_LEG_RAISE = "Hanging Leg Raise";
+    public static final String EXERCISE_PLANK = "Plank";
+    public static final String EXERCISE_CABLE_CRUNCH = "Cable Crunch";
+    public static final String EXERCISE_REVERSE_CRUNCH = "Reverse Crunch";
+    public static final String EXERCISE_WEIGHTED_SUITCASE_CRUNCH = "Weighted Suitcase Crunch";
+    public static final String EXERCISE_ELBOW_TO_KNEE_TWIST = "Elbow To Knee Twist";
+    public static final String EXERCISE_RUSSIAN_TWIST = "Russian Twist";
+    public static final String EXERCISE_SPIDER_CRAWL = "Spider Crawl";
+    public static final String EXERCISE_MOUNTAIN_CLIMBER = "Mountain Climber";
+    public static final String EXERCISE_SIT_UP = "Sit Up";
+    public static final String EXERCISE_SIT_UP_ICON = "sit_up.png";
+
+    // Back
+    public static final String EXERCISE_PULL_UP = "Pull Up";
+    public static final String EXERCISE_CABLE_ROW = "Cable Row";
+    public static final String EXERCISE_BARBELL_ROW = "Barbell Row";
+    public static final String EXERCISE_SINGLE_ARM_DUMBBELL_ROW = "Single Arm Dumbbell Row";
+    public static final String EXERCISE_LAT_PULL_DOWN = "Lat Pull Down";
+    public static final String EXERCISE_BEHIND_NECK_LAT_PULL_DOWN = "Behind Neck Lat Pull Down";
+    // public static final String EXERCISE_DUMBBELL_PULL_OVER = "Dumbbell Pull Over";
+    public static final String EXERCISE_CABLE_PULL_OVER = "Cable Pull Over";
 }

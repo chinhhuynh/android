@@ -122,6 +122,20 @@ public final class Exercise {
     public static final String EXERCISE_SINGLE_ARM_DUMBBELL_ROW = "Single Arm Dumbbell Row";
     public static final String EXERCISE_LAT_PULL_DOWN = "Lat Pull Down";
     public static final String EXERCISE_BEHIND_NECK_LAT_PULL_DOWN = "Behind Neck Lat Pull Down";
-    // public static final String EXERCISE_DUMBBELL_PULL_OVER = "Dumbbell Pull Over";
+    // EXERCISE_DUMBBELL_PULL_OVER is also a chest exercise.
     public static final String EXERCISE_CABLE_PULL_OVER = "Cable Pull Over";
+
+    // Shoulder
+    public static final String EXERCISE_SHOULDER_PRESS = "Shoulder Press";
+    public static final String EXERCISE_ARNOLD_PRESS = "Arnold Press";
+    public static final String EXERCISE_MILITARY_PRESS = "Military Press";
+    public static final String EXERCISE_DUMBBELL_LATERAL_RAISE = "Dumbbell Lateral Raise";
+    public static final String EXERCISE_BENT_OVER_LATERAL_RAISE = "Bent Over Lateral Raise";
+    public static final String EXERCISE_LOW_CABLE_CROSS_OVER = "Low Cable Cross Over";
+    public static final String EXERCISE_LOW_CABLE_PRESS = "Low Cable Press";
+    public static final String EXERCISE_PLATE_FRONT_RAISE = "Plate Front Raise";
+    public static final String EXERCISE_FRONT_DUMBBELL_RAISE = "Front Dumbbell Raise";
+    public static final String EXERCISE_UPRIGHT_ROW = "Upright Row";
+    public static final String EXERCISE_REVERSE_CABLE_FLY = "Reverse Cable Fly";
+    public static final String EXERCISE_REVERSE_DUMBBELL_FLY = "Reverse Dumbbell Fly";
 }

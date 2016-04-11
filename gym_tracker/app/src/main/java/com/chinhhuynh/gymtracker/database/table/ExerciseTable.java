@@ -107,6 +107,21 @@ public final class ExerciseTable extends DbTable<Exercise> {
             new Exercise(Exercise.EXERCISE_CABLE_PULL_OVER, Exercise.MUSCLE_GROUP_BACK, Exercise.EXERCISE_SIT_UP_ICON),
     };
 
+    private static Exercise[] SHOULDER_EXERCISES = {
+            new Exercise(Exercise.EXERCISE_SHOULDER_PRESS, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_ARNOLD_PRESS, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_MILITARY_PRESS, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_DUMBBELL_LATERAL_RAISE, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_BENT_OVER_LATERAL_RAISE, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_LOW_CABLE_CROSS_OVER, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_LOW_CABLE_PRESS, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_PLATE_FRONT_RAISE, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_FRONT_DUMBBELL_RAISE, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_UPRIGHT_ROW, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_REVERSE_CABLE_FLY, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_REVERSE_DUMBBELL_FLY, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_SIT_UP_ICON),
+    };
+
     private static Map<String, Exercise[]> EXERCISES;
     static {
         EXERCISES = new HashMap<>();
@@ -115,6 +130,7 @@ public final class ExerciseTable extends DbTable<Exercise> {
         EXERCISES.put(Exercise.MUSCLE_GROUP_LEGS, LEGS_EXERCISES);
         EXERCISES.put(Exercise.MUSCLE_GROUP_ABS, ABS_EXERCISES);
         EXERCISES.put(Exercise.MUSCLE_GROUP_BACK, BACK_EXERCISES);
+        EXERCISES.put(Exercise.MUSCLE_GROUP_SHOULDER, SHOULDER_EXERCISES);
     }
 
     private static ExerciseTable INSTANCE;

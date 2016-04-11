@@ -39,14 +39,19 @@ public final class ExerciseTable extends DbTable<Exercise> {
     };
 
     private static Exercise[] ABS_EXERCISES = {
-            new Exercise(Exercise.EXERCISE_RUSSIAN_TWIST, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_WEIGHTED_SUITCASE_CRUNCH, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
             new Exercise(Exercise.EXERCISE_BOTTOMS_UP, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_SPIDER_CRAWL, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_SPELL_CASTER, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_SIT_UP, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_CABLE_WOOD_CHOP, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_HANGING_KNEE_RAISE, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
             new Exercise(Exercise.EXERCISE_HANGING_LEG_RAISE, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_ROPE_CRUNCH, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_PLANK, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_CABLE_CRUNCH, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_REVERSE_CRUNCH, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_WEIGHTED_SUITCASE_CRUNCH, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_ELBOW_TO_KNEE_TWIST, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_RUSSIAN_TWIST, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_SPIDER_CRAWL, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_MOUNTAIN_CLIMBER, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_SIT_UP, Exercise.MUSCLE_GROUP_ABS, Exercise.EXERCISE_SIT_UP_ICON),
     };
 
     private static Exercise[] CHEST_EXERCISES = {

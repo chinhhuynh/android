@@ -60,15 +60,20 @@ public final class Exercise {
     public static final String MUSCLE_GROUP_GLUTE = "Glute";
 
     // Abs
-    public static final String EXERCISE_RUSSIAN_TWIST = "Russian Twist";
-    public static final String EXERCISE_WEIGHTED_SUITCASE_CRUNCH = "Weighted Suitcase Crunch";
     public static final String EXERCISE_BOTTOMS_UP = "Bottoms Up";
+    public static final String EXERCISE_CABLE_WOOD_CHOP = "Cable Wood Chop";
+    public static final String EXERCISE_HANGING_KNEE_RAISE = "Hanging Knee Raise";
+    public static final String EXERCISE_HANGING_LEG_RAISE = "Hanging Leg Raise";
+    public static final String EXERCISE_PLANK = "Plank";
+    public static final String EXERCISE_CABLE_CRUNCH = "Cable Crunch";
+    public static final String EXERCISE_REVERSE_CRUNCH = "Reverse Crunch";
+    public static final String EXERCISE_WEIGHTED_SUITCASE_CRUNCH = "Weighted Suitcase Crunch";
+    public static final String EXERCISE_ELBOW_TO_KNEE_TWIST = "Elbow To Knee Twist";
+    public static final String EXERCISE_RUSSIAN_TWIST = "Russian Twist";
     public static final String EXERCISE_SPIDER_CRAWL = "Spider Crawl";
-    public static final String EXERCISE_SPELL_CASTER = "Spell Caster";
+    public static final String EXERCISE_MOUNTAIN_CLIMBER = "Mountain Climber";
     public static final String EXERCISE_SIT_UP = "Sit Up";
     public static final String EXERCISE_SIT_UP_ICON = "sit_up.png";
-    public static final String EXERCISE_HANGING_LEG_RAISE = "Hanging Leg Raise";
-    public static final String EXERCISE_ROPE_CRUNCH = "Rope Crunch";
 
     // Chest
     public static final String EXERCISE_PUSH_UP = "Push up";

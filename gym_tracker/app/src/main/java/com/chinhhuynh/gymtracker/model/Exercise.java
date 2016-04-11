@@ -53,7 +53,7 @@ public final class Exercise {
 
     public static final String MUSCLE_GROUP_CHEST = "Chest";
     public static final String MUSCLE_GROUP_ARMS = "Arms";
-    public static final String MUSCLE_GROUP_LEGS = "Legs";
+    public static final String MUSCLE_GROUP_LEGS_AND_GLUTE = "Legs & Glute";
     public static final String MUSCLE_GROUP_ABS = "Abs";
     public static final String MUSCLE_GROUP_BACK = "Back";
     public static final String MUSCLE_GROUP_SHOULDER = "Shoulder";
@@ -86,9 +86,10 @@ public final class Exercise {
     public static final String EXERCISE_DUMBBELL_TRICEPS_EXTENSION = "Dumbbell Triceps Extension";
     public static final String EXERCISE_CABLE_TRICEPS_EXTENSION = "Cable Triceps Extension";
 
-    // Legs
+    // Legs & Glute
     public static final String EXERCISE_BARBELL_BACK_SQUAT = "Barbell Back Squat";
     public static final String EXERCISE_BARBELL_FRONT_SQUAT = "Barbell Front Squat";
+    public static final String EXERCISE_JUMP_SQUAT = "Jump Squat";
     public static final String EXERCISE_DEADLIFT = "Deadlift";
     public static final String EXERCISE_LEG_PRESS = "Leg Press";
     public static final String EXERCISE_LEG_EXTENSION = "Leg Extension";
@@ -98,6 +99,11 @@ public final class Exercise {
     public static final String EXERCISE_LATERAL_LUNGE = "Lateral Lunge";
     public static final String EXERCISE_REVERSE_LUNGE = "Reverse Lunge";
     public static final String EXERCISE_BOX_JUMP = "Box Jump";
+    public static final String EXERCISE_STEP_UP = "Step Up";
+    public static final String EXERCISE_DONKEY_KICK_BACK = "Donkey Kick Back";
+    public static final String EXERCISE_CABLE_KICK_BACK = "Cable Kick Back";
+    public static final String EXERCISE_GLUTE_BRIDGE = "Glute Bridge";
+    public static final String EXERCISE_LATERAL_BAND_WALK = "Lateral Band Walk";
 
     // Abs
     public static final String EXERCISE_BOTTOMS_UP = "Bottoms Up";

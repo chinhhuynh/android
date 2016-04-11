@@ -45,8 +45,8 @@ public final class ExercisePickerDialog {
 
     private static String[] MUSCLE_GROUPS = {
             Exercise.MUSCLE_GROUP_CHEST,
-            Exercise.MUSCLE_GROUP_ARM,
-            Exercise.MUSCLE_GROUP_LEG,
+            Exercise.MUSCLE_GROUP_ARMS,
+            Exercise.MUSCLE_GROUP_LEGS,
             Exercise.MUSCLE_GROUP_ABS,
             Exercise.MUSCLE_GROUP_BACK,
             Exercise.MUSCLE_GROUP_SHOULDER,

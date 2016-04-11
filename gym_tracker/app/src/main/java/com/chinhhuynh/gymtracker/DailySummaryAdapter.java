@@ -30,7 +30,8 @@ public final class DailySummaryAdapter extends RecyclerView.Adapter<DailySummary
     private static final Comparator<DailySummary> DAILY_SUMMARY_DATE_COMPARATOR = new Comparator<DailySummary>() {
         @Override
         public int compare(DailySummary lhs, DailySummary rhs) {
-            return lhs.mDate.compareTo(rhs.mDate);
+            // shows latest daily report first.
+            return rhs.mDate.compareTo(lhs.mDate);
         }
     };
 

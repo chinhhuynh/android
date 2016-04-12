@@ -14,17 +14,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.chinhhuynh.gymtracker.database.table.WorkoutTable;
+import com.chinhhuynh.gymtracker.fragments.RepeatExercisesListener;
 import com.chinhhuynh.gymtracker.fragments.WorkoutHistoryFragment;
 import com.chinhhuynh.gymtracker.fragments.WorkoutSessionFragment;
 import com.chinhhuynh.gymtracker.loaders.SummaryLoader;
+import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
 import com.chinhhuynh.lifecycle.activity.OnBackPressed;
 
 public class HomeActivity extends AppCompatActivity implements
         Loader.OnLoadCompleteListener<Cursor> {
+
+    private static final int WORKOUT_PAGE_POSITION = 0;
+    private static final int HISTORY_PAGE_POSITION = 1;
 
     private WorkoutSessionFragment mWorkoutSessionFragment;
     private WorkoutHistoryFragment mWorkoutHistoryFragment;
@@ -47,7 +53,13 @@ public class HomeActivity extends AppCompatActivity implements
         mWorkoutHistoryFragment = new WorkoutHistoryFragment();
 
         mWorkoutSessionFragment.setExerciseChangedListener(mWorkoutHistoryFragment);
-        mWorkoutHistoryFragment.setRepeatExercisesListener(mWorkoutSessionFragment);
+        mWorkoutHistoryFragment.setRepeatExercisesListener(new RepeatExercisesListener() {
+            @Override
+            public void onRepeatExercises(List<Exercise> exercises) {
+                mWorkoutSessionFragment.onRepeatExercises(exercises);
+                mViewPager.setCurrentItem(WORKOUT_PAGE_POSITION, true /*smoothScroll*/);
+            }
+        });
 
         mPagerAdapter = new AppPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -134,9 +146,9 @@ public class HomeActivity extends AppCompatActivity implements
         @Override
         public Fragment getItem(int position) {
             switch (position) {
-                case 0:
+                case WORKOUT_PAGE_POSITION:
                     return mWorkoutSessionFragment;
-                case 1:
+                case HISTORY_PAGE_POSITION:
                     return mWorkoutHistoryFragment;
             }
             return null;
@@ -145,9 +157,9 @@ public class HomeActivity extends AppCompatActivity implements
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
-                case 0:
+                case WORKOUT_PAGE_POSITION:
                     return getResources().getString(R.string.workout_session_title);
-                case 1:
+                case HISTORY_PAGE_POSITION:
                     return getResources().getString(R.string.history_title);
             }
             return null;

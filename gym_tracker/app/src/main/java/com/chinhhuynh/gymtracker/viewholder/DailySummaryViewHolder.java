@@ -8,19 +8,30 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+
 import com.chinhhuynh.gymtracker.ExerciseSummaryAdapter;
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.model.DailySummary;
+import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 
 public final class DailySummaryViewHolder extends RecyclerView.ViewHolder {
 
+    public interface RepeatExercisesEventListener {
+        void onRepeatExercises(List<Exercise> exercises);
+    }
+
     private final RecyclerView.RecycledViewPool mRecycledViewPool;
     private final ExerciseSummaryAdapter mExercisesAdapter;
     private final TextView mDateHeader;
+    private final View mRepeatView;
     private final LinearLayout mExercisesView;
 
-    private List<ExerciseSummary> mExercises;
+    private RepeatExercisesEventListener mListener;
+    private List<ExerciseSummary> mExerciseSummaries;
+    private List<Exercise> mExercises;
 
     public DailySummaryViewHolder(RecyclerView.RecycledViewPool recycledViewPool, View itemView) {
         super(itemView);
@@ -29,13 +40,31 @@ public final class DailySummaryViewHolder extends RecyclerView.ViewHolder {
         mExercisesAdapter = new ExerciseSummaryAdapter(itemView.getContext());
 
         mDateHeader = (TextView) itemView.findViewById(R.id.date_header);
+        mRepeatView = itemView.findViewById(R.id.repeat);
         mExercisesView = (LinearLayout) itemView.findViewById(R.id.exercises);
+
+        mRepeatView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notifyRepeatExercises(mExercises);
+            }
+        });
+    }
+
+    public void setEventListener(RepeatExercisesEventListener listener) {
+        mListener = listener;
     }
 
     public void bind(DailySummary summary) {
         mDateHeader.setText(summary.getDateText());
 
-        mExercises = new ArrayList<>(summary.mExercises);
+        mExerciseSummaries = new ArrayList<>(summary.mExercises);
+        mExercises = Lists.transform(mExerciseSummaries, new Function<ExerciseSummary, Exercise>() {
+            @Override
+            public Exercise apply(ExerciseSummary exerciseSummary) {
+                return exerciseSummary.exercise;
+            }
+        });
         bindExercises();
     }
 
@@ -53,22 +82,22 @@ public final class DailySummaryViewHolder extends RecyclerView.ViewHolder {
         for (int i = 0; i < viewCount; i++) {
             View exerciseView = mExercisesView.getChildAt(i);
             ExerciseSummaryViewHolder viewHolder = (ExerciseSummaryViewHolder) exerciseView.getTag();
-            if (i < mExercises.size()) {
-                boolean isLastItem = i == mExercises.size() - 1;
+            if (i < mExerciseSummaries.size()) {
+                boolean isLastItem = i == mExerciseSummaries.size() - 1;
                 exerciseView.setVisibility(View.VISIBLE);
-                viewHolder.bind(mExercises.get(i), isLastItem);
+                viewHolder.bind(mExerciseSummaries.get(i), isLastItem);
             } else {
                 exerciseView.setVisibility(View.GONE);
                 mExercisesView.removeViewAt(i);
                 mRecycledViewPool.putRecycledView(viewHolder);
             }
         }
-        for (int i = viewCount; i < mExercises.size(); i++) {
-            boolean isLastItem = i == mExercises.size() - 1;
+        for (int i = viewCount; i < mExerciseSummaries.size(); i++) {
+            boolean isLastItem = i == mExerciseSummaries.size() - 1;
             ExerciseSummaryViewHolder viewHolder = getExerciseSummaryViewHolder();
             View exerciseView = viewHolder.itemView;
             exerciseView.setVisibility(View.VISIBLE);
-            viewHolder.bind(mExercises.get(i), isLastItem);
+            viewHolder.bind(mExerciseSummaries.get(i), isLastItem);
             mExercisesView.addView(exerciseView);
         }
     }
@@ -80,5 +109,11 @@ public final class DailySummaryViewHolder extends RecyclerView.ViewHolder {
             viewHolder = mExercisesAdapter.createViewHolder(null, ViewType.EXERCISE_SUMMARY);
         }
         return viewHolder;
+    }
+
+    private void notifyRepeatExercises(List<Exercise> exercises) {
+        if (mListener != null) {
+            mListener.onRepeatExercises(exercises);
+        }
     }
 }

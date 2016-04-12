@@ -50,7 +50,6 @@ public final class ExercisePickerDialog {
             Exercise.MUSCLE_GROUP_ABS,
             Exercise.MUSCLE_GROUP_BACK,
             Exercise.MUSCLE_GROUP_SHOULDER,
-            Exercise.MUSCLE_GROUP_GLUTE,
     };
 
     private final Context mContext;

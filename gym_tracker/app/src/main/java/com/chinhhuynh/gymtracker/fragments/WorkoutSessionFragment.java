@@ -159,6 +159,12 @@ public final class WorkoutSessionFragment extends Fragment implements
     }
 
     @Override
+    public void onRepeatExercises(List<Exercise> exercises) {
+        mExercisesAdapter.addExercises(exercises);
+        updateEditButton();
+    }
+
+    @Override
     public void onExerciseCompleted(@NotNull ExerciseSummary summary) {
         updateExercise(summary);
         showFab();
@@ -185,11 +191,6 @@ public final class WorkoutSessionFragment extends Fragment implements
         if (!hasExercise()) {
             onFinishEditing();
         }
-    }
-
-    @Override
-    public void onRepeatExercises(List<Exercise> exercises) {
-
     }
 
     public void setExerciseChangedListener(ExerciseChangedListener listener) {

@@ -110,6 +110,12 @@ public class WorkoutSessionAdapter extends BaseAdapter {
         mListener = listener;
     }
 
+    public void addExercises(List<Exercise> exercises) {
+        for (Exercise exercise : exercises) {
+            addExercise(exercise);
+        }
+    }
+
     public void addExercise(Exercise exercise) {
         if (mExercises.contains(exercise)) {
             return;

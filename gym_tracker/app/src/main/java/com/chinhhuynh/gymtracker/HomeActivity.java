@@ -46,7 +46,8 @@ public class HomeActivity extends AppCompatActivity implements
         mWorkoutSessionFragment = new WorkoutSessionFragment();
         mWorkoutHistoryFragment = new WorkoutHistoryFragment();
 
-        mWorkoutSessionFragment.setListener(mWorkoutHistoryFragment);
+        mWorkoutSessionFragment.setExerciseChangedListener(mWorkoutHistoryFragment);
+        mWorkoutHistoryFragment.setRepeatExercisesListener(mWorkoutSessionFragment);
 
         mPagerAdapter = new AppPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.view_pager);

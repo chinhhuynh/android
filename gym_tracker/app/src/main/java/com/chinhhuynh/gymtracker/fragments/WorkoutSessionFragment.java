@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.support.v4.app.FragmentManager.POP_BACK_STACK_INCLUSIVE;
@@ -41,13 +42,14 @@ public final class WorkoutSessionFragment extends Fragment implements
         ExerciseList,
         ExercisePickerDialog.EventsListener,
         WorkoutSessionAdapter.EventListener,
+        RepeatExercisesListener,
         WorkoutFragment.WorkoutEventListener {
 
     public static final String TAG = WorkoutSessionFragment.class.getSimpleName();
     private static final int FAB_ANIMATION_DURATION_MS = 100;
     private static final int FOOTER_ANIMATION_DURATION_MS = 100;
 
-    public interface WorkoutSessionEventListener {
+    public interface ExerciseChangedListener {
         void onExerciseChanged();
     }
 
@@ -61,7 +63,7 @@ public final class WorkoutSessionFragment extends Fragment implements
     private ListView mExercises;
     private View mFooter;
     private WorkoutSessionAdapter mExercisesAdapter;
-    private WorkoutSessionEventListener mListener;
+    private ExerciseChangedListener mListener;
 
     private boolean mIsEditing;
     private boolean mIsPaused;
@@ -185,7 +187,12 @@ public final class WorkoutSessionFragment extends Fragment implements
         }
     }
 
-    public void setListener(WorkoutSessionEventListener listener) {
+    @Override
+    public void onRepeatExercises(List<Exercise> exercises) {
+
+    }
+
+    public void setExerciseChangedListener(ExerciseChangedListener listener) {
         mListener = listener;
     }
 

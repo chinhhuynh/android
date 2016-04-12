@@ -13,15 +13,12 @@ import com.google.common.collect.Lists;
 
 import com.chinhhuynh.gymtracker.ExerciseSummaryAdapter;
 import com.chinhhuynh.gymtracker.R;
+import com.chinhhuynh.gymtracker.fragments.RepeatExercisesListener;
 import com.chinhhuynh.gymtracker.model.DailySummary;
 import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 
 public final class DailySummaryViewHolder extends RecyclerView.ViewHolder {
-
-    public interface RepeatExercisesEventListener {
-        void onRepeatExercises(List<Exercise> exercises);
-    }
 
     private final RecyclerView.RecycledViewPool mRecycledViewPool;
     private final ExerciseSummaryAdapter mExercisesAdapter;
@@ -29,7 +26,7 @@ public final class DailySummaryViewHolder extends RecyclerView.ViewHolder {
     private final View mRepeatView;
     private final LinearLayout mExercisesView;
 
-    private RepeatExercisesEventListener mListener;
+    private RepeatExercisesListener mListener;
     private List<ExerciseSummary> mExerciseSummaries;
     private List<Exercise> mExercises;
 
@@ -51,7 +48,7 @@ public final class DailySummaryViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void setEventListener(RepeatExercisesEventListener listener) {
+    public void setListener(RepeatExercisesListener listener) {
         mListener = listener;
     }
 

@@ -30,7 +30,7 @@ import com.chinhhuynh.gymtracker.model.ExerciseSummary;
  * Fragment for creating new workout set.
  */
 public final class WorkoutHistoryFragment extends Fragment implements
-        WorkoutSessionFragment.WorkoutSessionEventListener,
+        WorkoutSessionFragment.ExerciseChangedListener,
         Loader.OnLoadCompleteListener<Cursor> {
 
     public static final String TAG = WorkoutHistoryFragment.class.getSimpleName();
@@ -42,6 +42,7 @@ public final class WorkoutHistoryFragment extends Fragment implements
     private RecyclerView mSummariesView;
     private DailySummaryAdapter mAdapter;
 
+    private RepeatExercisesListener mRepeatExercisesListener;
     private SummaryLoader mSummaryLoader;
     private boolean mIsLoading;
     private long mQueryTimestamp;
@@ -59,6 +60,7 @@ public final class WorkoutHistoryFragment extends Fragment implements
 
         mSummariesView = (RecyclerView) fragmentLayout.findViewById(R.id.daily_summaries);
         mAdapter = new DailySummaryAdapter(mContext);
+        mAdapter.setListener(mRepeatExercisesListener);
         mSummariesView.setAdapter(mAdapter);
         mSummariesView.setLayoutManager(new LinearLayoutManager(mContext));
 
@@ -76,6 +78,10 @@ public final class WorkoutHistoryFragment extends Fragment implements
     public void onExerciseChanged() {
         mQueryTimestamp = System.currentTimeMillis() - QUERY_RANGE_MS;
         loadDailySummaries(mQueryTimestamp, mQueryTimestamp + QUERY_RANGE_MS);
+    }
+
+    public void setRepeatExercisesListener(RepeatExercisesListener listener) {
+        mRepeatExercisesListener = listener;
     }
 
     private void loadDailySummaries(long start, long end) {

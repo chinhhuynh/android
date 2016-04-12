@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.chinhhuynh.gymtracker.fragments.RepeatExercisesListener;
 import com.chinhhuynh.gymtracker.model.DailySummary;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import com.chinhhuynh.gymtracker.viewholder.DailySummaryViewHolder;
@@ -38,6 +39,7 @@ public final class DailySummaryAdapter extends RecyclerView.Adapter<DailySummary
     private final LayoutInflater mInflater;
     private final RecyclerView.RecycledViewPool mRecycledViewPool;
 
+    private RepeatExercisesListener mRepeatExercisesListener;
     private List<DailySummary> mSummaries;
 
     public DailySummaryAdapter(Context context) {
@@ -51,6 +53,7 @@ public final class DailySummaryAdapter extends RecyclerView.Adapter<DailySummary
     public DailySummaryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = newView(parent, viewType);
         DailySummaryViewHolder viewHolder = new DailySummaryViewHolder(mRecycledViewPool, view);
+        viewHolder.setListener(mRepeatExercisesListener);
         view.setTag(viewHolder);
         return viewHolder;
     }
@@ -75,6 +78,10 @@ public final class DailySummaryAdapter extends RecyclerView.Adapter<DailySummary
     @Override
     public int getItemViewType(int position) {
         return ViewType.DAILY_SUMMARY;
+    }
+
+    public void setListener(RepeatExercisesListener listener) {
+        mRepeatExercisesListener = listener;
     }
 
     public void addSummaries(List<DailySummary> summaries) {

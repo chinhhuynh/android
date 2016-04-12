@@ -15,6 +15,7 @@
     <string name="history_title">HISTORY</string>
     <string name="start_workout_session">Start a workout session</string>
     <string name="create_workout_set">Create a workout set</string>
+    <string name="repeat_workout_set">REPEAT</string>
 
     <!-- WorkoutSessionFragment -->
     <string name="workout_session_title">WORKOUT</string>

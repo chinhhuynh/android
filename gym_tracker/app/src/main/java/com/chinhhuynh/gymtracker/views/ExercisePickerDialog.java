@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -237,8 +238,18 @@ public final class ExercisePickerDialog {
             Target target = new SimpleTarget<Bitmap>(mIconSize, mIconSize) {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-                    textView.setCompoundDrawablesWithIntrinsicBounds(
-                            new BitmapDrawable(mResources, resource), null, null, null);
+                    Drawable drawable = new BitmapDrawable(mResources, resource) {
+                        @Override
+                        public int getIntrinsicWidth() {
+                            return mIconSize;
+                        }
+
+                        @Override
+                        public int getIntrinsicHeight() {
+                            return mIconSize;
+                        }
+                    };
+                    textView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
                 }
             };
             textView.setTag(target);

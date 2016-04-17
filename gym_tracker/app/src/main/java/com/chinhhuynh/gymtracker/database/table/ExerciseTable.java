@@ -40,7 +40,7 @@ public final class ExerciseTable extends DbTable<Exercise> {
 
     private static Exercise[] CHEST_EXERCISES = {
             new Exercise(Exercise.EXERCISE_PUSH_UP, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_CHEST_PRESS, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_CHEST_PRESS, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_CHEST_PRESS_ICON),
             new Exercise(Exercise.EXERCISE_INCLINE_CHEST_PRESS, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_SIT_UP_ICON),
             new Exercise(Exercise.EXERCISE_INCLINE_CHEST_PRESS, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_SIT_UP_ICON),
             new Exercise(Exercise.EXERCISE_DECLINE_CHEST_PRESS, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_SIT_UP_ICON),

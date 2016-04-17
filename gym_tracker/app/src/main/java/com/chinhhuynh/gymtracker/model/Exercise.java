@@ -62,6 +62,7 @@ public final class Exercise {
     // Chest
     public static final String EXERCISE_PUSH_UP = "Push up";
     public static final String EXERCISE_CHEST_PRESS = "Chest Press";
+    public static final String EXERCISE_CHEST_PRESS_ICON = "chest_press.png";
     public static final String EXERCISE_INCLINE_CHEST_PRESS = "Incline Chest Press";
     public static final String EXERCISE_DECLINE_CHEST_PRESS = "Decline Chest Press";
     public static final String EXERCISE_DIP = "Dip";

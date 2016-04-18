@@ -61,10 +61,13 @@ public final class Exercise {
 
     // Chest
     public static final String EXERCISE_PUSH_UP = "Push up";
+    public static final String EXERCISE_PUSH_UP_ICON = "push_up.png";
     public static final String EXERCISE_CHEST_PRESS = "Chest Press";
     public static final String EXERCISE_CHEST_PRESS_ICON = "chest_press.png";
     public static final String EXERCISE_INCLINE_CHEST_PRESS = "Incline Chest Press";
+    public static final String EXERCISE_INCLINE_CHEST_PRESS_ICON = "incline_chest_press.png";
     public static final String EXERCISE_DECLINE_CHEST_PRESS = "Decline Chest Press";
+    public static final String EXERCISE_DECLINE_CHEST_PRESS_ICON = "decline_chest_press.png";
     public static final String EXERCISE_DIP = "Dip";
     public static final String EXERCISE_CABLE_CROSSOVER = "Cable Crossover";
     public static final String EXERCISE_LOW_CABLE_CROSSOVER = "Low Cable Crossover";

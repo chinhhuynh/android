@@ -238,15 +238,18 @@ public final class ExercisePickerDialog {
             Target target = new SimpleTarget<Bitmap>(mIconSize, mIconSize) {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                    final boolean fitsWidth = resource.getWidth() > resource.getHeight();
+                    final int scaledHeight = (int) (resource.getHeight() * mIconSize * 1f / resource.getWidth());
+                    final int scaledWidth = (int) (resource.getWidth() * mIconSize * 1f / resource.getHeight());
                     Drawable drawable = new BitmapDrawable(mResources, resource) {
                         @Override
                         public int getIntrinsicWidth() {
-                            return mIconSize;
+                            return fitsWidth ? mIconSize : scaledWidth;
                         }
 
                         @Override
                         public int getIntrinsicHeight() {
-                            return mIconSize;
+                            return fitsWidth ? scaledHeight : mIconSize;
                         }
                     };
                     textView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);

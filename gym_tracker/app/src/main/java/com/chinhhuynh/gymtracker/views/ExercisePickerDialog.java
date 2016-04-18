@@ -21,11 +21,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.chinhhuynh.gymtracker.R;
@@ -233,37 +235,18 @@ public final class ExercisePickerDialog {
 
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
-            final TextView textView = (TextView) mLayoutInflater.inflate(android.R.layout.simple_list_item_1, null);
-            textView.setPadding(mExerciseLeftPadding, 0, 0, 0);
-            Target target = new SimpleTarget<Bitmap>(mIconSize, mIconSize) {
-                @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-                    final boolean fitsWidth = resource.getWidth() > resource.getHeight();
-                    final int scaledHeight = (int) (resource.getHeight() * mIconSize * 1f / resource.getWidth());
-                    final int scaledWidth = (int) (resource.getWidth() * mIconSize * 1f / resource.getHeight());
-                    Drawable drawable = new BitmapDrawable(mResources, resource) {
-                        @Override
-                        public int getIntrinsicWidth() {
-                            return fitsWidth ? mIconSize : scaledWidth;
-                        }
-
-                        @Override
-                        public int getIntrinsicHeight() {
-                            return fitsWidth ? scaledHeight : mIconSize;
-                        }
-                    };
-                    textView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
-                }
-            };
-            textView.setTag(target);
-            return textView;
+            View exerciseLayout = mLayoutInflater.inflate(R.layout.exercise_picker_exercise, null);
+            ImageView iconView = (ImageView) exerciseLayout.findViewById(R.id.exercise_icon);
+            Target target = new BitmapImageViewTarget(iconView);
+            exerciseLayout.setTag(target);
+            return exerciseLayout;
         }
 
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
             Exercise exercise = getExercise(cursor);
 
-            final TextView exerciseView = (TextView) view.findViewById(android.R.id.text1);
+            final TextView exerciseView = (TextView) view.findViewById(R.id.exercise_title);
             exerciseView.setText(exercise.mExerciseName);
             exerciseView.setCompoundDrawablePadding(mIconPadding);
 

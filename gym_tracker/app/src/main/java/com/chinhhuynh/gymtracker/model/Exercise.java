@@ -69,10 +69,15 @@ public final class Exercise {
     public static final String EXERCISE_DECLINE_CHEST_PRESS = "Decline Chest Press";
     public static final String EXERCISE_DECLINE_CHEST_PRESS_ICON = "decline_chest_press.png";
     public static final String EXERCISE_DIP = "Dip";
+    public static final String EXERCISE_DIP_ICON = "dip.png";
     public static final String EXERCISE_CABLE_CROSSOVER = "Cable Crossover";
+    public static final String EXERCISE_CABLE_CROSSOVER_ICON = "cable_crossover.png";
     public static final String EXERCISE_LOW_CABLE_CROSSOVER = "Low Cable Crossover";
+    public static final String EXERCISE_LOW_CABLE_CROSSOVER_ICON = "low_cable_crossover.png";
     public static final String EXERCISE_DUMBBELL_FLY = "Dumbbell Fly";
+    public static final String EXERCISE_DUMBBELL_FLY_ICON = "dumbbell_fly.png";
     public static final String EXERCISE_DUMBBELL_PULL_OVER = "Dumbbell Pull Over";
+    public static final String EXERCISE_DUMBBELL_PULL_OVER_ICON = "dumbbell_pull_over.png";
 
     // Arms
         // Biceps

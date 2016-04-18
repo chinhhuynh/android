@@ -43,11 +43,11 @@ public final class ExerciseTable extends DbTable<Exercise> {
             new Exercise(Exercise.EXERCISE_CHEST_PRESS, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_CHEST_PRESS_ICON),
             new Exercise(Exercise.EXERCISE_INCLINE_CHEST_PRESS, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_INCLINE_CHEST_PRESS_ICON),
             new Exercise(Exercise.EXERCISE_DECLINE_CHEST_PRESS, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_DECLINE_CHEST_PRESS_ICON),
-            new Exercise(Exercise.EXERCISE_DIP, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_CABLE_CROSSOVER, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_LOW_CABLE_CROSSOVER, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_DUMBBELL_FLY, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_SIT_UP_ICON),
-            new Exercise(Exercise.EXERCISE_DUMBBELL_PULL_OVER, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_SIT_UP_ICON),
+            new Exercise(Exercise.EXERCISE_DIP, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_DIP_ICON),
+            new Exercise(Exercise.EXERCISE_CABLE_CROSSOVER, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_CABLE_CROSSOVER_ICON),
+            new Exercise(Exercise.EXERCISE_LOW_CABLE_CROSSOVER, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_LOW_CABLE_CROSSOVER_ICON),
+            new Exercise(Exercise.EXERCISE_DUMBBELL_FLY, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_DUMBBELL_FLY_ICON),
+            new Exercise(Exercise.EXERCISE_DUMBBELL_PULL_OVER, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_DUMBBELL_PULL_OVER_ICON),
     };
 
     private static Exercise[] ARMS_EXERCISES = {

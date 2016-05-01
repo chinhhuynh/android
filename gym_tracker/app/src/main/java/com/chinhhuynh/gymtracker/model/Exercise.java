@@ -71,8 +71,8 @@ public final class Exercise {
     public static final String EXERCISE_DIP_ICON = "dip.png";
     public static final String EXERCISE_CABLE_CROSS_OVER = "Cable Cross Over";
     public static final String EXERCISE_CABLE_CROSS_OVER_ICON = "cable_cross_over.png";
-    public static final String EXERCISE_LOW_CABLE_CROSS_OVER = "Low Cable Cross Over";
-    public static final String EXERCISE_LOW_CABLE_CROSS_OVER_ICON = "low_cable_cross_over.png";
+    public static final String EXERCISE_CABLE_CHEST_PRESS = "Cable Chest Press";
+    public static final String EXERCISE_CABLE_CHEST_PRESS_ICON = "cable_chest_press.png";
     public static final String EXERCISE_DUMBBELL_FLY = "Dumbbell Fly";
     public static final String EXERCISE_DUMBBELL_FLY_ICON = "dumbbell_fly.png";
     public static final String EXERCISE_DUMBBELL_PULL_OVER = "Dumbbell Pull Over";
@@ -197,9 +197,8 @@ public final class Exercise {
     public static final String EXERCISE_DUMBBELL_LATERAL_RAISE_ICON = "dumbbell_lateral_raise.png";
     public static final String EXERCISE_BENT_OVER_LATERAL_RAISE = "Bent Over Lateral Raise";
     public static final String EXERCISE_BENT_OVER_LATERAL_RAISE_ICON = "bent_over_lateral_raise.png";
-    // EXERCISE_LOW_CABLE_CROSS_OVER is also a chest exercise.
-    public static final String EXERCISE_LOW_CABLE_PRESS = "Low Cable Press";
-    public static final String EXERCISE_LOW_CABLE_PRESS_ICON = "low_cable_press.png";
+    public static final String EXERCISE_LOW_CABLE_CROSS_OVER = "Low Cable Cross Over";
+    public static final String EXERCISE_LOW_CABLE_CROSS_OVER_ICON = "low_cable_cross_over.png";
     public static final String EXERCISE_PLATE_FRONT_RAISE = "Plate Front Raise";
     public static final String EXERCISE_PLATE_FRONT_RAISE_ICON = "plate_front_raise.png";
     public static final String EXERCISE_FRONT_DUMBBELL_RAISE = "Front Dumbbell Raise";

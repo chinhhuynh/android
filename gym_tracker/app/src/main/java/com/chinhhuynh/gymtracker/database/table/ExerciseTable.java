@@ -45,7 +45,7 @@ public final class ExerciseTable extends DbTable<Exercise> {
             new Exercise(Exercise.EXERCISE_DECLINE_CHEST_PRESS, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_DECLINE_CHEST_PRESS_ICON),
             new Exercise(Exercise.EXERCISE_DIP, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_DIP_ICON),
             new Exercise(Exercise.EXERCISE_CABLE_CROSS_OVER, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_CABLE_CROSS_OVER_ICON),
-            new Exercise(Exercise.EXERCISE_LOW_CABLE_CROSS_OVER, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_LOW_CABLE_CROSS_OVER_ICON),
+            new Exercise(Exercise.EXERCISE_CABLE_CHEST_PRESS, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_CABLE_CHEST_PRESS_ICON),
             new Exercise(Exercise.EXERCISE_DUMBBELL_FLY, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_DUMBBELL_FLY_ICON),
             new Exercise(Exercise.EXERCISE_DUMBBELL_PULL_OVER, Exercise.MUSCLE_GROUP_CHEST, Exercise.EXERCISE_DUMBBELL_PULL_OVER_ICON ),
     };
@@ -119,7 +119,7 @@ public final class ExerciseTable extends DbTable<Exercise> {
             new Exercise(Exercise.EXERCISE_DUMBBELL_LATERAL_RAISE, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_DUMBBELL_LATERAL_RAISE_ICON),
             new Exercise(Exercise.EXERCISE_BENT_OVER_LATERAL_RAISE, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_BENT_OVER_LATERAL_RAISE_ICON),
             new Exercise(Exercise.EXERCISE_LOW_CABLE_CROSS_OVER, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_LOW_CABLE_CROSS_OVER_ICON),
-            new Exercise(Exercise.EXERCISE_LOW_CABLE_PRESS, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_LOW_CABLE_PRESS_ICON),
+            new Exercise(Exercise.EXERCISE_CABLE_CHEST_PRESS, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_CABLE_CHEST_PRESS_ICON),
             new Exercise(Exercise.EXERCISE_PLATE_FRONT_RAISE, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_PLATE_FRONT_RAISE_ICON),
             new Exercise(Exercise.EXERCISE_FRONT_DUMBBELL_RAISE, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_FRONT_DUMBBELL_RAISE_ICON),
             new Exercise(Exercise.EXERCISE_UP_RIGHT_ROW, Exercise.MUSCLE_GROUP_SHOULDER, Exercise.EXERCISE_UP_RIGHT_ROW_ICON),

@@ -159,7 +159,7 @@ public final class Exercise {
     public static final String EXERCISE_WEIGHTED_SUITCASE_CRUNCH = "Weighted Suitcase Crunch";
     public static final String EXERCISE_WEIGHTED_SUITCASE_CRUNCH_ICON = "weighted_suitcase_crunch.png";
     public static final String EXERCISE_ELBOW_TO_KNEE_TWIST = "Elbow To Knee Twist";
-    public static final String EXERCISE_ELBOW_TO_KNEE_TWIST_ICON = "elbow_to_knee_twist";
+    public static final String EXERCISE_ELBOW_TO_KNEE_TWIST_ICON = "elbow_to_knee_twist.png";
     public static final String EXERCISE_RUSSIAN_TWIST = "Russian Twist";
     public static final String EXERCISE_RUSSIAN_TWIST_ICON = "russian_twist.png";
     public static final String EXERCISE_SPIDER_CRAWL = "Spider Crawl";
@@ -195,8 +195,6 @@ public final class Exercise {
     public static final String EXERCISE_MILITARY_PRESS_ICON = "military_press.png";
     public static final String EXERCISE_DUMBBELL_LATERAL_RAISE = "Dumbbell Lateral Raise";
     public static final String EXERCISE_DUMBBELL_LATERAL_RAISE_ICON = "dumbbell_lateral_raise.png";
-    public static final String EXERCISE_BENT_OVER_LATERAL_RAISE = "Bent Over Lateral Raise";
-    public static final String EXERCISE_BENT_OVER_LATERAL_RAISE_ICON = "bent_over_lateral_raise.png";
     public static final String EXERCISE_LOW_CABLE_CROSS_OVER = "Low Cable Cross Over";
     public static final String EXERCISE_LOW_CABLE_CROSS_OVER_ICON = "low_cable_cross_over.png";
     public static final String EXERCISE_PLATE_FRONT_RAISE = "Plate Front Raise";

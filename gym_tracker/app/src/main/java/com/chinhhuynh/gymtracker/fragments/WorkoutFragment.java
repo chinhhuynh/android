@@ -3,6 +3,7 @@ package com.chinhhuynh.gymtracker.fragments;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,10 +12,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.PowerManager;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -27,15 +32,18 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import com.chinhhuynh.gymtracker.GymTrackerApplication;
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
+import com.chinhhuynh.gymtracker.tasks.ExtractAssetsTask;
 import com.chinhhuynh.gymtracker.views.NumberPickerDialog;
 import com.chinhhuynh.gymtracker.views.RestCountdown;
 import com.chinhhuynh.gymtracker.views.StartButton;
@@ -80,13 +88,14 @@ public final class WorkoutFragment extends Fragment implements
     private Context mContext;
     private Resources mResources;
     private Handler mHandler;
-    private Vibrator mVibrator;
     private TextView mClockView;
     private StartButton mStartButton;
     private RestCountdown mRestCountdownView;
     private NumberPickerDialog mWeightPicker;
     private NumberPickerDialog mRestDurationPicker;
     private NotificationManager mNotificationManager;
+    private PowerManager.WakeLock mWakeLock;
+    private Ringtone mRingtone;
     private NotificationCompat.Builder mNotificationBuilder;
 
     private CollapsingToolbarLayout mToolbarLayout;
@@ -140,8 +149,14 @@ public final class WorkoutFragment extends Fragment implements
         mContext = mActivity;
         mResources = mContext.getResources();
         mHandler = new Handler(Looper.getMainLooper());
-        mVibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
         mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        PowerManager powerManager = (PowerManager) mContext.getSystemService(Activity.POWER_SERVICE);
+        mWakeLock = powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
+                | PowerManager.ACQUIRE_CAUSES_WAKEUP, TAG);
+
+        String soundFolder = mContext.getDir(ExtractAssetsTask.SOUND_FOLDER, Context.MODE_PRIVATE).getAbsolutePath();
+        Uri notification = Uri.fromFile(new File(soundFolder.concat("/").concat("WorkoutStart.ogg")));
+        mRingtone = RingtoneManager.getRingtone(mContext, notification);
 
         mClockView = (TextView) fragmentLayout.findViewById(R.id.clock);
         mStartButton = (StartButton) fragmentLayout.findViewById(R.id.start_button);
@@ -284,7 +299,7 @@ public final class WorkoutFragment extends Fragment implements
 
     @Override
     public void onCountdownFinished() {
-        mVibrator.vibrate(HALF_SECOND);
+        notifyUserExerciseStarted();
         mClockView.setText(CLOCK_RESET);
         mDurationSec += mRestCountdownView.getElapsedSec();
 
@@ -308,6 +323,20 @@ public final class WorkoutFragment extends Fragment implements
     public WorkoutFragment setListener(WorkoutEventListener listener) {
         mListener = listener;
         return this;
+    }
+
+    private void notifyUserExerciseStarted() {
+        wakeScreen();
+        playAlarm();
+    }
+
+    private void wakeScreen() {
+        mWakeLock.acquire();
+        mWakeLock.release();
+    }
+
+    private void playAlarm() {
+        mRingtone.play();
     }
 
     private void updateViews() {

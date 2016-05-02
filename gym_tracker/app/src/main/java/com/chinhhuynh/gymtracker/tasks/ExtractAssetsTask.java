@@ -19,6 +19,7 @@ public final class ExtractAssetsTask extends AsyncTask<Void, Void, Void> {
     private static final String TAG = ExtractAssetsTask.class.getSimpleName();
 
     public static final String EXERCISE_FOLDER = "exercises";
+    public static final String SOUND_FOLDER = "sounds";
 
     private final Context mContext;
     private final AssetManager mAssetManager;
@@ -33,6 +34,7 @@ public final class ExtractAssetsTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         extractFolder(EXERCISE_FOLDER);
+        extractFolder(SOUND_FOLDER);
         return null;
     }
 

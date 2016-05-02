@@ -22,6 +22,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ExitActivity"
+            android:theme="@android:style/Theme.NoDisplay"
+            android:autoRemoveFromRecents="true"/>
+
         <service
             android:name="com.chinhhuynh.gymtracker.LockScreenService"
             android:stopWithTask="false"

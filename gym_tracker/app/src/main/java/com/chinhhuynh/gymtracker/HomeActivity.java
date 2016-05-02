@@ -74,7 +74,7 @@ public class HomeActivity extends AppCompatActivity implements
         FragmentManager fm = getSupportFragmentManager();
         int entryCount = fm.getBackStackEntryCount();
         if (entryCount == 0) {
-            finish();
+            ExitActivity.exitApplication(this);
             return;
         }
 

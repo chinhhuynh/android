@@ -35,7 +35,7 @@ public final class WorkoutHistoryFragment extends Fragment implements
 
     public static final String TAG = WorkoutHistoryFragment.class.getSimpleName();
 
-    private static final long QUERY_RANGE_MS = 7 * DateUtils.DAY_IN_MILLIS;
+    private static final long QUERY_RANGE_MS = 30 * DateUtils.DAY_IN_MILLIS;
 
     private AppCompatActivity mActivity;
     private Context mContext;

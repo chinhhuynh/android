@@ -6,6 +6,7 @@ import android.support.annotation.UiThread;
 import android.support.v4.content.Loader;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class ExercisesManager implements
 
     private ExercisesManager() {
         mContext = GymTrackerApplication.getAppContext();
+        mDailySummaries = Collections.EMPTY_LIST;
         mDailySummariesListeners = new ArrayList<>();
     }
 

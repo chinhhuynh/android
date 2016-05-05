@@ -24,9 +24,11 @@ import java.util.Map;
 import static android.support.v4.app.FragmentManager.POP_BACK_STACK_INCLUSIVE;
 
 import com.chinhhuynh.gymtracker.AnimatorEndListener;
+import com.chinhhuynh.gymtracker.ExercisesManager;
 import com.chinhhuynh.gymtracker.R;
 import com.chinhhuynh.gymtracker.WorkoutSessionAdapter;
 import com.chinhhuynh.gymtracker.database.table.WorkoutTable;
+import com.chinhhuynh.gymtracker.model.DailySummary;
 import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import com.chinhhuynh.gymtracker.views.ExercisePickerDialog;
@@ -43,7 +45,8 @@ public final class WorkoutSessionFragment extends Fragment implements
         ExercisePickerDialog.EventsListener,
         WorkoutSessionAdapter.EventListener,
         RepeatExercisesListener,
-        WorkoutFragment.WorkoutEventListener {
+        WorkoutFragment.WorkoutEventListener,
+        ExercisesManager.DailySummariesListener {
 
     public static final String TAG = WorkoutSessionFragment.class.getSimpleName();
     private static final int FAB_ANIMATION_DURATION_MS = 100;
@@ -56,6 +59,8 @@ public final class WorkoutSessionFragment extends Fragment implements
     private AppCompatActivity mActivity;
     private Context mContext;
     private Map<Exercise, ExerciseSummary> mSummaries;
+    private ExercisesManager mExercisesManager;
+    private Map<Exercise, ExerciseSummary> mLatestSummaries;
 
     private FloatingActionButton mFab;
     private ExercisePickerDialog mExercisePicker;
@@ -77,6 +82,9 @@ public final class WorkoutSessionFragment extends Fragment implements
 
         mContext = getContext();
         mActivity = (AppCompatActivity) getActivity();
+        mLatestSummaries = new HashMap<>();
+        mExercisesManager = ExercisesManager.getInstance();
+        mExercisesManager.addDailySummariesListener(this);
 
         mEditButton = (Button) fragmentLayout.findViewById(R.id.edit_button);
         mEditButton.setOnClickListener(new View.OnClickListener() {
@@ -193,6 +201,19 @@ public final class WorkoutSessionFragment extends Fragment implements
         }
     }
 
+    @Override
+    public void onDailySummariesLoaded(List<DailySummary> dailySummaries) {
+        for (DailySummary dailySummary : dailySummaries) {
+            for (ExerciseSummary exerciseSummary : dailySummary.mExercises) {
+                ExerciseSummary latestRecord = mLatestSummaries.get(exerciseSummary.exercise);
+                if (latestRecord == null || latestRecord.startTime < exerciseSummary.startTime) {
+                    // found newer record.
+                    mLatestSummaries.put(exerciseSummary.exercise, exerciseSummary);
+                }
+            }
+        }
+    }
+
     public void setExerciseChangedListener(ExerciseChangedListener listener) {
         mListener = listener;
     }
@@ -205,7 +226,8 @@ public final class WorkoutSessionFragment extends Fragment implements
         if (workout == null) {
             workout = new WorkoutFragment(this);
         }
-        workout.setExercise(exercise, mSummaries.get(exercise))
+        ExerciseSummary exerciseSummary = getExerciseSummary(exercise);
+        workout.setExercise(exercise, exerciseSummary)
                 .setListener(this);
 
         if (!mIsPaused) {
@@ -216,6 +238,22 @@ public final class WorkoutSessionFragment extends Fragment implements
                     .addToBackStack(WorkoutFragment.TAG)
                     .commit();
         }
+    }
+
+    private ExerciseSummary getExerciseSummary(Exercise exercise) {
+        ExerciseSummary exerciseSummary = mSummaries.get(exercise);
+        if (exerciseSummary == null) {
+            exerciseSummary = new ExerciseSummary(exercise);
+            mSummaries.put(exercise, exerciseSummary);
+        }
+
+        ExerciseSummary latestRecord = mLatestSummaries.get(exercise);
+        if (latestRecord != null) {
+            // copies transferable attributes from latest record.
+            exerciseSummary.weight = latestRecord.weight;
+        }
+
+        return exerciseSummary;
     }
 
     private void onFinishEditing() {

@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
-import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
@@ -32,7 +31,6 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
@@ -316,7 +314,7 @@ public final class WorkoutFragment extends Fragment implements
 
     public WorkoutFragment setExercise(Exercise exercise, ExerciseSummary summary) {
         mExercise = exercise;
-        mSummary = summary == null ? new ExerciseSummary(exercise) : new ExerciseSummary(summary);
+        mSummary = summary;
         return this;
     }
 

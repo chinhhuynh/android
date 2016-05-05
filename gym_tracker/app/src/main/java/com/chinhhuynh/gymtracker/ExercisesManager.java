@@ -1,5 +1,14 @@
 package com.chinhhuynh.gymtracker;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.support.annotation.UiThread;
+import android.support.v4.content.Loader;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import com.chinhhuynh.gymtracker.database.table.WorkoutTable;
 import com.chinhhuynh.gymtracker.loaders.SummaryLoader;
 import com.chinhhuynh.gymtracker.model.DailySummary;
@@ -7,18 +16,11 @@ import com.chinhhuynh.gymtracker.model.Exercise;
 import com.chinhhuynh.gymtracker.model.ExerciseSummary;
 import utils.ThreadUtils;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.support.v4.content.Loader;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 public class ExercisesManager implements
         Loader.OnLoadCompleteListener<Cursor> {
 
     public interface DailySummariesListener {
+        @UiThread
         void onDailySummariesLoaded(List<DailySummary> dailySummaries);
     }
 
@@ -26,7 +28,8 @@ public class ExercisesManager implements
 
     private final Context mContext;
 
-    private boolean mIsLoading;
+    private boolean mIsLoadingSummary;
+    private boolean mIsSummaryLoaded;
     private SummaryLoader mSummaryLoader;
 
     private List<DailySummary> mDailySummaries;
@@ -47,20 +50,24 @@ public class ExercisesManager implements
     @Override
     public void onLoadComplete(Loader<Cursor> loader, Cursor data) {
         ThreadUtils.assertMainThread();
-        mIsLoading = false;
+        mIsLoadingSummary = false;
+        mIsSummaryLoaded = true;
         mDailySummaries = getDailySummaries(data);
         notifyDailySummariesLoaded(new ArrayList<>(mDailySummaries));
     }
 
     public void addDailySummariesListener(DailySummariesListener listener) {
+        if (mIsSummaryLoaded) {
+            notifyDailySummariesLoaded(listener, new ArrayList<>(mDailySummaries));
+        }
         mDailySummariesListeners.add(listener);
     }
 
     public void loadDailySummaries(long start, long end) {
-        if (mIsLoading) {
+        if (mIsLoadingSummary) {
             return;
         }
-        mIsLoading = true;
+        mIsLoadingSummary = true;
         mSummaryLoader = new SummaryLoader(mContext, start, end);
         mSummaryLoader.registerListener(0 /*id*/, this);
         mSummaryLoader.startLoading();
@@ -118,8 +125,15 @@ public class ExercisesManager implements
         if (!mDailySummariesListeners.isEmpty()) {
             List<DailySummariesListener> listeners = new ArrayList<>(mDailySummariesListeners);
             for (DailySummariesListener listener : listeners) {
-                listener.onDailySummariesLoaded(dailySummaries);
+                notifyDailySummariesLoaded(listener, dailySummaries);
             }
+        }
+    }
+
+    private void notifyDailySummariesLoaded(DailySummariesListener listener,
+                                            List<DailySummary> dailySummaries) {
+        if (listener != null) {
+            listener.onDailySummariesLoaded(dailySummaries);
         }
     }
 }

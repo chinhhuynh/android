@@ -43,17 +43,20 @@ public final class WorkoutHistoryFragment extends Fragment implements
         View fragmentLayout = inflater.inflate(R.layout.workout_history_fragment, container, false);
 
         mContext = fragmentLayout.getContext();
-        mExercisesManager = ExercisesManager.getInstance();
-        mExercisesManager.addDailySummariesListener(this);
-
-        mQueryTimestamp = System.currentTimeMillis() - QUERY_RANGE_MS;
-        mExercisesManager.loadDailySummaries(mQueryTimestamp, mQueryTimestamp + QUERY_RANGE_MS);
 
         mSummariesView = (RecyclerView) fragmentLayout.findViewById(R.id.daily_summaries);
         mAdapter = new DailySummaryAdapter(mContext);
         mAdapter.setListener(mRepeatExercisesListener);
         mSummariesView.setAdapter(mAdapter);
         mSummariesView.setLayoutManager(new LinearLayoutManager(mContext));
+
+        // ExerciseManager needs to be instantiated after the rest of the fragment has
+        // been initialized so that if a callback happens during initialization, the fragment
+        // is ready to handle it.
+        mExercisesManager = ExercisesManager.getInstance();
+        mExercisesManager.addDailySummariesListener(this);
+        mQueryTimestamp = System.currentTimeMillis() - QUERY_RANGE_MS;
+        mExercisesManager.loadDailySummaries(mQueryTimestamp, mQueryTimestamp + QUERY_RANGE_MS);
 
         return fragmentLayout;
     }

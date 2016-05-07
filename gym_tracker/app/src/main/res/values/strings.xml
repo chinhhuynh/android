@@ -35,5 +35,7 @@
     <string name="notif_start">START</string>
     <string name="notif_next">NEXT</string>
     <string name="notif_stop">STOP</string>
+    <string name="rest_notif_text">Set %1$d | Starts in: %2$ds</string>
+    <string name="workout_notif_text">Set %1$d | %2$s</string>
 
 </resources>

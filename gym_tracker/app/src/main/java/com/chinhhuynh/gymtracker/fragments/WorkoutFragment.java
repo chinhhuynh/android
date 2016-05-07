@@ -64,7 +64,6 @@ public final class WorkoutFragment extends Fragment implements
     private static final float SQRT_2 = (float) Math.sqrt(2);
     private static final long ANIMATE_START_BUTTON_DURATION = DateUtils.SECOND_IN_MILLIS / 4;
     private static final long ONE_TENTH_SECOND = DateUtils.SECOND_IN_MILLIS / 10;
-    private static final long HALF_SECOND = DateUtils.SECOND_IN_MILLIS / 2;
     private static final int MIN_WEIGHT = 0;
     private static final int MAX_WEIGHT = 200;
     private static final int WEIGHT_INTERVAL = 5;
@@ -74,8 +73,9 @@ public final class WorkoutFragment extends Fragment implements
 
     private static final String CLOCK_RESET = "00:00";
     private static final String CLOCK_DISPLAY = "%02d:%02d";
-    private static final String REST_NOTIF_STRING = "Set %d | Start in: %ds";
-    private static final String WORKOUT_NOTIF_STRING = "Set %d | %s";
+
+    private final String mRestNotifText;
+    private final String mWorkoutNotifText;
 
     private final float mMinimizeShiftDistance;
     private final ExerciseList mExerciseList;
@@ -132,6 +132,9 @@ public final class WorkoutFragment extends Fragment implements
         Resources resources = GymTrackerApplication.getAppContext().getResources();
         int buttonSize = resources.getDimensionPixelSize(R.dimen.button_size);
         mMinimizeShiftDistance = buttonSize / (2 * SQRT_2);
+
+        mRestNotifText = resources.getString(R.string.rest_notif_text);
+        mWorkoutNotifText = resources.getString(R.string.workout_notif_text);
 
         mNotifActionHandler = new NotifActionHandler();
     }
@@ -286,7 +289,7 @@ public final class WorkoutFragment extends Fragment implements
 
     @Override
     public void onCountdownChanged(int remaining) {
-        String notifText = String.format(REST_NOTIF_STRING, getCurrentSet() + 1, remaining);
+        String notifText = String.format(mRestNotifText, getCurrentSet() + 1, remaining);
         if (shouldShowNotification()) {
             showNotification(notifText);
         }
@@ -551,7 +554,7 @@ public final class WorkoutFragment extends Fragment implements
         String clockText = String.format(CLOCK_DISPLAY, minutes, seconds);
         mClockView.setText(clockText);
         if (shouldShowNotification()) {
-            String notifText = String.format(WORKOUT_NOTIF_STRING, getCurrentSet() + 1, clockText);
+            String notifText = String.format(mWorkoutNotifText, getCurrentSet() + 1, clockText);
             showNotification(notifText);
         }
     }

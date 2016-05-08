@@ -23,6 +23,7 @@ public final class NumberPickerDialog {
     private View mLayoutView;
     private EventsListener mListener;
 
+    private int mTitleResId;
     private int mSelectedValue;
     private int mMinValue;
     private int mMaxValue;
@@ -59,6 +60,11 @@ public final class NumberPickerDialog {
         return this;
     }
 
+    public NumberPickerDialog title(int titleResId) {
+        mTitleResId = titleResId;
+        return this;
+    }
+
     public void show() {
         mLayoutView = mLayoutInflater.inflate(mLayoutResId, null);
         final NumberPicker numberPicker = (NumberPicker) mLayoutView.findViewById(R.id.number_picker);
@@ -77,7 +83,7 @@ public final class NumberPickerDialog {
         numberPicker.setValue(selectedDisplayValue / mInterval - startIndex);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
-        alertDialogBuilder.setTitle(R.string.select_weight_title);
+        alertDialogBuilder.setTitle(mTitleResId);
         alertDialogBuilder.setView(mLayoutView);
         alertDialogBuilder
                 .setPositiveButton(R.string.alert_dialog_ok,

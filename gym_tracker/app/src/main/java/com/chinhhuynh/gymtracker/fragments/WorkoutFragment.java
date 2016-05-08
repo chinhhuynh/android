@@ -213,6 +213,7 @@ public final class WorkoutFragment extends Fragment implements
         });
 
         mWeightPicker = new NumberPickerDialog(mContext, R.layout.number_picker)
+                .title(R.string.select_weight_title)
                 .minValue(MIN_WEIGHT)
                 .maxValue(MAX_WEIGHT)
                 .interval(WEIGHT_INTERVAL)
@@ -230,6 +231,7 @@ public final class WorkoutFragment extends Fragment implements
                 });
 
         mRestDurationPicker = new NumberPickerDialog(mContext, R.layout.number_picker)
+                .title(R.string.select_rest_duration_title)
                 .minValue(MIN_REST_DURATION)
                 .maxValue(MAX_REST_DURATION)
                 .interval(REST_DURATION_INTERVAL)

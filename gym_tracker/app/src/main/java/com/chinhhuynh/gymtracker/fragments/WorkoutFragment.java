@@ -79,7 +79,6 @@ public final class WorkoutFragment extends Fragment implements
     private final String mWorkoutNotifText;
 
     private final float mMinimizeShiftDistance;
-    private final ExerciseList mExerciseList;
     private final BroadcastReceiver mNotifActionHandler;
 
     private AppCompatActivity mActivity;
@@ -102,6 +101,7 @@ public final class WorkoutFragment extends Fragment implements
     private TextView mRestDurationView;
 
     private Exercise mExercise;
+    private ExerciseList mExerciseList;
     private ExerciseSummary mSummary;
     private WorkoutEventListener mListener;
     private int mDurationSec;
@@ -126,10 +126,7 @@ public final class WorkoutFragment extends Fragment implements
         }
     };
 
-    @SuppressLint("ValidFragment")
-    public WorkoutFragment(ExerciseList exerciseList) {
-        mExerciseList = exerciseList;
-
+    public WorkoutFragment() {
         Resources resources = GymTrackerApplication.getAppContext().getResources();
         int buttonSize = resources.getDimensionPixelSize(R.dimen.button_size);
         mMinimizeShiftDistance = buttonSize / (2 * SQRT_2);
@@ -138,6 +135,12 @@ public final class WorkoutFragment extends Fragment implements
         mWorkoutNotifText = resources.getString(R.string.workout_notif_text);
 
         mNotifActionHandler = new NotifActionHandler();
+    }
+
+    @SuppressLint("ValidFragment")
+    public WorkoutFragment(ExerciseList exerciseList) {
+        this();
+        mExerciseList = exerciseList;
     }
 
     @Nullable

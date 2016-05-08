@@ -4,13 +4,12 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import org.apache.commons.io.IOUtils;
 
 import com.chinhhuynh.gymtracker.log.Timber;
 
@@ -68,8 +67,16 @@ public final class ExtractAssetsTask extends AsyncTask<Void, Void, Void> {
         } catch (IOException e) {
             Timber.e(TAG, "Failed to copy asset file %s. Error: %s.", filename, e.toString());
         } finally {
-            IOUtils.closeQuietly(in);
-            IOUtils.closeQuietly(out);
+            closeQuietly(in);
+            closeQuietly(out);
         }
+    }
+
+    private static void closeQuietly(Closeable closeable) {
+        try {
+            if (closeable != null) {
+                closeable.close();
+            }
+        } catch (IOException ignored) { }
     }
 }

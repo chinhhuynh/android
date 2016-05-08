@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
+import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -247,6 +248,7 @@ public final class WorkoutFragment extends Fragment implements
                 });
 
         updateViews();
+        setAlarmVolume();
 
         mContext.registerReceiver(mNotifActionHandler, new IntentFilter(NotifActionHandler.ACTION_NEXT), null, null);
         mContext.registerReceiver(mNotifActionHandler, new IntentFilter(NotifActionHandler.ACTION_REST), null, null);
@@ -335,6 +337,13 @@ public final class WorkoutFragment extends Fragment implements
 
     private void playAlarm() {
         mRingtone.play();
+    }
+
+    private void setAlarmVolume() {
+        AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+        int ringMaxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
+        int defaultVolume = (int) Math.round(ringMaxVolume * 0.4);
+        audioManager.setStreamVolume(AudioManager.STREAM_RING, defaultVolume, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
     }
 
     private void updateViews() {

@@ -76,26 +76,34 @@ public final class DailySummaryViewHolder extends RecyclerView.ViewHolder {
 
     private void bindExercises() {
         int viewCount = mExercisesView.getChildCount();
-        for (int i = 0; i < viewCount; i++) {
+        int reuseViewCount = Math.min(viewCount, mExerciseSummaries.size());
+        for (int i = 0; i < reuseViewCount; i++) {
             View exerciseView = mExercisesView.getChildAt(i);
             ExerciseSummaryViewHolder viewHolder = (ExerciseSummaryViewHolder) exerciseView.getTag();
+
             if (i < mExerciseSummaries.size()) {
                 boolean isLastItem = i == mExerciseSummaries.size() - 1;
                 exerciseView.setVisibility(View.VISIBLE);
                 viewHolder.bind(mExerciseSummaries.get(i), isLastItem);
             } else {
                 exerciseView.setVisibility(View.GONE);
-                mExercisesView.removeViewAt(i);
                 mRecycledViewPool.putRecycledView(viewHolder);
             }
         }
-        for (int i = viewCount; i < mExerciseSummaries.size(); i++) {
-            boolean isLastItem = i == mExerciseSummaries.size() - 1;
-            ExerciseSummaryViewHolder viewHolder = getExerciseSummaryViewHolder();
-            View exerciseView = viewHolder.itemView;
-            exerciseView.setVisibility(View.VISIBLE);
-            viewHolder.bind(mExerciseSummaries.get(i), isLastItem);
-            mExercisesView.addView(exerciseView);
+
+        if (reuseViewCount < viewCount) {
+            // if number of views exceeds number of exercises to display, remove extra views.
+            mExercisesView.removeViews(reuseViewCount, viewCount - reuseViewCount);
+        } else {
+            // otherwise, create new views.
+            for (int i = viewCount; i < mExerciseSummaries.size(); i++) {
+                boolean isLastItem = i == mExerciseSummaries.size() - 1;
+                ExerciseSummaryViewHolder viewHolder = getExerciseSummaryViewHolder();
+                View exerciseView = viewHolder.itemView;
+                exerciseView.setVisibility(View.VISIBLE);
+                viewHolder.bind(mExerciseSummaries.get(i), isLastItem);
+                mExercisesView.addView(exerciseView);
+            }
         }
     }
 
